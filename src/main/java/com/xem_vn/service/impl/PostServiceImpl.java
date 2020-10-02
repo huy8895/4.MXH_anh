@@ -2,6 +2,7 @@ package com.xem_vn.service.impl;
 
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
+import com.xem_vn.model.Status;
 import com.xem_vn.repository.IPostRepository;
 import com.xem_vn.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,10 @@ public class PostServiceImpl implements IPostService {
     @Override
     public Iterable<Post> getAllPostByUser(AppUser user) {
         return postRepository.getAllByAppUser(user);
+    }
+
+    @Override
+    public Iterable<Post> getAllPostByStatus(Status status) {
+        return postRepository.getAllByStatus(status);
     }
 }

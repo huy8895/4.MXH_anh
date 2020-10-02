@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+
+        function setEnableSubmit(retype_pass) {
+            let password = document.getElementById("password_field").value;
+            if (password === retype_pass) {
+                document.getElementById("button-create").disabled = false;
+            } else {
+                document.getElementById("button-create").disabled = true;
+            }
+            console.log('password = ' + password)
+            console.log('retype = ' + retype_pass)
+        }
+    </script>
+</head>
+<body>
+<h1>CREATE USER</h1>
+
+<!--<form method="post" action="/account/create" th:object="${user}">-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <label>username:-->
+<!--                </label>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <input type="text" th:field="*{username}">-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <label>password:-->
+<!--                </label>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <input type="password" th:field="*{password}" id="password_field">-->
+
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <label>password retype:-->
+<!--                </label>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <input type="password" oninput="setEnableSubmit(this.value)">-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <input type="submit" value="create" id="button-create" disabled>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</form>-->
+
+<form action="/account/create" method="post" th:object="${user}">
+    <table>
+        <tr>
+            <td>
+                <label>user name:
+                    <input type="text" th:field="*{username}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>password:
+                    <input type="password" th:field="*{password}">
+                </label>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="create">
+    <a href="/login">login</a>
+</form>
+</body>
+</html>

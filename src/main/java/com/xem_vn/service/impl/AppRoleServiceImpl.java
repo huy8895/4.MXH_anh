@@ -15,8 +15,7 @@ public class AppRoleServiceImpl implements IAppRoleService {
         return roleRepository.findAll();
     }
 
-    @Override
-    public AppRole getRoleById(long id) {
+    public AppRole getRoleById(Long id) {
         return roleRepository.findById(id).orElse(null);
     }
 
@@ -28,5 +27,10 @@ public class AppRoleServiceImpl implements IAppRoleService {
     @Override
     public void remove(AppRole role) {
         roleRepository.delete(role);
+    }
+
+    @Override
+    public AppRole getRoleByName(String roleName) {
+        return roleRepository.getAppRoleByName(roleName);
     }
 }

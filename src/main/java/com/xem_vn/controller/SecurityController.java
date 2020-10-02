@@ -57,29 +57,10 @@ public class SecurityController {
         return "accessDenied";
     }
 
-    @GetMapping("/signup")
-    public String signupPage(Model model){
-        model.addAttribute("user",new AppUser());
-
-        return "signup";
-    }
-
-    @PostMapping
-    public String signup(AppUser appUser,Model model){
-        //lay role the name o bang role
-
-        if (appUserService.save(appUser)!=null){
-            model.addAttribute("message","tao thanh cong");
-        } else {
-            model.addAttribute("message","tao khong thanh cong");
-        }
-        model.addAttribute("user",new AppUser());
-        return "signup";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @RequestMapping(value = "/account/edit", method = RequestMethod.POST)
+    public String edit(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
+        return "redirect:/";
     }
 
 }

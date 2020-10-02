@@ -7,8 +7,12 @@
 </head>
 <body>
 <h1> Dear <span th:text="${user}" style="color: blue"></span> Welcome to HOME Page</h1>
+
 <div sec:authorize="isAuthenticated()">
-    <a th:href="@{/}">Home</a> | <a th:href="@{/logout}">Logout</a>
+    <a th:href="@{/}">Home</a> | <a th:href="@{/logout}">Logout</a><br>
+</div>
+<div sec:authorize="isAnonymous()" >
+    <a th:href="@{/}">Home</a> | <a th:href="@{/account/create}">signup</a>
 </div>
 </body>
 </html>
