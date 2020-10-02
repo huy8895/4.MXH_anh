@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>signup page</title>
+</head>
+<body>
+<span th:if="${message}" th:text="${message}"></span>
+<form action="/signup" method="post" th:object="${user}">
+    <table>
+        <tr>
+            <td>
+                <label>user name:
+                    <input type="text" th:field="*{username}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>password:
+                    <input type="password" th:field="*{password}">
+                </label>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="create">
+    <a href="/login">login</a>
+</form>
+</body>
+</html>
