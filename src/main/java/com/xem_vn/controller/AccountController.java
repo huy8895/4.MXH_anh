@@ -2,11 +2,16 @@ package com.xem_vn.controller;
 
 import com.xem_vn.model.AppRole;
 import com.xem_vn.model.AppUser;
+import com.xem_vn.model.Post;
 import com.xem_vn.service.IAppRoleService;
 import com.xem_vn.service.IAppUserService;
+import com.xem_vn.service.IPostService;
 import com.xem_vn.service.impl.AppUserServiceImpl;
 import org.omg.IOP.ServiceContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,6 +27,10 @@ public class AccountController {
     @Autowired
     IAppRoleService roleService;
 
+    @Autowired
+    IPostService postService;
+
+    @ModelAttribute("user")
     private AppUser getPrincipal(){
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,6 +41,7 @@ public class AccountController {
         }
         return appUser;
     }
+
     @GetMapping("/create")
     public ModelAndView showCreateUserForm(){
         ModelAndView modelAndView = new ModelAndView("account/create");
@@ -63,5 +73,17 @@ public class AccountController {
         userService.save(user);
         model.addAttribute("user",user);
         return "redirect:/edit";
+    }
+
+    @GetMapping("/uploader/")
+    public ModelAndView showUploaderPage(@PageableDefault(value = 5, page = 0)
+//                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+                                               Pageable pageable){
+        AppUser user = getPrincipal();
+        postService.getAllPostByUser(user,pageable);
+        Page<Post> posts = postService.getAllPostByUser(user,pageable);
+        ModelAndView modelAndView = new ModelAndView("/account/uploader");
+        modelAndView.addObject("posts",posts);
+        return modelAndView;
     }
 }

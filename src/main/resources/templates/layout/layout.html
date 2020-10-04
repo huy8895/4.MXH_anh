@@ -60,26 +60,32 @@
         </ul>
 
 <!--        <div id="headerRight">-->
-<!--            <a href="/account/notification" class="notiButton" title="Thông báo">-->
-<!--            </a>-->
-<!--            <div class="avatar  noNoti ">-->
-<!--                <a href="/uploader/1980" class="avatarLink" title="Trang cá nhân">-->
-<!--                    <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg" width="30" height="30" alt="trinhvanhuy8895">-->
-<!--                </a>-->
-<!--                <div class="blank"></div>-->
-<!--                <ul>-->
-<!--                    <li><a href="/uploader/1980" title="Ảnh của bạn">Ảnh của bạn</a></li>-->
-<!--                    <li><a href="/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>-->
-<!--                    <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>-->
-<!--                    <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>-->
-<!--                    <li><a href="/account/logout" title="Thoát">Thoát</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
+
 <!--        </div>-->
-        <div id="headerRight">
-            <div class="login">
-                <a href="/login" title="Đăng nhập">Đăng nhập</a>
-            </div>
+        <div id="headerRight" >
+            <th:block sec:authorize="isAnonymous()">
+                <div class="login">
+                    <a href="/login" title="Đăng nhập">Đăng nhập</a>
+                </div>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <a href="/account/notification" class="notiButton" title="Thông báo">
+                </a>
+                <div class="avatar  noNoti ">
+                    <a href="/uploader/1980" class="avatarLink" title="Trang cá nhân">
+                        <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg" width="30" height="30" alt="trinhvanhuy8895">
+                    </a>
+                    <div class="blank"></div>
+                    <ul>
+                        <li><a href="/uploader/1980" title="Ảnh của bạn">Ảnh của bạn</a></li>
+                        <li><a href="/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
+                        <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
+                        <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>
+                        <li><a href="/account/logout" title="Thoát">Thoát</a></li>
+                    </ul>
+                </div>
+            </th:block>
+
         </div>
         <div class="clear">
         </div>
