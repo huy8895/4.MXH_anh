@@ -86,4 +86,9 @@ public class AccountController {
         modelAndView.addObject("posts",posts);
         return modelAndView;
     }
+
+    @GetMapping("/password")
+    public String showPassWordForm(){
+        return "/account/password";
+    }
 }
