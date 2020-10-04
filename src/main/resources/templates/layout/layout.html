@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+</head>
+<body>
+<div id="header" th:fragment="header">
+    <div id="headerContent">
+        <h1><a href="/" id="logo" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">xem.vn</a></h1>
+        <ul id="menuBar">
+            <li class="hotTag">
+                <img src="https://s-xem.mkocdn.com/bundles/mkoxemsp/images/nav-icon.png" width="20" height="20">
+                <div class="blank"></div>
+                <ul>
+                    <li><a href="/#">Clip Sock</a></li>
+                    <li><a href="/#">Chế anime</a></li>
+                    <li><a href="/#">Ảnh chế one Piece</a></li>
+                    <li><a href="/#">Clip hot trên mạng</a></li>
+                    <li><a href="/#">Video hot trong tuần</a></li>
+                    <li><a href="/#">Video hay nhức nhói</a></li>
+                    <li><a href="/#">Chuyện lạ có thật</a></li>
+                    <li><a href="/#"> Clip Hot Facebook</a></li>
+                    <li><a href="/#"> Nhạc trẻ hay nhất</a></li>
+                    <li><a href="/#">Ảnh hay nhức nhối</a></li>
+                    <li><a href="/#">Bầu cử tổng thống Mỹ</a></li>
+                    <li><a href="/#">Video clip troll</a></li>
+                    <li><a href="/#">Ảnh troll</a></li>
+                    <li><a href="/#">Ảnh ấn tượng</a></li>
+                    <li><a href="/#">Ảnh vui</a></li>
+                </ul>
+            </li>
+            <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a></li>
+            <li><a href="/unread" title="Ảnh mới chưa xem">Chưa xem</a></li>
+            <li><a href="/vote" title="Bình chọn ảnh">Bình chọn</a></li>
+            <li><a href="/video" title="Xem.vn - Tuyển tập video clip hot nhất trên mạng">Video</a></li>
+            <li><a href="/hot" title="Ảnh đang hot">Hot</a></li>
+            <li><a href="/old" title="Cũ người mới ta :)">Cũ</a></li>
+            <li>
+                <span class="upload">Đăng bài</span>
+                <ul>
+                    <li><a href="/post/create" title="Đăng ảnh">Đăng ảnh</a> </li>
+                    <li><a href="/video/upload" title="Đăng video">Đăng video</a> </li>
+                </ul>
+            </li>
+            <li>
+                <span>Chế ảnh</span>
+                <ul>
+                    <li><a href="/builder/rage" title="Chế rage comic">Chế rage comic</a></li>
+                    <li><a href="/builder/memes" title="Chế meme">Chế meme</a></li>
+                </ul>
+            </li>
+            <li><a href="/dua-top-danh-hai" rel="nofollow" title="Đua Top">Đua Top</a><img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
+
+        </ul>
+
+<!--        <div id="headerRight">-->
+<!--            <a href="/account/notification" class="notiButton" title="Thông báo">-->
+<!--            </a>-->
+<!--            <div class="avatar  noNoti ">-->
+<!--                <a href="/uploader/1980" class="avatarLink" title="Trang cá nhân">-->
+<!--                    <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg" width="30" height="30" alt="trinhvanhuy8895">-->
+<!--                </a>-->
+<!--                <div class="blank"></div>-->
+<!--                <ul>-->
+<!--                    <li><a href="/uploader/1980" title="Ảnh của bạn">Ảnh của bạn</a></li>-->
+<!--                    <li><a href="/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>-->
+<!--                    <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>-->
+<!--                    <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>-->
+<!--                    <li><a href="/account/logout" title="Thoát">Thoát</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div id="headerRight">
+            <div class="login">
+                <a href="/login" title="Đăng nhập">Đăng nhập</a>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="footer" th:fragment="footer">
+    <div class="links">
+        <a class="first" href="/contact/" rel="nofollow" title="Liên hệ">Liên hệ</a> ·
+        <a href="/about/" rel="nofollow" title="Giới thiệu">Giới thiệu</a> ·
+        <a href="/faq/" rel="nofollow" title="FAQ">FAQ</a> ·
+        <a href="/terms-of-service/" rel="nofollow" title="Điều khoản sử dụng">Điều khoản</a> ·
+        <a href="/privacy/" rel="nofollow" title="Chính sách bảo mật">Bảo mật</a> ·
+        <a href="/rss/" target="_blank" rel="nofollow" title="RSS Trang Chủ">RSS Trang Chủ</a> ·
+        <a href="/hot.rss/" target="_blank" rel="nofollow" title="RSS Hot">RSS Hot</a> ·
+        <a href="/vote.rss/" target="_blank" rel="nofollow" title="RSS Bình chọn">RSS Bình chọn</a> ·
+        <a href="/sitemaps/sitemap.html" target="_blank" rel="nofollow" title="Sitemap">Sitemap</a>
+    </div>
+    <div>
+        Cơ quan chủ quản : Công ty cổ phần dịch vụ phát triển người dùng MKO.<br>
+        Trụ sở : Số 8 , ngách 11/30, ngõ 63 Lê Đức Thọ, Phường Mỹ Đình 2, Quận Nam Từ Liêm, Thành phố Hà
+        Nội , Việt Nam.<br>
+        Tel : (84-4) 7 300 2828 - Fax : (84-4) 7 300 2828.<br>
+        Giấy phép mạng xã hội số 237/GP-BTTTT ngày cấp 12/06/2015 BỘ THÔNG TIN VÀ TRUYỀN THÔNG.<br>
+        Người chịu trách nhiệm xuất bản : Nguyễn Thị Quỳnh Phương
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+</html>

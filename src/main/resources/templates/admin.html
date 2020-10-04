@@ -6,9 +6,19 @@
     <title>admin</title>
 </head>
 <body>
-<h1> Dear <span th:text="${user}" style="color: blue"></span> Welcome to Admin Page</h1>
 <div sec:authorize="isAuthenticated()">
-    <a th:href="@{/home}">home</a> | <a th:href="@{/logout}">Logout</a>
+<h1> Dear <span sec:authentication="principal.username"></span> Welcome to Admin Page</h1>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+    <div sec:authorize="hasRole('USER')">
+        <a th:href="@{/user}">My Profile</a>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin/user-manager}">list account manager</a>
+        <a th:href="@{/admin/post-manager}">list post manager</a>
+    </div>
+    <a th:href="@{/logout}">Logout</a>
 </div>
 </body>
 </html>

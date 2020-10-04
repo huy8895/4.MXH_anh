@@ -12,5 +12,5 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long name;
+    private String name;
 }

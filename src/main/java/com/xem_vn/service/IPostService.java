@@ -3,12 +3,15 @@ package com.xem_vn.service;
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
 import com.xem_vn.model.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IPostService {
-    Iterable<Post> getAllPost();
+    Page<Post> getAllPost(Pageable pageable);
     Post getPostById(long id);
     Post save(Post post);
     void remove(Post post);
-    Iterable<Post> getAllPostByUser(AppUser user);
-    Iterable<Post> getAllPostByStatus(Status status);
+    Page<Post> getAllPostByUser(AppUser user,Pageable pageable);
+    Page<Post> getAllPostByStatus(Status status,Pageable pageable);
+    void setPostStatusById(Long postId,Status status);
 }

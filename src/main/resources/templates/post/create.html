@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>create post</title>
+    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+</head>
+<body>
+<div th:replace="~{layout/layout::header}"></div>
+<div id="content">
+    <div id="mainContainer">
+        <div id="leftColumn">
+            <div class="mainBox">
+                <form method="post" th:object="${post}" action="/post/create" id="uploadForm"
+                      enctype="multipart/form-data">
+                    <p class="required">
+                        <label>
+                            Chọn file ảnh (không quá 3MB)
+                        </label>
+
+                        <input type="file" th:field="*{photo}" id="mko_xemcorebundle_photos_file" name="mko_xemcorebundle_photos[file]"
+                               required="required">
+                    </p>
+                    <p class="required">
+                        <label for="Caption">Tiêu đề của ảnh</label>
+                        <input class="text largeWidth" data-val="true" data-val-length="Không nhập quá 150 ký tự."
+                               data-val-length-max="150" data-val-required="Tiêu đề của ảnh là bắt buộc." id="Caption"
+                               name="mko_xemcorebundle_photos[caption]" type="text"
+                               th:field="*{title}"
+                               value="">
+                        <span class="field-validation-valid" data-valmsg-for="Caption"
+                              data-valmsg-replace="true"></span>
+                    </p>
+                    <p>
+                        <input type="checkbox" id="IsSelfMade" name="mko_xemcorebundle_photos[is_self_made]" value="1">
+                        <label class="checkboxLabel" for="IsSelfMade">Ảnh này do tui tự làm! (chỉ tick nếu ảnh này do
+                            bạn tự chế, tự
+                            chụp, tự vẽ...)</label>
+                    </p>
+                    <p>
+                        <label for="Source">Nguồn của ảnh</label>
+                        <input class="text largeWidth" data-val="true" data-val-length="Không nhập quá 1000 ký tự."
+                               data-val-length-max="1000" id="Source" name="mko_xemcorebundle_photos[source]"
+                               type="text" value="">
+                        <span class="field-validation-valid" data-valmsg-for="mko_xemcorebundle_photos[source]"
+                              data-valmsg-replace="true"></span>
+                    </p>
+                    <p class="buttonSet">
+                        <button class="buttons submitButton" type="submit" id="saveButton" title="Đăng ảnh">
+                            Đăng ảnh
+                        </button>
+                        <a class="buttons cancelButtons" href="/" title="Bỏ qua">Bỏ qua</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

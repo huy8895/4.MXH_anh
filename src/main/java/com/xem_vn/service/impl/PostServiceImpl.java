@@ -6,6 +6,8 @@ import com.xem_vn.model.Status;
 import com.xem_vn.repository.IPostRepository;
 import com.xem_vn.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +15,8 @@ public class PostServiceImpl implements IPostService {
     @Autowired
     IPostRepository postRepository;
     @Override
-    public Iterable<Post> getAllPost() {
-        return postRepository.findAll();
+    public Page<Post> getAllPost(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     @Override
@@ -33,12 +35,16 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public Iterable<Post> getAllPostByUser(AppUser user) {
-        return postRepository.getAllByAppUser(user);
+    public Page<Post> getAllPostByUser(AppUser user, Pageable pageable) {
+        return postRepository.getAllByAppUser(user,pageable);
     }
 
     @Override
-    public Iterable<Post> getAllPostByStatus(Status status) {
-        return postRepository.getAllByStatus(status);
+    public Page<Post> getAllPostByStatus(Status status, Pageable pageable) {
+        return postRepository.getAllByStatus(status,pageable);
+    }
+
+    @Override
+    public void setPostStatusById(Long postId, Status status) {
     }
 }

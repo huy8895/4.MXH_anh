@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-
-
         function setEnableSubmit(retype_pass) {
             let password = document.getElementById("password_field").value;
             if (password === retype_pass) {
@@ -22,63 +20,45 @@
 <body>
 <h1>CREATE USER</h1>
 
-<!--<form method="post" action="/account/create" th:object="${user}">-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <label>username:-->
-<!--                </label>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <input type="text" th:field="*{username}">-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <label>password:-->
-<!--                </label>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <input type="password" th:field="*{password}" id="password_field">-->
-
-<!--            </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <label>password retype:-->
-<!--                </label>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <input type="password" oninput="setEnableSubmit(this.value)">-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <input type="submit" value="create" id="button-create" disabled>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--</form>-->
-
-<form action="/account/create" method="post" th:object="${user}">
+<form method="post" action="/account/create" th:object="${user}">
     <table>
         <tr>
             <td>
-                <label>user name:
-                    <input type="text" th:field="*{username}">
+                <label>username:
                 </label>
+            </td>
+            <td>
+                <input type="text" th:field="*{username}">
             </td>
         </tr>
         <tr>
             <td>
                 <label>password:
-                    <input type="password" th:field="*{password}">
                 </label>
+            </td>
+            <td>
+                <input type="password" th:field="*{password}" id="password_field" oninput="setEnableSubmit(this.value)">
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>password retype:
+                </label>
+            </td>
+            <td>
+                <input type="password" oninput="setEnableSubmit(this.value)">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="create" id="button-create" disabled>
             </td>
         </tr>
     </table>
-    <input type="submit" value="create">
-    <a href="/login">login</a>
+</form>
+
+
 </form>
 </body>
 </html>

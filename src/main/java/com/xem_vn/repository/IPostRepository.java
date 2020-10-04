@@ -3,13 +3,14 @@ package com.xem_vn.repository;
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
 import com.xem_vn.model.Status;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface IPostRepository extends CrudRepository<Post,Long> {
-    Iterable<Post> getAllByAppUser(AppUser user);
+public interface IPostRepository extends PagingAndSortingRepository<Post,Long> {
+    Page<Post> getAllByAppUser(AppUser appUser, Pageable pageable);
 
-    Iterable<Post> getAllByStatus(Status status);
+    Page<Post> getAllByStatus(Status status, Pageable pageable);
 
 
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let deleteLink = $("a:contains('delete')");
+            $(deleteLink).click(function (event) {
+                $.ajax({
+                    url: $(event.target).attr("href"),
+                    type: "get",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                    },
+                    success: function (c) {
+                        console.log("success")
+                        let respContent = "";
+                        let rowToDelete = $(event.target).closest("tr");
+                        rowToDelete.remove();
+                        respContent += "<span class='success'>User was deleted: [";
+                        respContent += "]</span>";
+                        $("#deleteCustomer").html(respContent);
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+<table border="1px" >
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th colspan="2">action</th>
+
+    </tr>
+    <tr th:each="user:${userList}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.password}"></td>
+        <td><a th:href="@{/admin/user-manager/edit/__${user.id}__}">edit</a></td>
+        <td><a th:href="@{/admin/user-manager/delete/__${user.id}__}">delete</a></td>
+    </tr>
+</table>
+</body>
+</html>
