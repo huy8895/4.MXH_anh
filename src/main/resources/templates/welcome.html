@@ -84,7 +84,7 @@
                         <div class="listItemSeparator"></div>
                         <div class="thumbnail">
                             <a href="/#" target="_blank" th:title="${post.title}">
-                                <img th:src="@{${post.photoName}}"
+                                <img th:src="@{'/content/'+${post.photoName}}"
                                      th:alt="${post.title}" class="thumbImg">
                             </a>
                         </div>
@@ -94,7 +94,7 @@
                                 <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
                             </h2>
                             <div class="uploader">
-                                Đăng bởi <a th:href="@{${post.appUser}}" th:title="${post.appUser}" th:text="${post.appUser}">toikobik</a>
+                                Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}" th:text="${post.appUser.username}">toikobik</a>
                                 2 giờ trước
                             </div>
                             <div class="stats">
