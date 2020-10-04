@@ -6,9 +6,8 @@ import com.xem_vn.model.Post;
 import com.xem_vn.service.IAppRoleService;
 import com.xem_vn.service.IAppUserService;
 import com.xem_vn.service.IPostService;
-import com.xem_vn.service.impl.AppUserServiceImpl;
-import org.omg.IOP.ServiceContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,8 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/account")
@@ -30,14 +33,15 @@ public class AccountController {
     @Autowired
     IPostService postService;
 
+    @Value("${upload.path}")
+    private String upload_path;
+
     @ModelAttribute("user")
     private AppUser getPrincipal(){
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
             appUser = userService.getUserByUserName(((UserDetails)principal).getUsername()).orElse(null);
-
         }
         return appUser;
     }
@@ -69,13 +73,19 @@ public class AccountController {
     @PostMapping("/edit")
     public String editUser(AppUser user, Model model){
         AppRole role = roleService.getRoleByName("ROLE_USER");
+        String avatarFileName = "avatar_"+user.getAvatarFile().getOriginalFilename();
+        try {
+            FileCopyUtils.copy(user.getAvatarFile().getBytes(), new File(upload_path + avatarFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         user.setRole(role);
         userService.save(user);
         model.addAttribute("user",user);
-        return "redirect:/edit";
+        return "redirect:/account/edit";
     }
 
-    @GetMapping("/uploader/")
+    @GetMapping("/uploader")
     public ModelAndView showUploaderPage(@PageableDefault(value = 5, page = 0)
 //                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
                                                Pageable pageable){
@@ -90,5 +100,15 @@ public class AccountController {
     @GetMapping("/password")
     public String showPassWordForm(){
         return "/account/password";
+    }
+
+    @GetMapping("/notification")
+    public String showNotificationPage(){
+        return "/account/notification";
+    }
+
+    @GetMapping("/favorite")
+    public String showFavoritePage(){
+        return "/account/favorite";
     }
 }

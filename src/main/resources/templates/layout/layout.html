@@ -36,26 +36,26 @@
                 </ul>
             </li>
             <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a></li>
-            <li><a href="/unread" title="Ảnh mới chưa xem">Chưa xem</a></li>
-            <li><a href="/vote" title="Bình chọn ảnh">Bình chọn</a></li>
-            <li><a href="/video" title="Xem.vn - Tuyển tập video clip hot nhất trên mạng">Video</a></li>
-            <li><a href="/hot" title="Ảnh đang hot">Hot</a></li>
-            <li><a href="/old" title="Cũ người mới ta :)">Cũ</a></li>
+            <li><a href="/#" title="Ảnh mới chưa xem">Chưa xem</a></li>
+            <li><a href="/#" title="Bình chọn ảnh">Bình chọn</a></li>
+            <li><a href="/#" title="Xem.vn - Tuyển tập video clip hot nhất trên mạng">Video</a></li>
+            <li><a href="/#" title="Ảnh đang hot">Hot</a></li>
+            <li><a href="/#" title="Cũ người mới ta :)">Cũ</a></li>
             <li>
                 <span class="upload">Đăng bài</span>
                 <ul>
                     <li><a href="/post/create" title="Đăng ảnh">Đăng ảnh</a> </li>
-                    <li><a href="/video/upload" title="Đăng video">Đăng video</a> </li>
+                    <li><a href="/#" title="Đăng video">Đăng video</a> </li>
                 </ul>
             </li>
             <li>
                 <span>Chế ảnh</span>
                 <ul>
-                    <li><a href="/builder/rage" title="Chế rage comic">Chế rage comic</a></li>
-                    <li><a href="/builder/memes" title="Chế meme">Chế meme</a></li>
+                    <li><a href="/#" title="Chế rage comic">Chế rage comic</a></li>
+                    <li><a href="/#" title="Chế meme">Chế meme</a></li>
                 </ul>
             </li>
-            <li><a href="/dua-top-danh-hai" rel="nofollow" title="Đua Top">Đua Top</a><img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
+            <li><a href="/#" rel="nofollow" title="Đua Top">Đua Top</a><img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
 
         </ul>
 
@@ -72,16 +72,16 @@
                 <a href="/account/notification" class="notiButton" title="Thông báo">
                 </a>
                 <div class="avatar  noNoti ">
-                    <a href="/uploader/1980" class="avatarLink" title="Trang cá nhân">
-                        <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg" width="30" height="30" alt="trinhvanhuy8895">
+                    <a href="/account/uploader" class="avatarLink" title="Trang cá nhân">
+                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30" alt="trinhvanhuy8895">
                     </a>
                     <div class="blank"></div>
                     <ul>
-                        <li><a href="/uploader/1980" title="Ảnh của bạn">Ảnh của bạn</a></li>
-                        <li><a href="/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
+                        <li><a href="/account/uploader" title="Ảnh của bạn">Ảnh của bạn</a></li>
+                        <li><a href="/account/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
                         <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
                         <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>
-                        <li><a href="/account/logout" title="Thoát">Thoát</a></li>
+                        <li><a href="/logout" title="Thoát">Thoát</a></li>
                     </ul>
                 </div>
             </th:block>

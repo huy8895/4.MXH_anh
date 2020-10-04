@@ -48,16 +48,16 @@ public class PostController {
     }
 
     @GetMapping("/create")
-    public ModelAndView showCreateForm(){
+    public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("/post/create");
-        modelAndView.addObject("post",new Post());
+        modelAndView.addObject("post", new Post());
         return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView createPost(Post post){
+    public ModelAndView createPost(Post post) {
         MultipartFile photo = post.getPhoto();
-        String photoName = photo.getOriginalFilename();
+        String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
         post.setStatus(statusService.findByName("pending").get());
         post.setAppUser(getPrincipal());
@@ -73,21 +73,20 @@ public class PostController {
     }
 
     @GetMapping("/edit")
-    public ModelAndView showEditForm(){
+    public ModelAndView showEditForm() {
         ModelAndView modelAndView = new ModelAndView("/post/edit");
-        modelAndView.addObject("post",new Post());
+        modelAndView.addObject("post", new Post());
         return modelAndView;
     }
 
     @PostMapping("/edit")
-    public ModelAndView edit(Post post){
+    public ModelAndView edit(Post post) {
         ModelAndView modelAndView = new ModelAndView("/post/edit");
         MultipartFile photo = post.getPhoto();
         post.setPhotoName(photo.getOriginalFilename());
         postService.save(post);
         return modelAndView;
     }
-
 
 
 }
