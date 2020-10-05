@@ -97,14 +97,11 @@ public class PostController {
         return modelAndView;
     }
 
-    @PostMapping
-    public ResponseEntity<String> like(@RequestParam("id") Long postID) {
-        Post post = postService.getPostById(postID);
-        Like like = new Like();
-        like.setAppUser(getPrincipal());
-        like.setPost(post);
-        likeService.save(like);
+    @PostMapping("/like")
+    public ResponseEntity<String> like(@RequestBody Like like) {
+        if (likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
+            likeService.save(like);
+        }
         return ResponseEntity.ok("ok");
     }
-
 }

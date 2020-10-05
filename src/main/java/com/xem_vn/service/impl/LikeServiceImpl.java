@@ -31,4 +31,9 @@ public class LikeServiceImpl implements ILikeService {
     public void remove(Like like) {
         likeRepository.delete(like);
     }
+
+    @Override
+    public boolean existsByAppUserAndAndPost(AppUser user, Post post) {
+        return likeRepository.existsByAppUserAndAndPost(user,post);
+    }
 }

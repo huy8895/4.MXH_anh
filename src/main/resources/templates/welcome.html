@@ -5,9 +5,37 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
+        function like(postID, userID) {
+            console.log('postID '+postID)
+            console.log('userID '+userID)
+            let json = {
+                "post": {"id": postID},
+                "appUser": {"id": userID}
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(json),
+                url: "/post/like",
+                success: function (ms) {
+                    console.log("like thang cong " + ms)
+                }
+            });
+            event.preventDefault();
+        }
+
+        $(document).ready(function () {
+
+        });
 
     </script>
+<!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -54,15 +82,17 @@
                             <div class="uploader">
                                 Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}"
                                             th:text="${post.appUser.username}">toikobik</a>
-                               <span th:text="${currentTime}-${post.getDateUpload().getTime()}" th:name="*{post.dateUpload}"></span>
+                                <span th:text="${currentTime}-${post.getDateUpload().getTime()}"
+                                      th:name="*{post.dateUpload}"></span>
                             </div>
                             <div class="stats">
                                 <div class="viewComments">
                                     <span class="views" title="Views">61</span>
                                     <span class="comments" title="Comments">0</span>
                                 </div>
-                                <div class="likesWrapper">
-                                    <button type="button" >like</button>
+                                <div class="likesWrapper" sec:authorize="isAuthenticated()">
+                                    <button type="button" th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'" >like
+                                    </button>
                                 </div>
                                 <div class="clear"></div>
                             </div>

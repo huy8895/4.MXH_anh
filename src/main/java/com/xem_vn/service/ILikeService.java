@@ -9,5 +9,6 @@ public interface ILikeService {
     Iterable<Like> findAllByUser(AppUser user);
     void save(Like like);
     void remove(Like like);
+    boolean existsByAppUserAndAndPost(AppUser user,Post post);
 
 }
