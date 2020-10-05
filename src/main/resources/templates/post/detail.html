@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function like(postID, userID) {
+            console.log('postID ' + postID)
+            console.log('userID ' + userID)
+            let json = {
+                "post": {"id": postID},
+                "appUser": {"id": userID}
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(json),
+                url: "/post/like",
+                success: function (a) {
+                    console.log("like thang cong +  " + a.post.id)
+                }
+            });
+            event.preventDefault();
+        }
+
+        $(document).ready(function () {
+
+        });
+    </script>
+    <!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
+</head>
+<body>
+<div th:replace="~{layout/layout::header(${user})}"></div>
+
+<div id="content">
+    <div id="mainContainer">
+        <div id="leftColumn">
+            <div class="mainBox">
+                <div class="mainBox photoDetails">
+                    <div class="photoInfo">
+                        <h1>
+                            Con gái, con đứa ...kkk
+                        </h1>
+
+                        <div class="stats">
+                            <span class="likes">Lượt like: <span class="number">399</span></span>
+                            <span class="comments">Lượt bình luận: <span class="number">1</span></span>
+                        </div>
+                        <div class="source">
+                <span class="source">
+                    						Nguồn: <span class="text">Sưu tầm</span>
+					                </span>
+                        </div>
+                        <div class="adminActions">
+
+
+
+                        </div>
+                    </div>
+                    <div class="uploader">
+                        Đăng 17 giờ trước bởi
+                        <div>
+                            <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/2020/08/23/039/1598173289_8944.jpg" alt="goctamhonho.com">
+                            <div class="info">
+                                <a href="/uploader/424080" title="goctamhonho.com">goctamhonho.com</a>
+                                <span title="lượt thích" class="likes">1705</span>
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                    <div class="news">
+
+                    </div>
+
+                    <div data-fixedtop="40" class="fixedScrollDetector">
+                    </div>
+
+                    <div class="likeButton fixedScroll " style="position: relative;">
+                        <div class="text" style="margin-right:3px">
+                            Thích ảnh này?
+                        </div>
+                        <div class="fbLikeButton">
+                            <div class="fb-like fb_iframe_widget" data-href="http://xem.vn/photo/1403062" data-layout="button_count" data-action="like" data-size="small" data-share="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=181604928677768&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1403062&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small"><span style="vertical-align: bottom; width: 128px; height: 20px;"><iframe name="fc5620db54e65" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/plugins/like.php?action=like&amp;app_id=181604928677768&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df33aa4b6d58a2%26domain%3Dxem.vn%26origin%3Dhttps%253A%252F%252Fxem.vn%252Ff23a66a2939df5%26relation%3Dparent.parent&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1403062&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small" style="border: none; visibility: visible; width: 128px; height: 20px;" class=""></iframe></span></div>
+                        </div>
+                        <div class="navButtons">
+                            <a class="next" href="/nhu-nay-la-meo-lam-an-duoc-gi-roi-1403056.html" title="hotkey: → hoặc X">Ảnh sau</a>
+                        </div>
+                    </div>
+
+                    <div class="clear">
+                    </div>
+                    <div class="photoImg">
+                        <img th:src="@{'/content/'+${post.photoName}}"
+                             th:alt="${post.title}" >                    </div>
+                    <div style="text-align:center">
+                        <!-- /165899848/xem.vn-desktop-banner-viewpage-center-728x90 --> <div id="div-gpt-ad-1568121204068-0" style="width: 728px; height: 90px;">
+                        <script>
+                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1568121204068-0'); });
+                        </script>
+                        <div id="google_ads_iframe_/165899848/xem.vn-desktop-banner-viewpage-center-728x90_0__container__" style="border: 0pt none; width: 728px; height: 90px;"></div></div>
+
+                    </div>
+                    <div class="btn-social">
+                        <a target="_blank" title="Share on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://xem.vn/photo/1403062">
+                            <div style="float:left" class="btn-facebook">Share on Facebook</div>
+                        </a>
+                        <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+
+                        <a taget="_blank" title="Share on Zalo" class="zalo-share-button" data-href="xem.vn/photo/1403062" data-oaid="1278225163892847717" data-layout="2" data-color="blue" data-customize="true">
+                            <div class="btn-twitter">Share on Zalo</div>
+                            <iframe frameborder="0" allowfullscreen="" scrolling="no" width="0px" height="0px" src="https://sp.zalo.me/plugins/share?dev=null&amp;color=blue&amp;oaid=1278225163892847717&amp;href=xem.vn%2Fphoto%2F1403062&amp;layout=2&amp;customize=true&amp;callback=null&amp;id=eabd11f9-306a-4036-a114-8b1bba968a3c&amp;domain=xem.vn&amp;android=false&amp;ios=false" style="position: absolute;"></iframe></a>
+                    </div>
+                    <div class="featuredFanPage">
+                        <h4>
+                            <img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/thumbsup.png" alt="xem.vn"> Like <a href="https://www.facebook.com/xem.vn.official/" target="_blank" class="colorful">Xem.vn trên Facebook</a> để được cười nhiều hơn
+                        </h4>
+
+                        <div>
+                            <img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/logo_57.png" alt="logo">
+                            <div class="fb-like fb_iframe_widget" style="vertical-align:top" data-href="https://www.facebook.com/xem.vn.official/" data-layout="standard" data-action="like" data-show-faces="true" data-share="false" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=181604928677768&amp;container_width=718&amp;href=https%3A%2F%2Fwww.facebook.com%2Fxem.vn.official%2F&amp;layout=standard&amp;locale=en_US&amp;sdk=joey&amp;share=false&amp;show_faces=true"><span style="vertical-align: bottom; width: 450px; height: 20px;"><iframe name="f182575f964a158" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/plugins/like.php?action=like&amp;app_id=181604928677768&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df28c117cf5b282c%26domain%3Dxem.vn%26origin%3Dhttps%253A%252F%252Fxem.vn%252Ff23a66a2939df5%26relation%3Dparent.parent&amp;container_width=718&amp;href=https%3A%2F%2Fwww.facebook.com%2Fxem.vn.official%2F&amp;layout=standard&amp;locale=en_US&amp;sdk=joey&amp;share=false&amp;show_faces=true" style="border: none; visibility: visible; width: 450px; height: 20px;" class=""></iframe></span></div>
+                        </div>
+                    </div>
+                    <div class="commentContainer">
+                        <h3>
+                            Bình luận
+                            <span class="bottom-actions">
+                                            <a data-action="favor" class="favorite" title="Yêu thích">
+                                            <span class="fav "></span>
+                        <span> Lưu vào yêu thích </span>
+                    </a>
+                                            <a data-id="1403062" data-action="report-duplicate" class="report" href="#" title="Bị trùng">
+                                            Báo cáo ảnh trùng
+                    </a>
+                                            <a data-id="1403062" data-action="report" class="report" href="#" title="Báo cáo vi phạm">
+                                            Báo cáo vi phạm
+                    </a>
+
+                </span>
+                        </h3>
+                        <div class="tipComment"><b class="meo">Mẹo: </b>Nếu có nhiều bình luận, bạn có thể xem theo độ hot, mới nhất, cũ nhất</div>
+                        <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-href="http://xem.vn/photo/1403062" data-num-posts="3" data-width="728" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=181604928677768&amp;container_width=728&amp;height=100&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1403062&amp;locale=en_US&amp;sdk=joey&amp;width=728"><span style="vertical-align: bottom; width: 728px; height: 254px;"><iframe name="f3ac4d3e096273c" width="728px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/plugins/comments.php?app_id=181604928677768&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df12aab0c49d950c%26domain%3Dxem.vn%26origin%3Dhttps%253A%252F%252Fxem.vn%252Ff23a66a2939df5%26relation%3Dparent.parent&amp;container_width=728&amp;height=100&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1403062&amp;locale=en_US&amp;sdk=joey&amp;width=728" style="border: none; visibility: visible; width: 728px; height: 254px;" class=""></iframe></span></div>
+                    </div>
+                </div>
+                <div th:replace="~{layout/layout::footer}"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<table>
+    <tr>
+
+    </tr>
+</table>
+
+</body>
+</html>

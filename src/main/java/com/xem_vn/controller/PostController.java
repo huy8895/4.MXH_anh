@@ -100,12 +100,23 @@ public class PostController {
     }
 
     @PostMapping(value = "/like")
-    public ResponseEntity<Like> like(@RequestBody Like like) {
+    public ResponseEntity<Post> like(@RequestBody Like like) {
+        Post currentPost = null;
         if (!likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
             likeService.save(like);
-            Post currentPost = postService.getPostById(like.getPost().getId());
-            currentPost.setLikeCount(likeService.countAllByPost(currentPost));
+            currentPost = postService.getPostById(like.getPost().getId());
+            Long countLike = likeService.countAllByPost(currentPost);
+            currentPost.setLikeCount(countLike);
+            postService.save(currentPost);
         }
-        return new ResponseEntity<>(like,HttpStatus.OK);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{id}")
+    public ModelAndView showPostDetail(@PathVariable("id") Long id) {
+        Post currentPost = postService.getPostById(id);
+        ModelAndView modelAndView = new ModelAndView("/post/detail");
+        modelAndView.addObject("post", currentPost);
+        return modelAndView;
     }
 }

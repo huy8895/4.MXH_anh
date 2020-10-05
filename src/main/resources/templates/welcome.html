@@ -51,7 +51,7 @@
                          data-nsfw="False">
                         <div class="listItemSeparator"></div>
                         <div class="thumbnail">
-                            <a href="/#" target="_blank" th:title="${post.title}">
+                            <a th:href="@{/post/detail/__${post.id}__}" target="_blank" th:title="${post.title}">
                                 <img th:src="@{'/content/'+${post.photoName}}"
                                      th:alt="${post.title}" class="thumbImg">
                             </a>
