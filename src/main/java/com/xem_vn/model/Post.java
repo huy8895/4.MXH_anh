@@ -4,13 +4,14 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String title;
 
@@ -19,8 +20,6 @@ public class Post {
     @Transient
     private MultipartFile photo;
 
-    private long likeCount;
-
     private long viewCount;
 
     @ManyToOne
@@ -28,4 +27,6 @@ public class Post {
 
     @ManyToOne
     private Status status;
+
+    private Date dateUpload;
 }

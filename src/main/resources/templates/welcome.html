@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+    <script>
+
+    </script>
 </head>
 <body>
-<div th:replace="~{layout/layout::header}"></div>
+<div th:replace="~{layout/layout::header(${user})}"></div>
 
 <div id="content">
     <div id="mainContainer">
@@ -34,53 +37,8 @@
                     BQT xem.vn
                 </div>
                 <div class="photoList">
-                    <div class="photoListItem" data-id="1402992" data-newly-listed="True" data-nsfw="False">
-                        <div class="listItemSeparator"></div>
-                        <div class="thumbnail">
-                            <a href="/la-do-ban-thoi-1402992.html" target="_blank" title="Là do bạn thôi">
-                                <img src="https://i-xem.mkocdn.com/i.xem.sb/data/photo/2020/10/02/004/la-do-ban-thoi-1601602104-400.jpg"
-                                     alt="Là do bạn thôi" class="thumbImg">
-                            </a>
-                        </div>
-
-                        <div class="info">
-                            <h2>
-                                <a target="_blank" href="/la-do-ban-thoi-1402992.html" title="Là do bạn thôi">Là do bạn
-                                    thôi</a>
-                            </h2>
-                            <div class="uploader">
-                                Đăng bởi <a href="/uploader/146575" title="toikobik">toikobik</a>
-                                2 giờ trước
-                            </div>
-
-                            <div class="stats">
-                                <div class="viewComments">
-                                    <span class="views" title="Views">61</span>
-                                    <span class="comments" title="Comments">0</span>
-                                </div>
-                                <div class="likesWrapper">
-                                    <div class="fb-like fb_iframe_widget" data-href="http://xem.vn/photo/1402992"
-                                         data-layout="button_count" data-action="like" data-size="small"
-                                         data-share="true" fb-xfbml-state="rendered"
-                                         fb-iframe-plugin-query="action=like&amp;app_id=181604928677768&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1402992&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small">
-                                        <span style="vertical-align: bottom; width: 128px; height: 20px;"><iframe
-                                                name="f3619aa99f4b9b8" width="1000px" height="1000px"
-                                                data-testid="fb:like Facebook Social Plugin"
-                                                title="fb:like Facebook Social Plugin" frameborder="0"
-                                                allowtransparency="true" allowfullscreen="true" scrolling="no"
-                                                allow="encrypted-media"
-                                                src="https://www.facebook.com/plugins/like.php?action=like&amp;app_id=181604928677768&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df3d3122f4aedfa8%26domain%3Dxem.vn%26origin%3Dhttps%253A%252F%252Fxem.vn%252Ff7d2c9cec3ccc%26relation%3Dparent.parent&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1402992&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small"
-                                                style="border: none; visibility: visible; width: 128px; height: 20px;"
-                                                class=""></iframe></span></div>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-
-                        </div>
-                        <div class="clear">
-                        </div>
-                    </div>
-                    <div class="photoListItem" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True" data-nsfw="False" >
+                    <div class="photoListItem" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True"
+                         data-nsfw="False">
                         <div class="listItemSeparator"></div>
                         <div class="thumbnail">
                             <a href="/#" target="_blank" th:title="${post.title}">
@@ -94,8 +52,9 @@
                                 <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
                             </h2>
                             <div class="uploader">
-                                Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}" th:text="${post.appUser.username}">toikobik</a>
-                                2 giờ trước
+                                Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}"
+                                            th:text="${post.appUser.username}">toikobik</a>
+                               <span th:text="${currentTime}-${post.getDateUpload().getTime()}" th:name="*{post.dateUpload}"></span>
                             </div>
                             <div class="stats">
                                 <div class="viewComments">
@@ -103,19 +62,7 @@
                                     <span class="comments" title="Comments">0</span>
                                 </div>
                                 <div class="likesWrapper">
-                                    <div class="fb-like fb_iframe_widget" data-href="http://xem.vn/photo/1402992"
-                                         data-layout="button_count" data-action="like" data-size="small"
-                                         data-share="true" fb-xfbml-state="rendered"
-                                         fb-iframe-plugin-query="action=like&amp;app_id=181604928677768&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1402992&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small">
-                                        <span style="vertical-align: bottom; width: 128px; height: 20px;"><iframe
-                                                name="f3619aa99f4b9b8" width="1000px" height="1000px"
-                                                data-testid="fb:like Facebook Social Plugin"
-                                                title="fb:like Facebook Social Plugin" frameborder="0"
-                                                allowtransparency="true" allowfullscreen="true" scrolling="no"
-                                                allow="encrypted-media"
-                                                src="https://www.facebook.com/plugins/like.php?action=like&amp;app_id=181604928677768&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df3d3122f4aedfa8%26domain%3Dxem.vn%26origin%3Dhttps%253A%252F%252Fxem.vn%252Ff7d2c9cec3ccc%26relation%3Dparent.parent&amp;container_width=0&amp;href=http%3A%2F%2Fxem.vn%2Fphoto%2F1402992&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small"
-                                                style="border: none; visibility: visible; width: 128px; height: 20px;"
-                                                class=""></iframe></span></div>
+                                    <button type="button" >like</button>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -134,7 +81,13 @@
                 <div class="tag-footer">
                     <br><br><br><br>
                 </div>
-
+                <div>
+                    <a class="buttons nextListPage" style="" th:href="@{'/'(page=${posts.number + 1})}"
+                       title="xem thêm, còn nhiều lắm">xem thêm, còn nhiều lắm</a>
+                    <!--                    <a th:href="@{'/'(page=${posts.number - 1})}" th:if="${posts.hasPrevious()}">Previous</a>-->
+                    <!--                    <span th:text="${posts.number + 1}"></span>/<span th:text="${posts.totalPages}"></span>-->
+                    <!--                    <a th:href="@{'/'(page=${posts.number + 1})}" th:if="${posts.hasNext()}">Next</a>-->
+                </div>
                 <div th:replace="~{layout/layout::footer}"></div>
             </div>
         </div>
@@ -142,14 +95,6 @@
 
 </div>
 
-<!--<h1> Dear <span th:text="${user}" style="color: blue"></span> Welcome to HOME Page</h1>-->
-
-<!--<div sec:authorize="hasRole('ADMIN')">-->
-<!--    <a th:href="@{/admin}">admin page</a> | <a th:href="@{/logout}">Logout</a><br>-->
-<!--</div>-->
-<!--<div sec:authorize="isAnonymous()" >-->
-<!--    <a th:href="@{/}">Home</a> | <a th:href="@{/account/create}">signup</a>-->
-<!--</div>-->
 
 <table>
     <tr>

@@ -1,28 +1,31 @@
 package com.xem_vn.controller;
 
 import com.xem_vn.model.AppUser;
+import com.xem_vn.model.Like;
 import com.xem_vn.model.Post;
 import com.xem_vn.repository.IPostRepository;
 import com.xem_vn.service.IAppUserService;
+import com.xem_vn.service.ILikeService;
 import com.xem_vn.service.IPostService;
 import com.xem_vn.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 @Controller
 @RequestMapping("post")
+@CrossOrigin("*")
 public class PostController {
     @Autowired
     IPostService postService;
@@ -36,6 +39,10 @@ public class PostController {
     @Autowired
     IAppUserService userService;
 
+    @Autowired
+    ILikeService likeService;
+
+    @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -56,6 +63,8 @@ public class PostController {
 
     @PostMapping("/create")
     public ModelAndView createPost(Post post) {
+        long currentTime = System.currentTimeMillis();
+        post.setDateUpload(new Date(currentTime));
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
@@ -88,5 +97,14 @@ public class PostController {
         return modelAndView;
     }
 
+    @PostMapping
+    public ResponseEntity<String> like(@RequestParam("id") Long postID) {
+        Post post = postService.getPostById(postID);
+        Like like = new Like();
+        like.setAppUser(getPrincipal());
+        like.setPost(post);
+        likeService.save(like);
+        return ResponseEntity.ok("ok");
+    }
 
 }

@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -32,24 +29,26 @@ public class HomeController {
     private IPostService postService;
 
     @Autowired
+    private IAppUserService userService;
+
+    @Autowired
     IStatusService statusService;
 
-    private String getPrincipal(){
-        String appUser = null;
+    @ModelAttribute("user")
+    private AppUser getPrincipal() {
+        AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
-            appUser = ((UserDetails) principal).getUsername();
-
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
         }
-        else appUser = principal.toString();
         return appUser;
     }
 
 
+
     @GetMapping({"/", "/home"})
     public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
-//                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/welcome");
         Status status = statusService.findByName("approve").get();
@@ -61,12 +60,13 @@ public class HomeController {
             postPage = null;
         }
         modelAndView.addObject("posts", postPage);
+        modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;
     }
 
     @GetMapping("/Access_Denied")
     public String accessDeniedPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
+        model.addAttribute("user", getPrincipal().getUsername());
         return "accessDenied";
     }
 

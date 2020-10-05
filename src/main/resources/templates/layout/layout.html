@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
 </head>
 <body>
-<div id="header" th:fragment="header">
+<div id="header" th:fragment="header(user)">
     <div id="headerContent">
         <h1><a href="/" id="logo" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">xem.vn</a></h1>
         <ul id="menuBar">
@@ -73,7 +73,7 @@
                 </a>
                 <div class="avatar  noNoti ">
                     <a href="/account/uploader" class="avatarLink" title="Trang cá nhân">
-                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30" alt="trinhvanhuy8895">
+                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30"></span>
                     </a>
                     <div class="blank"></div>
                     <ul>
