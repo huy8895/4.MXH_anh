@@ -276,12 +276,12 @@ ul#menuBar {
     -moz-border-radius: 2px;
     top: -2px;
 }
-#headerRight .avatar {
+#headerRight .avatar_comment {
     float: left;
     position: relative;
     margin-left: 15px;
 }
-#headerRight .avatar .blank {
+#headerRight .avatar_comment .blank {
     width: 130px;
     position: absolute;
     height: 15px;
@@ -289,7 +289,7 @@ ul#menuBar {
     top: 20px;
     display: none;
 }
-#headerRight .avatar img {
+#headerRight .avatar_comment img {
 }
 #headerRight .avatarLink {
     display: inline-block
@@ -305,11 +305,11 @@ ul#menuBar {
     z-index: 1000;
     right: 0;
 }
-#headerRight .avatar:hover .blank {
+#headerRight .avatar_comment:hover .blank {
     display: block;
     cursor: pointer;
 }
-#headerRight .avatar:hover ul {
+#headerRight .avatar_comment:hover ul {
     display: block;
     cursor: pointer;
 }
@@ -1349,17 +1349,17 @@ ul.guidelines li {
     margin-bottom: 5px;
 }
 /* Update user info */
-.updateAccount img.avatar {
+.updateAccount img.avatar_comment {
     display: block;
     margin: 10px 0
 }
 /* User info */
-.userInfo .avatar img {
+.userInfo .avatar_comment img {
     width: 50px;
     height: 50px;
     float: left;
 }
-.userInfo .avatar .name {
+.userInfo .avatar_comment .name {
     margin-left: 55px;
 }
 .userInfo .stats {

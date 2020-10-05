@@ -6,34 +6,8 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        function like(postID, userID) {
-            console.log('postID ' + postID)
-            console.log('userID ' + userID)
-            let json = {
-                "post": {"id": postID},
-                "appUser": {"id": userID}
-            }
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "POST",
-                data: JSON.stringify(json),
-                url: "/post/like",
-                success: function (a) {
-                    console.log("like thang cong +  " + a.post.id)
-                }
-            });
-            event.preventDefault();
-        }
-
-        $(document).ready(function () {
-
-        });
-    </script>
-    <!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
+    <script th:replace="~{layout/layout::js_post_like}"></script>
+    <link rel="stylesheet"th:href="@{/css/xemvn.css}">
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -72,9 +46,10 @@
                                     <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                                 </div>
                                 <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                                    <button type="button" th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like
+                                    <button type="button"
+                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like
                                     </button>
-                                    <button class="btn btn-block btn-primary"><i class="fa fa-thumbs-up">Like</i> </button>
+                                    </button>
                                 </div>
                                 <div class="clear"></div>
                             </div>

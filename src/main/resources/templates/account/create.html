@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>create post</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
     <script>
-        function setEnableSubmit(retype_pass) {
-            let password = document.getElementById("password_field").value;
-            if (password === retype_pass) {
-                document.getElementById("button-create").disabled = false;
-            } else {
-                document.getElementById("button-create").disabled = true;
-            }
-            console.log('password = ' + password)
-            console.log('retype = ' + retype_pass)
-        }
+        $(document).ready(function () {
+            $('#saveButton').click(function (event) {
+                var form = $('#newUserForm')[0];
+                var data = new FormData(form);
+                $("#saveButton").prop("disabled", true);
+
+                $.ajax({
+                    enctype: 'multipart/form-data',
+                    type: "POST",
+                    data: data,
+                    url: "/account/create",
+                    // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
+                    processData: false,
+                    contentType: false,
+                    success: function (user) {
+                        var respContent = "";
+                        respContent += "<span class='success'>user was created: [";
+                        respContent += smartphone.username + "]</span>";
+                        $("#sPhoneFromResponse").html(respContent);
+                    }
+                });
+                event.preventDefault();
+            });
+        });
     </script>
 </head>
 <body>
+<div th:replace="~{layout/layout::header(${user})}"></div>
 <h1>CREATE USER</h1>
 <div id="content">
     <div id="mainContainer">
         <div id="leftColumn">
-            <div class="mainBox">
-                <form method="post" action="/account/create" class="submitForm" th:object="${user}">
+            <div class="mainBox" >
+                <h3 id="#sPhoneFromResponse"></h3>
+                <form id="#newUserForm" method="post" th:object="${user}" action="/account/create" enctype="multipart/form-data">
                     <table>
                         <tr>
                             <td>
@@ -41,33 +58,27 @@
                                 </label>
                             </td>
                             <td>
-                                <input type="password" th:field="*{password}" id="password_field" oninput="setEnableSubmit(this.value)">
-
+                                <input type="password" th:field="*{password}" id="password_field">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label>password retype:
-                                </label>
+                                <label>Avatar:</label>
+<!--                                <img class="avatar_comment" src="/#" width="100" height="100">-->
                             </td>
                             <td>
-                                <input type="password" oninput="setEnableSubmit(this.value)">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Avatar</label>
-                                <img class="avatar" src="/#" width="100" height="100">
-                            </td>
-                            <td>
-                                <input type="file" name="avatarFile">
+                                <input type="file" th:field="*{avatarFile}">
 <!--                                <input type="hidden" id="form_avatarUrl" name="form[avatarUrl]" value="/#">-->
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="submit" value="create" class="buttons submitButton" id="button-create" disabled>
-                            </td>
+                                <p class="buttonSet">
+                                    <button class="buttons submitButton" type="submit" id="saveButton" title="Đăng ảnh">
+                                        Đăng ảnh
+                                    </button>
+                                    <a class="buttons cancelButtons" href="/" title="Bỏ qua">Bỏ qua</a>
+                                </p>                            </td>
                         </tr>
                     </table>
                 </form>

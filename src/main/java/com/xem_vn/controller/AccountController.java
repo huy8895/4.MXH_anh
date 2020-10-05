@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -36,7 +39,7 @@ public class AccountController {
     @Value("${upload.path}")
     private String upload_path;
 
-    @ModelAttribute("user")
+    @ModelAttribute
     private AppUser getPrincipal(){
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -54,13 +57,20 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public String createUser(AppUser user,Model model){
+    public ResponseEntity<AppUser> createUser(AppUser user){
         System.out.println("post create : " + user);
         AppRole role = roleService.getRoleByName("ROLE_USER");
         user.setRole(role);
+        MultipartFile avatar = user.getAvatarFile();
+        String avatarFileName = avatar.getOriginalFilename();
+        user.setAvatarFileName(avatarFileName);
         userService.save(user);
-        model.addAttribute("user",user);
-        return "redirect:/";
+        try {
+            FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  new ResponseEntity<>(user,HttpStatus.OK);
     }
 
     @GetMapping("/edit")
@@ -82,7 +92,7 @@ public class AccountController {
         user.setRole(role);
         userService.save(user);
         model.addAttribute("user",user);
-        return "redirect:/account/edit";
+        return "/account/edit";
     }
 
     @GetMapping("/uploader")
