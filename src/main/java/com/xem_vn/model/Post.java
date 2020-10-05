@@ -20,7 +20,8 @@ public class Post {
     @Transient
     private MultipartFile photo;
 
-    private long viewCount;
+    private long likeCount;
+    private long commentCount;
 
     @ManyToOne
     private AppUser appUser;

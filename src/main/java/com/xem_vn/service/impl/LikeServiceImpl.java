@@ -36,4 +36,9 @@ public class LikeServiceImpl implements ILikeService {
     public boolean existsByAppUserAndAndPost(AppUser user, Post post) {
         return likeRepository.existsByAppUserAndAndPost(user,post);
     }
+
+    @Override
+    public Long countAllByPost(Post post) {
+        return likeRepository.countAllByPost(post);
+    }
 }

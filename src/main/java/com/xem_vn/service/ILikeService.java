@@ -10,5 +10,5 @@ public interface ILikeService {
     void save(Like like);
     void remove(Like like);
     boolean existsByAppUserAndAndPost(AppUser user,Post post);
-
+    Long countAllByPost (Post post);
 }

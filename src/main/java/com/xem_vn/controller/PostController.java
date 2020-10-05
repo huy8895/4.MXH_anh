@@ -10,6 +10,8 @@ import com.xem_vn.service.IPostService;
 import com.xem_vn.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -97,11 +99,13 @@ public class PostController {
         return modelAndView;
     }
 
-    @PostMapping("/like")
-    public ResponseEntity<String> like(@RequestBody Like like) {
-        if (likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
+    @PostMapping(value = "/like")
+    public ResponseEntity<Like> like(@RequestBody Like like) {
+        if (!likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
             likeService.save(like);
+            Post currentPost = postService.getPostById(like.getPost().getId());
+            currentPost.setLikeCount(likeService.countAllByPost(currentPost));
         }
-        return ResponseEntity.ok("ok");
+        return new ResponseEntity<>(like,HttpStatus.OK);
     }
 }

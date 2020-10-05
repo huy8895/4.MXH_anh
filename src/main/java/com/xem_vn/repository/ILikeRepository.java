@@ -9,4 +9,5 @@ public interface ILikeRepository extends CrudRepository<Like,Long> {
     Iterable<Like> findAllByPost(Post post);
     Iterable<Like> findAllByAppUser(AppUser user);
     boolean existsByAppUserAndAndPost(AppUser user,Post post);
+    Long countAllByPost (Post post);
 }

@@ -35,4 +35,9 @@ public class CommentServiceImpl implements ICommentService {
     public Iterable<Comment> getAllCommentByPost(Post post) {
         return commentRepository.getAllByPost(post);
     }
+
+    @Override
+    public Long countAllByPost(Post post) {
+        return commentRepository.countAllByPost(post);
+    }
 }

@@ -23,17 +23,6 @@
                     <li><a href="/#">Chế anime</a></li>
                     <li><a href="/#">Ảnh chế one Piece</a></li>
                     <li><a href="/#">Clip hot trên mạng</a></li>
-                    <li><a href="/#">Video hot trong tuần</a></li>
-                    <li><a href="/#">Video hay nhức nhói</a></li>
-                    <li><a href="/#">Chuyện lạ có thật</a></li>
-                    <li><a href="/#"> Clip Hot Facebook</a></li>
-                    <li><a href="/#"> Nhạc trẻ hay nhất</a></li>
-                    <li><a href="/#">Ảnh hay nhức nhối</a></li>
-                    <li><a href="/#">Bầu cử tổng thống Mỹ</a></li>
-                    <li><a href="/#">Video clip troll</a></li>
-                    <li><a href="/#">Ảnh troll</a></li>
-                    <li><a href="/#">Ảnh ấn tượng</a></li>
-                    <li><a href="/#">Ảnh vui</a></li>
                 </ul>
             </li>
             <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a></li>
@@ -74,7 +63,7 @@
                 </a>
                 <div class="avatar  noNoti ">
                     <a href="/account/uploader" class="avatarLink" title="Trang cá nhân">
-                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30"></span>
+                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30" th:alt="${user.avatarFileName}"></span>
                     </a>
                     <div class="blank"></div>
                     <ul>

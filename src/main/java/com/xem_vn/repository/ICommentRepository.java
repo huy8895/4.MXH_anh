@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ICommentRepository extends CrudRepository<Comment,Long> {
     Iterable<Comment> getAllByPost(Post post);
+    Long countAllByPost (Post post);
 }

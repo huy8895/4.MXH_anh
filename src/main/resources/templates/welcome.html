@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         function like(postID, userID) {
-            console.log('postID '+postID)
-            console.log('userID '+userID)
+            console.log('postID ' + postID)
+            console.log('userID ' + userID)
             let json = {
                 "post": {"id": postID},
                 "appUser": {"id": userID}
@@ -23,8 +22,8 @@
                 type: "POST",
                 data: JSON.stringify(json),
                 url: "/post/like",
-                success: function (ms) {
-                    console.log("like thang cong " + ms)
+                success: function (a) {
+                    console.log("like thang cong +  " + a.post.id)
                 }
             });
             event.preventDefault();
@@ -33,9 +32,8 @@
         $(document).ready(function () {
 
         });
-
     </script>
-<!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
+    <!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -48,22 +46,6 @@
                 <div class="tips"><b>Mẹo: </b>Hãy giúp <b>xem.vn <a href="/vote">bình chọn ảnh</a></b> để nhiều ảnh hay
                     xuất hiện ở đây hơn
                 </div>
-                <div id="homepage_banner" class="windowContainer"
-                     style="font-size:14px;line-height: 20px;font-style: italic;padding: 10px;">
-                    <h3 style="font-size: 16px;text-align:center;font-style:normal">DANH SÁCH “TOP DANH HÀI TUẦN”
-                        4-10/7/2016</h3>
-                    BQT xem.vn xin thông báo DANH SÁCH “TOP DANH HÀI TUẦN” từ ngày 4/7/2016 tới ngày 10/7/2016.
-                    <br><br>
-                    <b>Danh sách chi tiết:</b> <a style="color:red" href="http://xem.vn/top-danh-hai/20"
-                                                  target="_blank">“TOP DANH HÀI TUẦN” 4-10/7/2016</a>
-                    <br><br>
-                    Hy vọng <b>xem.vn</b> ngày một phát triển và trở thành một cộng đồng lành mạnh, tích cực cho giới
-                    trẻ Việt Nam.
-                    <br><br>
-                    <b>Trân trọng!</b>
-                    <br>
-                    BQT xem.vn
-                </div>
                 <div class="photoList">
                     <div class="photoListItem" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True"
                          data-nsfw="False">
@@ -74,7 +56,6 @@
                                      th:alt="${post.title}" class="thumbImg">
                             </a>
                         </div>
-
                         <div class="info">
                             <h2>
                                 <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
@@ -87,12 +68,13 @@
                             </div>
                             <div class="stats">
                                 <div class="viewComments">
-                                    <span class="views" title="Views">61</span>
-                                    <span class="comments" title="Comments">0</span>
+                                    <span class="likes" title="Like" th:text="${post.likeCount}"></span>
+                                    <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                                 </div>
                                 <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                                    <button type="button" th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'" >like
+                                    <button type="button" th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like
                                     </button>
+                                    <button class="btn btn-block btn-primary"><i class="fa fa-thumbs-up">Like</i> </button>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -100,6 +82,7 @@
                         <div class="clear">
                         </div>
                     </div>
+
                     <div id="listEnd"></div>
                     <div class="listItemSeparator"></div>
                     <p class="loading" style="display: none">
@@ -108,15 +91,13 @@
                         Đang tải thêm ảnh...
                     </p>
                 </div>
+
                 <div class="tag-footer">
                     <br><br><br><br>
                 </div>
                 <div>
                     <a class="buttons nextListPage" style="" th:href="@{'/'(page=${posts.number + 1})}"
                        title="xem thêm, còn nhiều lắm">xem thêm, còn nhiều lắm</a>
-                    <!--                    <a th:href="@{'/'(page=${posts.number - 1})}" th:if="${posts.hasPrevious()}">Previous</a>-->
-                    <!--                    <span th:text="${posts.number + 1}"></span>/<span th:text="${posts.totalPages}"></span>-->
-                    <!--                    <a th:href="@{'/'(page=${posts.number + 1})}" th:if="${posts.hasNext()}">Next</a>-->
                 </div>
                 <div th:replace="~{layout/layout::footer}"></div>
             </div>

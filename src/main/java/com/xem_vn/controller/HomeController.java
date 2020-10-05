@@ -52,13 +52,7 @@ public class HomeController {
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/welcome");
         Status status = statusService.findByName("approve").get();
-        Page<Post> postPage ;
-        try {
-            postPage =  postService.getAllPostByStatus(status, pageable);
-        } catch (Exception e){
-//            e.printStackTrace();
-            postPage = null;
-        }
+        Page<Post> postPage =  postService.getAllPostByStatus(status, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;

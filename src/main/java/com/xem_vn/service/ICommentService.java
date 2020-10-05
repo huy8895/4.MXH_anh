@@ -9,4 +9,5 @@ public interface ICommentService {
     Comment save(Comment comment);
     void remove(Comment comment);
     Iterable<Comment> getAllCommentByPost(Post post);
+    Long countAllByPost (Post post);
 }
