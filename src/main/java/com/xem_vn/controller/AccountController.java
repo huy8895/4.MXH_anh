@@ -26,7 +26,8 @@ import java.io.File;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("account")
+@CrossOrigin("*")
 public class AccountController {
     @Autowired
     IAppUserService userService;
@@ -57,8 +58,9 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AppUser> createUser(AppUser user){
+    public ModelAndView createUser(@ModelAttribute("user") AppUser user){
         System.out.println("post create : " + user);
+        System.out.println(user.getUsername());
         AppRole role = roleService.getRoleByName("ROLE_USER");
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
@@ -70,7 +72,7 @@ public class AccountController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  new ResponseEntity<>(user,HttpStatus.OK);
+        return  new ModelAndView("/account/create");
     }
 
     @GetMapping("/edit")

@@ -9,7 +9,6 @@
     <script th:replace="~{layout/layout::js_post_like}"></script>
     <script th:replace="~{layout/layout::js_post_comment}"></script>
     <style th:replace="~{layout/layout::style_post}"></style>
-    <link rel="stylesheet" th:href="@{/css/xemvn.css}">
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -35,11 +34,10 @@
                         <div class="adminActions">
                         </div>
                     </div>
-                    <div class="uploader">
+                    <div class="uploader" th:object="${post.appUser}">
                         Đăng 17 giờ trước bởi
                         <div>
-                            <img src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/2020/08/23/039/1598173289_8944.jpg"
-                                 alt="goctamhonho.com">
+                            <img alt="goctamhonho.com">
                             <div class="info">
                                 <a href="/uploader/424080" title="goctamhonho.com">goctamhonho.com</a>
                                 <span title="lượt thích" class="likes">1705</span>
@@ -84,7 +82,7 @@
                         <img th:src="@{'/content/'+${post.photoName}}"
                              th:alt="${post.title}">
                     </div>
-                    <div class="commentContainer">
+                    <div class="commentContainer" >
                         <h3>Bình luận
                             <span class="bottom-actions">
                             <a data-action="favor" class="favorite" title="Yêu thích">
@@ -96,47 +94,47 @@
                                 <a data-id="1403062" data-action="report" class="report" href="#"
                                    title="Báo cáo vi phạm">
                                 Báo cáo vi phạm</a>
-                </span>
+                            </span>
                         </h3>
                         <div id="container-wrapper">
-                            <form id="form-container" onsubmit="return false;">
+                            <form id="form-container" action="" method="post" th:object="${newComment}">
                                 <div class="avatar_comment" id="input-avatar">
-                                    <img src="avatar.png" height="40" width="40">
+                                    <img src="/content/data/default_avatar.png" height="40" width="40">
                                 </div>
                                 <fieldset>
-                                    <textarea placeholder="What's happening?" id="input-textarea"
+                                    <textarea th:name="*{content}"
+                                            placeholder="What's happening?" id="input-textarea"
                                               onkeypress="checkCharacterCount(this)"
                                               onchange="checkCharacterCount(this)"></textarea>
                                     <div class="character-count"><span id="input-characters">0</span>/140 characters
                                     </div>
                                 </fieldset>
-                                <button class="compose" onclick="submitPost()">
-                                    <img src="https://www.typing.com/dist/student/images/lessons/coding/tweeter/images/compose-icon.png" height="30" width="30">
+                                <button class="compose" onclick="submitPost()"
+                                        th:onclick="'comment(\'' + ${post.id} +'\',\''+${user.id} + '\',\''+${user.id} +'\');'">
+                                    <img src="/content/data/compose-icon.png" height="20" width="20">
+
                                 </button>
                             </form>
-                            <article id="article-container-1">
+                            <article id="article-container-1" th:each="comment: ${commentPage}">
                                 <header>
                                     <button class="close" onclick="deletePost(1)">
-                                        <img src="https://www.typing.com/dist/student/images/lessons/coding/tweeter/images/close.png" height="15" width="15">
+                                        <img src="/content/data/close.png" height="15" width="15">
                                     </button>
                                     <div class="avatar_comment">
-                                        <img src="avatar.png" height="40" width="40">
+                                        <img src="/content/data/default_avatar.png" height="40" width="40">
                                     </div>
-                                    <h1>huy trịnh</h1>
-                                    <h2>@huy</h2>
+                                    <h1 th:text="${comment.appUser.username}"></h1>
+                                    <h2 th:text="${comment.appUser.username}"></h2>
                                 </header>
-                                <blockquote>
-                                    Hi, everyone. I'm learning to type on <a href="https://www.typing.com"
-                                                                             target="_blank">www.typing.com</a>. Wow, a
-                                    link!
+                                <blockquote th:text="${comment.content}">
                                 </blockquote>
                                 <hr>
                                 <footer>
                                     <p class="date-posted">Posted
-                                        <time>10/05/20 13:03:04</time>
+                                        <time th:text="${comment.timeComment}"></time>
                                     </p>
                                     <button class="heart" onclick="lovePost(1)">
-                                        <img src="tweeter/images/heart.svg" id="heart-image-1" height="15" width="16">
+                                        <img src="/content/data/heart.svg" id="heart-image-1" height="15" width="16">
                                     </button>
                                 </footer>
                             </article>

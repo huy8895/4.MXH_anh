@@ -3,6 +3,7 @@ package com.xem_vn.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,4 +20,6 @@ public class Comment {
 
     @ManyToOne
     private Post post;
+
+    private Date timeComment;
 }

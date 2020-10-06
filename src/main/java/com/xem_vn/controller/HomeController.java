@@ -44,8 +44,6 @@ public class HomeController {
         return appUser;
     }
 
-
-
     @GetMapping({"/", "/home"})
     public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)

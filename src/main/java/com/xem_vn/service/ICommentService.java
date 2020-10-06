@@ -2,12 +2,14 @@ package com.xem_vn.service;
 
 import com.xem_vn.model.Comment;
 import com.xem_vn.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ICommentService {
     Iterable<Comment> getAllComment();
     Comment getCommentById(long id);
     Comment save(Comment comment);
     void remove(Comment comment);
-    Iterable<Comment> getAllCommentByPost(Post post);
+    Page<Comment> getAllCommentByPost(Post post, Pageable pageable);
     Long countAllByPost (Post post);
 }

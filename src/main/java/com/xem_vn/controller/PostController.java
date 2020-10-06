@@ -1,15 +1,15 @@
 package com.xem_vn.controller;
 
-import com.xem_vn.model.AppUser;
-import com.xem_vn.model.Like;
-import com.xem_vn.model.Post;
+import com.xem_vn.model.*;
 import com.xem_vn.repository.IPostRepository;
-import com.xem_vn.service.IAppUserService;
-import com.xem_vn.service.ILikeService;
-import com.xem_vn.service.IPostService;
-import com.xem_vn.service.IStatusService;
+import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +43,9 @@ public class PostController {
 
     @Autowired
     ILikeService likeService;
+
+    @Autowired
+    ICommentService commentService;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -113,10 +116,29 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView showPostDetail(@PathVariable("id") Long id) {
+    public ModelAndView showPostDetail(@PathVariable("id") Long id,
+                                       @PageableDefault(value = 5, page = 0)
+                                       @SortDefault(sort = "timeComment", direction = Sort.Direction.DESC)
+                                               Pageable pageable) {
         Post currentPost = postService.getPostById(id);
+        Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost,pageable);
         ModelAndView modelAndView = new ModelAndView("/post/detail");
         modelAndView.addObject("post", currentPost);
+        modelAndView.addObject("commentPage", commentPage);
+        modelAndView.addObject("newComment", new Comment());
+        modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;
     }
+
+    @PostMapping("/detail/{id}")
+    public ResponseEntity<Post> saveComment(@RequestBody Comment comment,@PathVariable("id") Long id){
+        commentService.save(comment);
+        System.out.println(comment);
+        Post currentPost = postService.getPostById(id);
+        currentPost.setCommentCount(commentService.countAllByPost(currentPost));
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
+
+
 }
