@@ -102,8 +102,8 @@ function createPostHTML(postContent) {
 						<div class="avatar_comment">
 						<img src="avatar.png" height="40" width="40"/>
 						</div>
-						<h1>${name}</h1>
-						<h2>@${username}</h2>
+						<h1 >${name}</h1>
+						<h2 >@${username}</h2>
 					</header>
 					<blockquote>
 						${postContent}

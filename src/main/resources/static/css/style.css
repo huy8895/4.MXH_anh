@@ -1,24 +1,12 @@
 /* Base Styles */
-body {
-    background-color: #f7f7f7;
-    color: #4a4a4a;
-    font-family: 'open-sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.2;
-}
 
-main {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 800px;
-    padding: 20px;
-}
 
 /* Anchor Tag */
 a {
-    color: #2D9CDB;
-    font-family: 'open-sans', sans-serif;
-    font-weight: 700;
+    text-decoration: none;
+    color: #333;
+    -webkit-transition: color .2s linear;
+    -moz-transition: color .2s linear;
 }
 
 a:hover {
@@ -141,25 +129,6 @@ footer p {
 }
 
 /* Headings */
-h1 {
-    font-family: 'open-sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-top: 8px;
-}
-
-h2 {
-    color: #a9a9a9;
-    font-family: 'open-sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.2;
-    margin-top: 0;
-    margin-bottom: 0;
-}
 
 /* Horizontal divider line */
 hr {
@@ -204,11 +173,11 @@ textarea {
     border-color: #81C4E9;
     color: #4a4a4a;
     font-size: 14px;
-    height: 50px;
+    height: 30px;
     margin-bottom: 2px;
     padding: 6px;
     resize: none;
-    width: 100%;
+    width: 80%;
 }
 
 textarea::placeholder {
