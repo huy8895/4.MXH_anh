@@ -1,7 +1,7 @@
 function like(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
-    let likesObj = document.getElementById("likes"+postID+userID) ;
+    let likesObj = document.getElementById("likes"+postID) ;
     let json = {
         "post": {"id": postID},
         "appUser": {"id": userID}
@@ -87,8 +87,9 @@ function createPostHTML(postID, userID,postContent) {
     let now = new Date()
     let time = now.toLocaleTimeString()
     let date = now.toLocaleString()
-    let name = document.getElementById("fullName"+postID+userID).value
+    let fullName = document.getElementById("fullName"+postID+userID).value
     let username = document.getElementById("userName"+postID+userID).value
+    let avatarFile = document.getElementById("avatarFile"+postID+userID).value
     currentPostId = currentPostId + 1
     postContent = postContent.replace(/</g, "&lt;")
     postContent = postContent.replace(/\n/g, "<br />")
@@ -98,12 +99,12 @@ function createPostHTML(postID, userID,postContent) {
 				<article id="article-container-${currentPostId}">
 					<header>
 						<button class="close" onclick="deletePost(${currentPostId})">
-							<img src="tweeter/images/close.png" height="15" width="15"/>
+							<img src="/data/close.png" height="15" width="15"/>
 						</button>
 						<div class="avatar_comment">
-						<img src="avatar.png" height="40" width="40"/>
+						<img src="${avatarFile}" height="40" width="40"/>
 						</div>
-						<h1 >${name}</h1>
+						<h1 >${fullName}</h1>
 						<h2 >@${username}</h2>
 					</header>
 					<blockquote>
@@ -115,7 +116,7 @@ function createPostHTML(postID, userID,postContent) {
 							<time>${date}</time>
 						</p>
 						<button class="heart" onclick="lovePost(${currentPostId})">
-							<img src="tweeter/images/heart.svg" id="heart-image-${currentPostId}" height="15" width="16"/>
+							<img src="/data/heart.svg" id="heart-image-${currentPostId}" height="15" width="16"/>
 						</button>
 					</footer>
 				</article>`

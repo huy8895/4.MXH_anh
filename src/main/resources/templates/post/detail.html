@@ -115,7 +115,8 @@
 
                                 </button>
                                 <input type="hidden" th:id="'fullName' + ${post.id} +${user.id}" th:value="${user.fullName}" name="fullName">
-                                <input type="hidden" th:id="'userName' + ${post.id} +${user.id}" th:value="${user.fullName}" name="userName">
+                                <input type="hidden" th:id="'userName' + ${post.id} +${user.id}" th:value="${user.username}" name="userName">
+                                <input type="hidden" th:id="'avatarFile' + ${post.id} +${user.id}" th:value="'/'+${user.avatarFileName}" name="userName">
                             </form>
                             <article id="article-container-1" th:each="comment: ${commentPage}">
                                 <header>
@@ -123,10 +124,10 @@
                                         <img src="/data/close.png" height="15" width="15">
                                     </button>
                                     <div class="avatar_comment">
-                                        <img src="/data/default_avatar.png" height="40" width="40">
+                                        <img th:src="@{'/'+${comment.appUser.avatarFileName}}" height="40" width="40">
                                     </div>
                                     <h1 th:text="${comment.appUser.fullName}"></h1>
-                                    <h2 th:text="${comment.appUser.username}"></h2>
+                                    <h2 th:text="'@'+${comment.appUser.username}"></h2>
                                 </header>
                                 <blockquote th:text="${comment.content}">
                                 </blockquote>
