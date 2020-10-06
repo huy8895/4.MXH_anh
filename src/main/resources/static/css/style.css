@@ -192,6 +192,7 @@ textarea:focus {
 /* Fieldset */
 fieldset {
     border: none;
+
     float: left;
     font-size: 12px;
     margin: 0;

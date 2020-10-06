@@ -1,6 +1,7 @@
 function like(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
+    let likesObj = document.getElementById("likes"+postID+userID) ;
     let json = {
         "post": {"id": postID},
         "appUser": {"id": userID}
@@ -14,7 +15,7 @@ function like(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/like",
         success: function (currentPost) {
-            $('.likes').closest("span").html(currentPost.likeCount);
+            $(likesObj).html(currentPost.likeCount);
         }
     });
     event.preventDefault();
@@ -75,19 +76,19 @@ function submitPost(postID, userID) {
     textArea.value = "";
     counter.innerText = 0;
 
-    createPostHTML(contentToPost)
+    createPostHTML(postID, userID,contentToPost)
     comment(postID, userID, contentToPost)
     return false;
 }
 
 let currentPostId = 1;
 
-function createPostHTML(postContent) {
+function createPostHTML(postID, userID,postContent) {
     let now = new Date()
     let time = now.toLocaleTimeString()
     let date = now.toLocaleString()
-    let name = "huy trịnh"
-    let username = "huy"
+    let name = document.getElementById("fullName"+postID+userID).value
+    let username = document.getElementById("userName"+postID+userID).value
     currentPostId = currentPostId + 1
     postContent = postContent.replace(/</g, "&lt;")
     postContent = postContent.replace(/\n/g, "<br />")

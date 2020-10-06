@@ -41,7 +41,7 @@
                             </div>
                             <div class="stats">
                                 <div class="viewComments">
-                                    <span class="likes" title="Like" th:text="${post.likeCount}"></span>
+                                    <span class="likes" th:id="'likes'+${post.id} + ${post.appUser.id}" title="Like" th:text="${post.likeCount}"></span>
                                     <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                                 </div>
                                 <div class="likesWrapper" sec:authorize="isAuthenticated()">
