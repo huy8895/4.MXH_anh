@@ -6,9 +6,9 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <script th:replace="~{layout/layout::js_post_like}"></script>
     <script th:replace="~{layout/layout::js_post_comment}"></script>
-    <style th:replace="~{layout/layout::style_post}"></style>
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -19,12 +19,13 @@
             <div class="mainBox">
                 <div class="mainBox photoDetails">
                     <div class="photoInfo">
-                        <h1>
-                            Con gái, con đứa ...kkk
+                        <h1 th:text="${post.title}">
                         </h1>
                         <div class="stats">
-                            <span class="likes">Lượt like: <span class="number">399</span></span>
-                            <span class="comments">Lượt bình luận: <span class="number">1</span></span>
+                            <span class="likes">Lượt like: <span class="number"
+                                                                 th:text="${post.likeCount}"></span></span>
+                            <span class="comments">Lượt bình luận: <span class="number"
+                                                                         th:text="${post.commentCount}"></span></span>
                         </div>
                         <div class="source">
                             <span class="source">Nguồn:
@@ -34,13 +35,14 @@
                         <div class="adminActions">
                         </div>
                     </div>
-                    <div class="uploader" th:object="${post.appUser}">
-                        Đăng 17 giờ trước bởi
+                    <div class="uploader">
+                         <span th:text="${currentTime}-${post.getDateUpload().getTime()}"
+                               th:name="*{post.dateUpload}"></span>
                         <div>
-                            <img alt="goctamhonho.com">
+                            <img th:src="@{'/'+${post.appUser.avatarFileName}}">
                             <div class="info">
-                                <a href="/uploader/424080" title="goctamhonho.com">goctamhonho.com</a>
-                                <span title="lượt thích" class="likes">1705</span>
+                                <a href="/#" th:title="${post.appUser.fullName}"></a>
+                                <span title="lượt thích" class="likes" th:text="${post.likeCount}"></span>
                             </div>
                             <div class="clear">
                             </div>
@@ -79,10 +81,10 @@
                     <div class="clear">
                     </div>
                     <div class="photoImg">
-                        <img th:src="@{'/content/'+${post.photoName}}"
+                        <img th:src="@{'/'+${post.photoName}}"
                              th:alt="${post.title}">
                     </div>
-                    <div class="commentContainer" >
+                    <div class="commentContainer">
                         <h3>Bình luận
                             <span class="bottom-actions">
                             <a data-action="favor" class="favorite" title="Yêu thích">
@@ -99,31 +101,29 @@
                         <div id="container-wrapper">
                             <form id="form-container" action="" method="post" th:object="${newComment}">
                                 <div class="avatar_comment" id="input-avatar">
-                                    <img src="/content/data/default_avatar.png" height="40" width="40">
+                                    <img src="/data/default_avatar.png" height="40" width="40">
                                 </div>
                                 <fieldset>
                                     <textarea th:name="*{content}"
-                                            placeholder="What's happening?" id="input-textarea"
-                                              onkeypress="checkCharacterCount(this)"
-                                              onchange="checkCharacterCount(this)"></textarea>
+                                              placeholder="What's happening?" id="input-textarea"></textarea>
                                     <div class="character-count"><span id="input-characters">0</span>/140 characters
                                     </div>
                                 </fieldset>
-                                <button class="compose" onclick="submitPost()"
-                                        th:onclick="'comment(\'' + ${post.id} +'\',\''+${user.id} + '\',\''+${user.id} +'\');'">
-                                    <img src="/content/data/compose-icon.png" height="20" width="20">
+                                <button class="compose"
+                                        th:onclick="'submitPost(\'' + ${post.id} +'\',\''+${user.id} + '\');'">
+                                    <img src="/data/compose-icon.png" height="20" width="20">
 
                                 </button>
                             </form>
                             <article id="article-container-1" th:each="comment: ${commentPage}">
                                 <header>
                                     <button class="close" onclick="deletePost(1)">
-                                        <img src="/content/data/close.png" height="15" width="15">
+                                        <img src="/data/close.png" height="15" width="15">
                                     </button>
                                     <div class="avatar_comment">
-                                        <img src="/content/data/default_avatar.png" height="40" width="40">
+                                        <img src="/data/default_avatar.png" height="40" width="40">
                                     </div>
-                                    <h1 th:text="${comment.appUser.username}"></h1>
+                                    <h1 th:text="${comment.appUser.fullName}"></h1>
                                     <h2 th:text="${comment.appUser.username}"></h2>
                                 </header>
                                 <blockquote th:text="${comment.content}">
@@ -134,7 +134,7 @@
                                         <time th:text="${comment.timeComment}"></time>
                                     </p>
                                     <button class="heart" onclick="lovePost(1)">
-                                        <img src="/content/data/heart.svg" id="heart-image-1" height="15" width="16">
+                                        <img src="/data/heart.svg" id="heart-image-1" height="15" width="16">
                                     </button>
                                 </footer>
                             </article>

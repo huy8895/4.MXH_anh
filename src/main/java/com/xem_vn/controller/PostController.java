@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -59,6 +60,10 @@ public class PostController {
         return appUser;
     }
 
+    private Date getCurrentDate(){
+        return new Date(System.currentTimeMillis());
+    }
+
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("/post/create");
@@ -68,8 +73,7 @@ public class PostController {
 
     @PostMapping("/create")
     public ModelAndView createPost(Post post) {
-        long currentTime = System.currentTimeMillis();
-        post.setDateUpload(new Date(currentTime));
+        post.setDateUpload(getCurrentDate());
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
@@ -103,15 +107,18 @@ public class PostController {
     }
 
     @PostMapping(value = "/like")
-    public ResponseEntity<Post> like(@RequestBody Like like) {
-        Post currentPost = null;
-        if (!likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
+    public ResponseEntity<Post> like(@RequestBody Like like, @ModelAttribute("user") AppUser user) {
+        Post currentPost = postService.getPostById(like.getPost().getId());
+
+        if (!likeService.existsByAppUserAndAndPost(user, currentPost)){
             likeService.save(like);
-            currentPost = postService.getPostById(like.getPost().getId());
-            Long countLike = likeService.countAllByPost(currentPost);
-            currentPost.setLikeCount(countLike);
-            postService.save(currentPost);
+        } else {
+            Like currentLike = likeService.getByAppUserAndAndPost(user,currentPost);
+            likeService.remove(currentLike);
         }
+        Long countLike = likeService.countAllByPost(currentPost);
+        currentPost.setLikeCount(countLike);
+        postService.save(currentPost);
         return new ResponseEntity<>(currentPost,HttpStatus.OK);
     }
 
@@ -131,7 +138,9 @@ public class PostController {
     }
 
     @PostMapping("/detail/{id}")
-    public ResponseEntity<Post> saveComment(@RequestBody Comment comment,@PathVariable("id") Long id){
+    public ResponseEntity<Post> saveComment(@RequestBody Comment comment,
+                                            @PathVariable("id") Long id){
+        comment.setTimeComment(getCurrentDate());
         commentService.save(comment);
         System.out.println(comment);
         Post currentPost = postService.getPostById(id);

@@ -45,6 +45,12 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void setPostStatusById(Long postId, Status status) {
+    public void setStatusForPost(Long statusID, Long postID) {
+        postRepository.setStatusForPost(statusID,postID);
+    }
+
+    @Override
+    public Page<Post> getAllByAppUserLike(AppUser appUser, Pageable pageable) {
+        return postRepository.getAllByAppUserLike(appUser,pageable);
     }
 }

@@ -15,6 +15,8 @@ public class AppUser {
 
     private String username;
 
+    private String fullName;
+
     private String password;
 
     @ManyToOne
