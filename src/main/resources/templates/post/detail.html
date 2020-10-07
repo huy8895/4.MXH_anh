@@ -121,7 +121,10 @@
                             </form>
                             <article id="article-container-1" th:each="comment: ${commentPage}">
                                 <header>
-                                    <button class="close" onclick="deletePost(1)">
+<!--                                    <button class="close" onclick="deletePost(1)">-->
+<!--                                        <img src="/data/close.png" height="15" width="15">-->
+<!--                                    </button>-->
+                                    <button class="close" th:onclick="'deletePost(\'' + 1 +'\',\''+${comment.id} + '\');'">
                                         <img src="/data/close.png" height="15" width="15">
                                     </button>
                                     <div class="avatar_comment">

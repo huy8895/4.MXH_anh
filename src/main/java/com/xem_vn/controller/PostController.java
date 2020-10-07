@@ -137,16 +137,28 @@ public class PostController {
     }
 
     @PostMapping("/detail/{id}")
-    public ResponseEntity<Post> saveComment(@RequestBody Comment comment,
+    public ResponseEntity<Comment> saveComment(@RequestBody Comment comment,
                                             @PathVariable("id") Long id){
         comment.setTimeComment(getCurrentDate());
         commentService.save(comment);
-        System.out.println(comment);
         Post currentPost = postService.getPostById(id);
         currentPost.setCommentCount(commentService.countAllByPost(currentPost));
         postService.save(currentPost);
-        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+        return new ResponseEntity<>(comment,HttpStatus.OK);
     }
 
+    @DeleteMapping("/detail/{id}")
+    public ResponseEntity<Post> removeComment(@RequestBody Comment comment,
+                                            @PathVariable("id") Long id){
+        Comment currentComment = commentService.getCommentById(comment.getId());
+        commentService.remove(currentComment);
+
+        Post currentPost = postService.getPostById(id);
+        currentPost.setCommentCount(commentService.countAllByPost(currentPost));
+
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+
+    }
 
 }
