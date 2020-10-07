@@ -75,17 +75,6 @@ public class AccountController {
         return "/account/edit";
     }
 
-    @GetMapping("/uploader")
-    public ModelAndView showUploaderPage(@PageableDefault(value = 10, page = 0)
-                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
-                                                 Pageable pageable) {
-        AppUser user = getPrincipal();
-        postService.getAllPostByUser(user, pageable);
-        Page<Post> posts = postService.getAllPostByUser(user, pageable);
-        ModelAndView modelAndView = new ModelAndView("/account/uploader");
-        modelAndView.addObject("posts", posts);
-        return modelAndView;
-    }
 
     @GetMapping("/password")
     public String showPassWordForm() {

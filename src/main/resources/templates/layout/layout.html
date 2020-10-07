@@ -64,13 +64,13 @@
                 <a href="/account/notification" class="notiButton" title="Thông báo">
                 </a>
                 <div class="avatar  noNoti ">
-                    <a href="/account/uploader" class="avatarLink" title="Trang cá nhân">
+                    <a th:href="@{/uploader/__${user.id}__}" class="avatarLink" title="Trang cá nhân">
                         <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
                              th:alt="${user.avatarFileName}"></span>
                     </a>
                     <div class="blank"></div>
                     <ul>
-                        <li><a href="/account/uploader" title="Ảnh của bạn">Ảnh của bạn</a></li>
+                        <li><a th:href="@{/uploader/__${user.id}__}" title="Ảnh của bạn">Ảnh của bạn</a></li>
                         <li><a href="/account/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
                         <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
                         <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>
