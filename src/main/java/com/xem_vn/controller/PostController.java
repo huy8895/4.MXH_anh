@@ -52,7 +52,6 @@ public class PostController {
     private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
 
@@ -107,13 +106,13 @@ public class PostController {
     }
 
     @PostMapping(value = "/like")
-    public ResponseEntity<Post> like(@RequestBody Like like, @ModelAttribute("user") AppUser user) {
+    public ResponseEntity<Post> like(@RequestBody Like like) {
         Post currentPost = postService.getPostById(like.getPost().getId());
-
-        if (!likeService.existsByAppUserAndAndPost(user, currentPost)){
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null && !likeService.existsByAppUserAndAndPost(currentUser, currentPost)){
             likeService.save(like);
         } else {
-            Like currentLike = likeService.getByAppUserAndAndPost(user,currentPost);
+            Like currentLike = likeService.getByAppUserAndAndPost(currentUser,currentPost);
             likeService.remove(currentLike);
         }
         Long countLike = likeService.countAllByPost(currentPost);
