@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("account")
@@ -43,60 +44,58 @@ public class AccountController {
     private String upload_path;
 
     @ModelAttribute("user")
-    private AppUser getPrincipal(){
+    private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            appUser = userService.getUserByUserName(((UserDetails)principal).getUsername()).orElse(null);
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
         }
         return appUser;
     }
 
 
-
     @GetMapping("/edit")
-    public ModelAndView showEditUserForm(){
-        ModelAndView modelAndView = new ModelAndView("account/edit");
-        modelAndView.addObject("user",getPrincipal());
-        return modelAndView;
+    public String showEditUserForm() {
+        return "account/edit";
     }
 
     @PostMapping("/edit")
-    public String editUser(AppUser user, Model model){
-        AppRole role = roleService.getRoleByName("ROLE_USER");
-        String avatarFileName = "avatar_"+user.getAvatarFile().getOriginalFilename();
-        try {
-            FileCopyUtils.copy(user.getAvatarFile().getBytes(), new File(upload_path + avatarFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String editUser(@ModelAttribute("user") AppUser user) {
+        String avatarFileName ;
+        if (!Objects.equals(user.getAvatarFile().getOriginalFilename(), "")) {
+            avatarFileName = "avatar_" + user.getId() + user.getAvatarFile().getOriginalFilename();
+            user.setAvatarFileName(avatarFileName);
+            try {
+                FileCopyUtils.copy(user.getAvatarFile().getBytes(), new File(upload_path + avatarFileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        user.setRole(role);
         userService.save(user);
-        model.addAttribute("user",user);
         return "/account/edit";
     }
 
     @GetMapping("/uploader")
     public ModelAndView showUploaderPage(@PageableDefault(value = 10, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
-                                               Pageable pageable){
+                                                 Pageable pageable) {
         AppUser user = getPrincipal();
-        postService.getAllPostByUser(user,pageable);
-        Page<Post> posts = postService.getAllPostByUser(user,pageable);
+        postService.getAllPostByUser(user, pageable);
+        Page<Post> posts = postService.getAllPostByUser(user, pageable);
         ModelAndView modelAndView = new ModelAndView("/account/uploader");
-        modelAndView.addObject("posts",posts);
+        modelAndView.addObject("posts", posts);
         return modelAndView;
     }
 
     @GetMapping("/password")
-    public String showPassWordForm(){
+    public String showPassWordForm() {
         return "/account/password";
     }
 
     @PostMapping("/password")
-    public String showPassWordForm(@RequestParam("newPass") String newPass){
+    public String showPassWordForm(@RequestParam("newPass") String newPass) {
         AppUser currentUser = getPrincipal();
-        if (currentUser!=null){
+        if (currentUser != null) {
             currentUser.setPassword(newPass);
             userService.save(currentUser);
         }
@@ -104,12 +103,12 @@ public class AccountController {
     }
 
     @GetMapping("/notification")
-    public String showNotificationPage(){
+    public String showNotificationPage() {
         return "/account/notification";
     }
 
     @GetMapping("/favorite")
-    public String showFavoritePage(){
+    public String showFavoritePage() {
         return "/account/favorite";
     }
 }
