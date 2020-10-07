@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +42,7 @@ public class AccountController {
     @Value("${upload.path}")
     private String upload_path;
 
-    @ModelAttribute
+    @ModelAttribute("user")
     private AppUser getPrincipal(){
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -50,30 +52,7 @@ public class AccountController {
         return appUser;
     }
 
-    @GetMapping("/create")
-    public ModelAndView showCreateUserForm(){
-        ModelAndView modelAndView = new ModelAndView("account/create");
-        modelAndView.addObject("user",new AppUser());
-        return modelAndView;
-    }
 
-    @PostMapping("/create")
-    public ModelAndView createUser(@ModelAttribute("user") AppUser user){
-        System.out.println("post create : " + user);
-        System.out.println(user.getUsername());
-        AppRole role = roleService.getRoleByName("ROLE_USER");
-        user.setRole(role);
-        MultipartFile avatar = user.getAvatarFile();
-        String avatarFileName = avatar.getOriginalFilename();
-        user.setAvatarFileName(avatarFileName);
-        userService.save(user);
-        try {
-            FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return  new ModelAndView("/account/create");
-    }
 
     @GetMapping("/edit")
     public ModelAndView showEditUserForm(){
@@ -98,8 +77,8 @@ public class AccountController {
     }
 
     @GetMapping("/uploader")
-    public ModelAndView showUploaderPage(@PageableDefault(value = 5, page = 0)
-//                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+    public ModelAndView showUploaderPage(@PageableDefault(value = 10, page = 0)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                Pageable pageable){
         AppUser user = getPrincipal();
         postService.getAllPostByUser(user,pageable);

@@ -24,9 +24,7 @@
                     contentType: false,
                     success: function (user) {
                         var respContent = "";
-                        respContent += "<span class='success'>user was created: [";
-                        respContent += user.username + " : ";
-                        respContent += "]</span>"
+                        respContent += "<span class='success'>_</span>";
                         $("#response").html(respContent);
                     }
                 });
@@ -43,8 +41,8 @@
     <div id="mainContainer">
         <div id="leftColumn">
             <div class="mainBox">
-                <h3 id="response" th:text="${user}"></h3>
-                <form  method="post" th:object="${user}" action="/account/create" id="uploadForm"
+                <h3 id="response">create new Account</h3>
+                <form  method="post" th:object="${newUser}" action="/account/create" id="uploadForm"
                       enctype="multipart/form-data">
                     <table>
                         <tbody>

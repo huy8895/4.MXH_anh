@@ -35,7 +35,8 @@
                         </div>
                     </div>
                     <div class="uploader">
-                        <time th:text="${currentTime}-${post.getDateUpload().getTime()}"
+<!--                        th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
+                        <time
                               th:name="*{post.dateUpload}"></time>
                         <time th:text="${post.dateUpload}"></time>
                         <div>
