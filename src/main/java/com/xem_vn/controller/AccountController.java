@@ -1,6 +1,5 @@
 package com.xem_vn.controller;
 
-import com.xem_vn.model.AppRole;
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
 import com.xem_vn.service.IAppRoleService;
@@ -13,15 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -97,7 +92,14 @@ public class AccountController {
     }
 
     @GetMapping("/favorite")
-    public String showFavoritePage() {
-        return "/account/favorite";
+    public ModelAndView showFavoritePage(@PageableDefault(value = 10, page = 0)
+                                   @SortDefault(sort = "date_Upload", direction = Sort.Direction.DESC)
+                                           Pageable pageable) {
+        AppUser currentUser = getPrincipal();
+        ModelAndView modelAndView = new ModelAndView("/account/favorite");
+        Page<Post> posts = postService.findAllPostByUserLiked(currentUser.getId(), pageable);
+        modelAndView.addObject("posts", posts);
+        return modelAndView;
     }
+
 }

@@ -5,6 +5,8 @@ import com.xem_vn.model.Post;
 import com.xem_vn.model.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface IPostService {
     Page<Post> getAllPost(Pageable pageable);
@@ -14,5 +16,7 @@ public interface IPostService {
     Page<Post> getAllPostByUser(AppUser user,Pageable pageable);
     Page<Post> getAllPostByStatus(Status status,Pageable pageable);
     void setStatusForPost(Long statusID,Long postID);
-    Page<Post> getAllByAppUserLike(AppUser appUser, Pageable pageable);
+
+    Page<Post> findAllPostByUserLiked(Long appUserId, Pageable pageable);
+
 }

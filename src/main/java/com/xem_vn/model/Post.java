@@ -30,5 +30,6 @@ public class Post {
     @ManyToOne
     private Status status;
 
+    @Column(name = "date_Upload")
     private Date dateUpload;
 }

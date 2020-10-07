@@ -50,7 +50,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public Page<Post> getAllByAppUserLike(AppUser appUser, Pageable pageable) {
-        return postRepository.getAllByAppUserLike(appUser,pageable);
+    public Page<Post> findAllPostByUserLiked(Long appUserId, Pageable pageable) {
+        return postRepository.findAllPostByUserLiked(appUserId,pageable);
     }
 }

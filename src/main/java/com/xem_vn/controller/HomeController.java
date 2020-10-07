@@ -103,10 +103,9 @@ public class HomeController {
     @GetMapping("/uploader/{id}")
     public ModelAndView showUploaderPage(@PathVariable("id") Long userId,
                                          @PageableDefault(value = 10, page = 0)
-                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
+                                         @SortDefault(sort = "date_Upload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         AppUser user = userService.getUserById(userId);
-        postService.getAllPostByUser(user, pageable);
         Page<Post> posts = postService.getAllPostByUser(user, pageable);
         ModelAndView modelAndView = new ModelAndView("/account/uploader");
         modelAndView.addObject("posts", posts);
