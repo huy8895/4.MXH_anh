@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("account")
 public class AccountController {
     @Autowired
     IAppUserService userService;
