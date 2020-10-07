@@ -93,6 +93,16 @@ public class AccountController {
         return "/account/password";
     }
 
+    @PostMapping("/password")
+    public String showPassWordForm(@RequestParam("newPass") String newPass){
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null){
+            currentUser.setPassword(newPass);
+            userService.save(currentUser);
+        }
+        return "/account/password";
+    }
+
     @GetMapping("/notification")
     public String showNotificationPage(){
         return "/account/notification";
