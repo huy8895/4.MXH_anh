@@ -13,6 +13,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique = true,columnDefinition = "varchar(50)")
     private String username;
 
     private String fullName;
