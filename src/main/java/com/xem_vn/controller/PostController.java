@@ -1,19 +1,20 @@
 package com.xem_vn.controller;
 
-import com.xem_vn.model.AppUser;
-import com.xem_vn.model.Like;
-import com.xem_vn.model.Post;
+import com.xem_vn.model.*;
 import com.xem_vn.repository.IPostRepository;
-import com.xem_vn.service.IAppUserService;
-import com.xem_vn.service.ILikeService;
-import com.xem_vn.service.IPostService;
-import com.xem_vn.service.IStatusService;
+import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -44,16 +45,22 @@ public class PostController {
     @Autowired
     ILikeService likeService;
 
+    @Autowired
+    ICommentService commentService;
+
     @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
 
         }
         return appUser;
+    }
+
+    private Date getCurrentDate(){
+        return new Date(System.currentTimeMillis());
     }
 
     @GetMapping("/create")
@@ -65,8 +72,7 @@ public class PostController {
 
     @PostMapping("/create")
     public ModelAndView createPost(Post post) {
-        long currentTime = System.currentTimeMillis();
-        post.setDateUpload(new Date(currentTime));
+        post.setDateUpload(getCurrentDate());
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
@@ -100,12 +106,47 @@ public class PostController {
     }
 
     @PostMapping(value = "/like")
-    public ResponseEntity<Like> like(@RequestBody Like like) {
-        if (!likeService.existsByAppUserAndAndPost(like.getAppUser(), like.getPost())){
+    public ResponseEntity<Post> like(@RequestBody Like like) {
+        Post currentPost = postService.getPostById(like.getPost().getId());
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null && !likeService.existsByAppUserAndAndPost(currentUser, currentPost)){
             likeService.save(like);
-            Post currentPost = postService.getPostById(like.getPost().getId());
-            currentPost.setLikeCount(likeService.countAllByPost(currentPost));
+        } else {
+            Like currentLike = likeService.getByAppUserAndAndPost(currentUser,currentPost);
+            likeService.remove(currentLike);
         }
-        return new ResponseEntity<>(like,HttpStatus.OK);
+        Long countLike = likeService.countAllByPost(currentPost);
+        currentPost.setLikeCount(countLike);
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
     }
+
+    @GetMapping("/detail/{id}")
+    public ModelAndView showPostDetail(@PathVariable("id") Long id,
+                                       @PageableDefault(value = 5, page = 0)
+                                       @SortDefault(sort = "timeComment", direction = Sort.Direction.DESC)
+                                               Pageable pageable) {
+        Post currentPost = postService.getPostById(id);
+        Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost,pageable);
+        ModelAndView modelAndView = new ModelAndView("/post/detail");
+        modelAndView.addObject("post", currentPost);
+        modelAndView.addObject("commentPage", commentPage);
+        modelAndView.addObject("newComment", new Comment());
+        modelAndView.addObject("currentTime", System.currentTimeMillis());
+        return modelAndView;
+    }
+
+    @PostMapping("/detail/{id}")
+    public ResponseEntity<Post> saveComment(@RequestBody Comment comment,
+                                            @PathVariable("id") Long id){
+        comment.setTimeComment(getCurrentDate());
+        commentService.save(comment);
+        System.out.println(comment);
+        Post currentPost = postService.getPostById(id);
+        currentPost.setCommentCount(commentService.countAllByPost(currentPost));
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
+
+
 }

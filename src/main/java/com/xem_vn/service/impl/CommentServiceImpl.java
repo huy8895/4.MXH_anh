@@ -5,6 +5,8 @@ import com.xem_vn.model.Post;
 import com.xem_vn.repository.ICommentRepository;
 import com.xem_vn.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,8 +34,8 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public Iterable<Comment> getAllCommentByPost(Post post) {
-        return commentRepository.getAllByPost(post);
+    public Page<Comment> getAllCommentByPost(Post post, Pageable pageable) {
+        return commentRepository.getAllByPost(post, pageable);
     }
 
     @Override

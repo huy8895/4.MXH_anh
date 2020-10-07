@@ -41,4 +41,12 @@ public class LikeServiceImpl implements ILikeService {
     public Long countAllByPost(Post post) {
         return likeRepository.countAllByPost(post);
     }
+
+    @Override
+    public Like getByAppUserAndAndPost(AppUser user, Post post) {
+        return likeRepository.getByAppUserAndAndPost(user, post);
+    }
+
+
+
 }

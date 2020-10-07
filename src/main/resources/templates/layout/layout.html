@@ -25,7 +25,8 @@
                     <li><a href="/#">Clip hot trên mạng</a></li>
                 </ul>
             </li>
-            <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a></li>
+            <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a>
+            </li>
             <li><a href="/#" title="Ảnh mới chưa xem">Chưa xem</a></li>
             <li><a href="/#" title="Bình chọn ảnh">Bình chọn</a></li>
             <li><a href="/#" title="Xem.vn - Tuyển tập video clip hot nhất trên mạng">Video</a></li>
@@ -34,8 +35,8 @@
             <li>
                 <span class="upload">Đăng bài</span>
                 <ul>
-                    <li><a href="/post/create" title="Đăng ảnh">Đăng ảnh</a> </li>
-                    <li><a href="/#" title="Đăng video">Đăng video</a> </li>
+                    <li><a href="/post/create" title="Đăng ảnh">Đăng ảnh</a></li>
+                    <li><a href="/#" title="Đăng video">Đăng video</a></li>
                 </ul>
             </li>
             <li>
@@ -45,14 +46,15 @@
                     <li><a href="/#" title="Chế meme">Chế meme</a></li>
                 </ul>
             </li>
-            <li><a href="/#" rel="nofollow" title="Đua Top">Đua Top</a><img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
+            <li><a href="/#" rel="nofollow" title="Đua Top">Đua Top</a><img
+                    src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
 
         </ul>
 
-<!--        <div id="headerRight">-->
+        <!--        <div id="headerRight">-->
 
-<!--        </div>-->
-        <div id="headerRight" >
+        <!--        </div>-->
+        <div id="headerRight">
             <th:block sec:authorize="isAnonymous()">
                 <div class="login">
                     <a href="/login" title="Đăng nhập">Đăng nhập</a>
@@ -63,7 +65,8 @@
                 </a>
                 <div class="avatar  noNoti ">
                     <a href="/account/uploader" class="avatarLink" title="Trang cá nhân">
-                        <img th:src="@{'/content/'+${user.avatarFileName}}" width="30" height="30" th:alt="${user.avatarFileName}"></span>
+                        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
+                             th:alt="${user.avatarFileName}"></span>
                     </a>
                     <div class="blank"></div>
                     <ul>

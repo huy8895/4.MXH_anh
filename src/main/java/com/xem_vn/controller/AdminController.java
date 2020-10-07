@@ -114,7 +114,7 @@ public class AdminController {
 
     @GetMapping("/post/approval")
     public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
-                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/post/approval");
         Status status = statusService.findByName("pending").get();
@@ -125,11 +125,11 @@ public class AdminController {
 
     @GetMapping("/post/approval/accept/{id}")
     public ModelAndView setStatusApprove(@PathVariable("id") Long postId,
-                                         @PageableDefault(value = 5, page = 0)
-                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+                                         @PageableDefault(value = 10, page = 0)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/post/approval");
-        postService.setPostStatusById(postId,statusService.findByName("approve").get());
+        postService.setStatusForPost(statusService.findByName("approve").get().getId(),postId);
         Status status = statusService.findByName("pending").get();
         Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
         modelAndView.addObject("posts", postPage);
@@ -138,11 +138,11 @@ public class AdminController {
 
     @GetMapping("/post/approval/deny/{id}")
     public ModelAndView setStatusDeny(@PathVariable("id") Long postId,
-                                         @PageableDefault(value = 5, page = 0)
-                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+                                         @PageableDefault(value = 10, page = 0)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/post/approval");
-        postService.setPostStatusById(postId,statusService.findByName("deny").get());
+        postService.setStatusForPost(statusService.findByName("deny").get().getId(),postId);
         Status status = statusService.findByName("pending").get();
         Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
         modelAndView.addObject("posts", postPage);

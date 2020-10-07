@@ -13,5 +13,6 @@ public interface IPostService {
     void remove(Post post);
     Page<Post> getAllPostByUser(AppUser user,Pageable pageable);
     Page<Post> getAllPostByStatus(Status status,Pageable pageable);
-    void setPostStatusById(Long postId,Status status);
+    void setStatusForPost(Long statusID,Long postID);
+    Page<Post> getAllByAppUserLike(AppUser appUser, Pageable pageable);
 }

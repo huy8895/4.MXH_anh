@@ -6,34 +6,7 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        function like(postID, userID) {
-            console.log('postID ' + postID)
-            console.log('userID ' + userID)
-            let json = {
-                "post": {"id": postID},
-                "appUser": {"id": userID}
-            }
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "POST",
-                data: JSON.stringify(json),
-                url: "/post/like",
-                success: function (a) {
-                    console.log("like thang cong +  " + a.post.id)
-                }
-            });
-            event.preventDefault();
-        }
-
-        $(document).ready(function () {
-
-        });
-    </script>
-    <!--    <link rel="stylesheet"th:href="@{/css/xemvn.css}">-->
+    <script th:src="@{/js/app.js}"></script>
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -51,8 +24,8 @@
                          data-nsfw="False">
                         <div class="listItemSeparator"></div>
                         <div class="thumbnail">
-                            <a href="/#" target="_blank" th:title="${post.title}">
-                                <img th:src="@{'/content/'+${post.photoName}}"
+                            <a th:href="@{/post/detail/__${post.id}__}" target="_blank" th:title="${post.title}">
+                                <img th:src="@{'/'+${post.photoName}}"
                                      th:alt="${post.title}" class="thumbImg">
                             </a>
                         </div>
@@ -63,18 +36,20 @@
                             <div class="uploader">
                                 Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}"
                                             th:text="${post.appUser.username}">toikobik</a>
-                                <span th:text="${currentTime}-${post.getDateUpload().getTime()}"
-                                      th:name="*{post.dateUpload}"></span>
+                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"
+                                      th:name="*{post.dateUpload}"></time>
                             </div>
                             <div class="stats">
                                 <div class="viewComments">
-                                    <span class="likes" title="Like" th:text="${post.likeCount}"></span>
+                                    <span class="likes" th:id="'likes'+${post.id}" title="Like" th:text="${post.likeCount}"></span>
                                     <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                                 </div>
                                 <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                                    <button type="button" th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like
+                                    <button type="button"
+                                            th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">like
+<!--                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
                                     </button>
-                                    <button class="btn btn-block btn-primary"><i class="fa fa-thumbs-up">Like</i> </button>
+                                    </button>
                                 </div>
                                 <div class="clear"></div>
                             </div>

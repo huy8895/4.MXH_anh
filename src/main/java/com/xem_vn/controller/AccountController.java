@@ -10,13 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -24,6 +29,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("account")
+@CrossOrigin("*")
 public class AccountController {
     @Autowired
     IAppUserService userService;
@@ -46,22 +52,7 @@ public class AccountController {
         return appUser;
     }
 
-    @GetMapping("/create")
-    public ModelAndView showCreateUserForm(){
-        ModelAndView modelAndView = new ModelAndView("account/create");
-        modelAndView.addObject("user",new AppUser());
-        return modelAndView;
-    }
 
-    @PostMapping("/create")
-    public String createUser(AppUser user,Model model){
-        System.out.println("post create : " + user);
-        AppRole role = roleService.getRoleByName("ROLE_USER");
-        user.setRole(role);
-        userService.save(user);
-        model.addAttribute("user",user);
-        return "redirect:/";
-    }
 
     @GetMapping("/edit")
     public ModelAndView showEditUserForm(){
@@ -82,12 +73,12 @@ public class AccountController {
         user.setRole(role);
         userService.save(user);
         model.addAttribute("user",user);
-        return "redirect:/account/edit";
+        return "/account/edit";
     }
 
     @GetMapping("/uploader")
-    public ModelAndView showUploaderPage(@PageableDefault(value = 5, page = 0)
-//                                         @SortDefault(sort = "username", direction = Sort.Direction.DESC)
+    public ModelAndView showUploaderPage(@PageableDefault(value = 10, page = 0)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                Pageable pageable){
         AppUser user = getPrincipal();
         postService.getAllPostByUser(user,pageable);
@@ -99,6 +90,16 @@ public class AccountController {
 
     @GetMapping("/password")
     public String showPassWordForm(){
+        return "/account/password";
+    }
+
+    @PostMapping("/password")
+    public String showPassWordForm(@RequestParam("newPass") String newPass){
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null){
+            currentUser.setPassword(newPass);
+            userService.save(currentUser);
+        }
         return "/account/password";
     }
 
