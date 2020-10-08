@@ -53,7 +53,7 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/**").permitAll()
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login").loginProcessingUrl("/login")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
                 .and().exceptionHandling()

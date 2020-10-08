@@ -44,13 +44,13 @@
                                     <span class="likes" th:id="'likes'+${post.id}" title="Like" th:text="${post.likeCount}"></span>
                                     <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                                 </div>
-                                <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                                    <button type="button"
-                                            th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">like
-<!--                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
-                                    </button>
-                                    </button>
-                                </div>
+<!--                                <div class="likesWrapper" sec:authorize="isAuthenticated()">-->
+<!--                                    <button type="button"-->
+<!--                                            th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">like-->
+<!--&lt;!&ndash;                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like&ndash;&gt;-->
+<!--                                    </button>-->
+<!--                                    </button>-->
+<!--                                </div>-->
                                 <div class="clear"></div>
                             </div>
                         </div>
@@ -81,12 +81,6 @@
 
 </div>
 
-
-<table>
-    <tr>
-
-    </tr>
-</table>
 
 </body>
 </html>

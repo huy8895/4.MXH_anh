@@ -38,7 +38,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
             appUserService.save(user);
             return user.getUsername();
         }else{
-            user = appUserService.getUserByUserName(""+connection.getProfileUrl());
+            user = appUserService.getUserByUserName(""+connection.getKey());
             return null;
         }
 // tao random username
