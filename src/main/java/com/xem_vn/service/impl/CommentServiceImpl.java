@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements ICommentService {
     @Autowired
     ICommentRepository commentRepository;
+
     @Override
     public Iterable<Comment> getAllComment() {
         return commentRepository.findAll();
@@ -30,7 +31,8 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public void remove(Comment comment) {
-        commentRepository.delete(comment);
+        if (comment != null)
+            commentRepository.delete(comment);
     }
 
     @Override

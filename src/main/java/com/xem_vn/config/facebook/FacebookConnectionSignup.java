@@ -30,7 +30,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
         if(!appUserService.existsAppUserByUsername(""+connection.getKey())) {
             user.setFullName(connection.getDisplayName());
             user.setPassword(randomAlphabetic(8));
-            user.setAvatarFileName("default_avatar.png");
+            user.setAvatarFileName("post_NEOGDS-333615.jpg");
             String userName = connection.getKey().toString().substring(9);
             user.setUsername(userName);
             AppRole role = roleService.getRoleByName("ROLE_USER");
@@ -39,7 +39,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
             return user.getUsername();
         }else{
             user = appUserService.getUserByUserName(""+connection.getKey());
-            return "";
+            return user.getUsername();
         }
 // tao random username
 //        Iterable<AppUser> users = appUserService.getAllUser();

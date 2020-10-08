@@ -65,7 +65,7 @@ public class PostController {
 
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("/post/create");
+        ModelAndView modelAndView = new ModelAndView("post/create");
         modelAndView.addObject("post", new Post());
         return modelAndView;
     }
@@ -84,21 +84,21 @@ public class PostController {
             e.printStackTrace();
         }
         postService.save(post);
-        ModelAndView modelAndView = new ModelAndView("/post/create");
+        ModelAndView modelAndView = new ModelAndView("post/create");
         postService.save(post);
         return modelAndView;
     }
 
     @GetMapping("/edit")
     public ModelAndView showEditForm() {
-        ModelAndView modelAndView = new ModelAndView("/post/edit");
+        ModelAndView modelAndView = new ModelAndView("post/edit");
         modelAndView.addObject("post", new Post());
         return modelAndView;
     }
 
     @PostMapping("/edit")
     public ModelAndView edit(Post post) {
-        ModelAndView modelAndView = new ModelAndView("/post/edit");
+        ModelAndView modelAndView = new ModelAndView("post/edit");
         MultipartFile photo = post.getPhoto();
         post.setPhotoName(photo.getOriginalFilename());
         postService.save(post);
@@ -128,7 +128,7 @@ public class PostController {
                                                Pageable pageable) {
         Post currentPost = postService.getPostById(id);
         Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost,pageable);
-        ModelAndView modelAndView = new ModelAndView("/post/detail");
+        ModelAndView modelAndView = new ModelAndView("post/detail");
         modelAndView.addObject("post", currentPost);
         modelAndView.addObject("commentPage", commentPage);
         modelAndView.addObject("newComment", new Comment());

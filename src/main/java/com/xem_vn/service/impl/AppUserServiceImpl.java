@@ -35,7 +35,9 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
 
     @Override
     public AppUser save(AppUser user) {
-        return userRepository.save(user);
+        if(!userRepository.existsAppUserByUsername(user.getUsername()))
+            return userRepository.save(user);
+        return user;
     }
 
     @Override
