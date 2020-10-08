@@ -36,7 +36,7 @@ public class AccountController {
     IPostService postService;
 
     @Value("${upload.path}")
-    private String upload_path;
+    private String upload_path; 
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {

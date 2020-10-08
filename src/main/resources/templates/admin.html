@@ -2,23 +2,147 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>admin</title>
+    <title>Bootstrap 4 Website Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script th:src="@{/js/app.js}"></script>
+    <style>
+        .modal-1000 {
+            max-width: 90%;
+            margin: 80px auto;
+        }
+    </style>
 </head>
 <body>
-<div sec:authorize="isAuthenticated()">
-<h1> Dear <span sec:authentication="principal.username"></span> Welcome to Admin Page</h1>
-</div>
 
-<div sec:authorize="isAuthenticated()">
-    <div sec:authorize="hasRole('USER')">
-        <a th:href="@{/user}">My Profile</a>
+
+<nav class="navbar p-0 pl-4 navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <a class="navbar-brand" href="/">Home</a>
+    <a th:href="@{/uploader/__${user.id}__}" class="rounded-circle" title="Trang cá nhân">
+        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
+             th:alt="${user.avatarFileName}"></span>
+    </a>
+<!--    <a class="navbar-brand" href="#">-->
+<!--        <img th:src="@{'/'+${user.avatarFileName}}" class="rounded-circle"-->
+<!--             width="40" height="40"-->
+<!--             th:alt="${user.avatarFileName}" >-->
+<!--    </a>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">User Manager</a>
+            </li>
+        </ul>
     </div>
-    <div sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/admin/user-manager}">list account manager</a>
-        <a th:href="@{/admin/post-manager}">list post manager</a>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-2 ">
+<!--            <h2 class="hidden-xs">Thống kê</h2>-->
+<!--            <h5 class="hidden-xs">Photo of me:</h5>-->
+<!--            <h3 class="hidden-xs">Some Links</h3>-->
+<!--            <p class="hidden-xs">Lorem ipsum dolor sit ame.</p>-->
+<!--            <ul class="nav nav-pills flex-column">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="hidden-xs nav-link active" href="#">Active</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <hr class="d-sm-none">-->
+        </div>
+        <div class="col-sm-8">
+            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
+                <h2><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h2>
+                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                                th:text="${post.appUser.username}">toikobik</a>
+                    <!--                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
+                    <!--                                      th:name="*{post.dateUpload}"></time>-->
+                    <time th:text="${post.dateUpload}"
+                          th:name="*{post.dateUpload}"></time>
+                </h5>
+                <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
+                    <img th:src="@{'/'+${post.photoName}}"
+                         th:alt="${post.title}" class="img-fluid">
+                </a>
+                <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
+
+                        <button type="button"  class="btn ">Like <i style='font-size:24px' class='far'>&#xf164;</i>
+                        </button>
+
+
+                        <button type="button" th:href="@{/post/detail/__${post.id}__}" class="btn ">Comment <i style='font-size:24px' class='far'>&#xf27a;</i>
+                        </button>
+
+
+                        <button type="button" class="btn ">Share <i style='font-size:24px' class='fas'>&#xf14d;</i>
+                        </button>
+                </div>
+                <!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
+                <!--                    Open modal-->
+                <!--                </button>-->
+
+                <!-- The Modal -->
+                <div class="modal fade" th:id="'myModal'+${post.id}">
+                    <div class="modal-dialog modal-1000">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <p th:text="${post.title}"></p>
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <img th:src="@{'/'+${post.photoName}}"
+                                             th:alt="${post.title}" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="media border p-3 shadow">
+                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
+                                                 class="rounded-circle" style="width:60px;">
+                                            <div class="media-body">
+                                                <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,
+                                                    2016</i></small></h4>
+                                                <p th:text="${post.title}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <a th:href="@{/post/detail/__${post.id}__}">
+                                    <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
+                                </a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 ">
     </div>
-    <a th:href="@{/logout}">Logout</a>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <p>Footer</p>
+    </div>
 </div>
 </body>
 </html>
