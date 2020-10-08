@@ -48,7 +48,7 @@ public class AdminController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
 
         }
         return appUser;

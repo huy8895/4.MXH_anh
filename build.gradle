@@ -33,8 +33,10 @@ dependencies {
     }
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+
+    compile "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"
+    compile "org.apache.commons:commons-lang3"
 }
 
 test {

@@ -6,5 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface IAppUserRepository extends CrudRepository<AppUser,Long> {
-    Optional<AppUser> findAppUserByUsername(String userName);
+    AppUser findAppUserByUsername(String userName);
+    boolean existsAppUserByUsername(String userName);
+    AppUser findTopByOrderByIdDesc();
 }

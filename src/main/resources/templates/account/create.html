@@ -6,71 +6,46 @@
     <meta charset="UTF-8">
     <title>create user</title>
     <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/create.css}">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#submit-bt').click(function (event) {
-                var form = $('#uploadForm')[0];
-                var data = new FormData(form);
-                $("#submit-bt").prop("disabled", true);
-
-                $.ajax({
-                    enctype: 'multipart/form-data',
-                    type: "POST",
-                    data: data,
-                    url: $(location).attr('href'),
-                    // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
-                    processData: false,
-                    contentType: false,
-                    success: function (user) {
-                        var respContent = "";
-                        respContent += "<span class='success'>_</span>";
-                        $("#response").html(respContent);
-                    }
-                });
-                event.preventDefault();
-            });
-        });
-
-    </script>
 </head>
 <body>
-<div th:replace="~{layout/layout::header(${user})}"></div>
-<h1>CREATE USER</h1>
-<div id="content">
-    <div id="mainContainer">
-        <div id="leftColumn">
-            <div class="mainBox">
-                <h3 id="response">create new Account</h3>
-                <form  method="post" th:object="${newUser}" action="/account/create" id="uploadForm"
-                      enctype="multipart/form-data">
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>username:</td>
-                            <td><input th:type="text" th:field="*{username}"/></td>
-                        </tr>
-                        <tr>
-                            <td>full name:</td>
-                            <td><input th:type="text" th:field="*{fullName}"/></td>
-                        </tr>
-                        <tr>
-                            <td>password:</td>
-                            <td><input type="password" th:field="*{password}"/></td>
-                        </tr>
-                        <tr>
-                            <td>Image:</td>
-                            <td><input type="file" th:field="*{avatarFile}"/></td>
-                        </tr>
-                        <tr>
-                            <td><input type="submit" value="Create" id="submit-bt"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-        </div>
-    </div>
+<h1 style="text-align: center">CREATE USER</h1>
+<div id="content" class="d-flex justify-content-center">
+        <form method="post" th:object="${newUser}" action="/account/create" id="uploadForm"
+              enctype="multipart/form-data">
+            <table>
+                <tbody>
+                <tr>
+                    <td>username:</td>
+                    <td><input th:type="text" th:field="*{username}"/></td>
+                </tr>
+                <tr>
+                    <td>full name:</td>
+                    <td><input th:type="text" th:field="*{fullName}"/></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input type="password" th:field="*{password}"/></td>
+                </tr>
+                <tr>
+                    <td>Image:</td>
+                    <td><input type="file" th:field="*{avatarFile}"/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Create" id="submit-bt"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <form action="/signin/facebook" method="POST" style="width: 20%">
+            <input type="hidden" name="scope" value="public_profile"/>
+            <button class="loginBtn loginBtn--facebook" type="submit">
+                Sign Up
+            </button>
+        </form>
 </div>
+
 </body>
 </html>

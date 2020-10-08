@@ -9,5 +9,7 @@ public interface IAppUserService {
     AppUser getUserById(Long id);
     AppUser save(AppUser user);
     void remove(AppUser user);
-    Optional<AppUser> getUserByUserName(String userName);
+    AppUser getUserByUserName(String userName);
+    boolean existsAppUserByUsername(String userName);
+    AppUser findTopByOrderByIdDesc();
 }

@@ -52,7 +52,7 @@ public class HomeController {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
         }
         return appUser;
     }
@@ -61,12 +61,16 @@ public class HomeController {
     public ModelAndView showApprovalPage(@PageableDefault(value = 10, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("/welcome");
+        ModelAndView modelAndView = new ModelAndView("welcome");
         Status status = statusService.findByName("approve").get();
         Page<Post> postPage =  postService.getAllPostByStatus(status, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;
+    }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 
     @GetMapping("/Access_Denied")
