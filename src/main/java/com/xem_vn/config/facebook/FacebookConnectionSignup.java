@@ -39,7 +39,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
             return user.getUsername();
         }else{
             user = appUserService.getUserByUserName(""+connection.getKey());
-            return null;
+            return "";
         }
 // tao random username
 //        Iterable<AppUser> users = appUserService.getAllUser();

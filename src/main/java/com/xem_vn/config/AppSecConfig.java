@@ -3,6 +3,7 @@ package com.xem_vn.config;
 import com.xem_vn.config.facebook.FacebookConnectionSignup;
 import com.xem_vn.config.facebook.FacebookSignInAdapter;
 import com.xem_vn.service.IAppUserService;
+import com.xem_vn.service.impl.AppUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -65,6 +66,8 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
     public ProviderSignInController providerSignInController() {
         ConnectionFactoryLocator connectionFactoryLocator = connectionFactoryLocator();
         UsersConnectionRepository usersConnectionRepository = getUsersConnectionRepository(connectionFactoryLocator);
+//        if(facebookConnectionSignup.execute() )
+//        ((InMemoryUsersConnectionRepository) usersConnectionRepository).createConnectionRepository(appUserService.get);
         ((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
         return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, new FacebookSignInAdapter());
     }

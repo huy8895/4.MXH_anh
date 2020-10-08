@@ -3,84 +3,131 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>User Post</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script th:src="@{/js/app.js}"></script>
+    <style>
+        .modal-1000 {
+            max-width: 90%;
+            margin: 80px auto;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
+<h3> Ảnh chế mới</h3>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
+                <h2><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h2>
+                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                                th:text="${post.appUser.username}">toikobik</a>
+                    <!--                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
+                    <!--                                      th:name="*{post.dateUpload}"></time>-->
+                    <time th:text="${post.dateUpload}"
+                          th:name="*{post.dateUpload}"></time>
+                </h5>
+                <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
+                    <img th:src="@{'/'+${post.photoName}}"
+                         th:alt="${post.title}" class="img-fluid">
+                </a>
+                <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
 
-<div id="content">
-    <div id="mainContainer">
-        <div id="leftColumn">
-            <div class="mainBox">
-                <h3> Ảnh chế mới</h3>
-                <div class="tips"><b>Mẹo: </b>Hãy giúp <b>xem.vn <a href="/vote">bình chọn ảnh</a></b> để nhiều ảnh hay
-                    xuất hiện ở đây hơn
+                    <button type="button" class="btn ">Like <i style='font-size:24px' class='far'>&#xf164;</i>
+                    </button>
+
+
+                    <button type="button" th:href="@{/post/detail/__${post.id}__}" class="btn ">Comment <i
+                            style='font-size:24px' class='far'>&#xf27a;</i>
+                    </button>
+
+
+                    <button type="button" class="btn ">Share <i style='font-size:24px' class='fas'>&#xf14d;</i>
+                    </button>
                 </div>
-                <div class="photoList">
-                    <div class="photoListItem" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True"
-                         data-nsfw="False">
-                        <div class="listItemSeparator"></div>
-                        <div class="thumbnail">
-                            <a th:href="@{/post/detail/__${post.id}__}" target="_blank" th:title="${post.title}">
-                                <img th:src="@{'/'+${post.photoName}}"
-                                     th:alt="${post.title}" class="thumbImg">
-                            </a>
-                        </div>
-                        <div class="info">
-                            <h2>
-                                <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
-                            </h2>
-                            <div class="uploader">
-                                Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
-                                            th:text="${post.appUser.username}">toikobik</a>
-                                <!--                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
-                                <!--                                      th:name="*{post.dateUpload}"></time>-->
-                                <time th:text="${post.dateUpload}"
-                                      th:name="*{post.dateUpload}"></time>
+                <!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
+                <!--                    Open modal-->
+                <!--                </button>-->
+
+                <!-- The Modal -->
+                <div class="modal fade" th:id="'myModal'+${post.id}">
+                    <div class="modal-dialog modal-1000">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <p th:text="${post.title}"></p>
+                                <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
-                            <div class="stats">
-                                <div class="viewComments">
-                                    <span class="likes" th:id="'likes'+${post.id}" title="Like" th:text="${post.likeCount}"></span>
-                                    <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <img th:src="@{'/'+${post.photoName}}"
+                                             th:alt="${post.title}" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="media border p-3 shadow">
+                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
+                                                 class="rounded-circle" style="width:60px;">
+                                            <div class="media-body">
+                                                <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,
+                                                    2016</i></small></h4>
+                                                <p th:text="${post.title}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                                <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                                    <button type="button"
-                                            th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">like
-                                        <!--                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
-                                    </button>
-                                    </button>
-                                </div>
-                                <div class="clear"></div>
                             </div>
-                        </div>
-                        <div class="clear">
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <a th:href="@{/post/detail/__${post.id}__}">
+                                    <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
+                                </a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
                         </div>
                     </div>
-
-                    <div id="listEnd"></div>
-                    <div class="listItemSeparator"></div>
-                    <p class="loading" style="display: none">
-                        <img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/loading.gif" alt="loading">
-                        <br>
-                        Đang tải thêm ảnh...
-                    </p>
                 </div>
-
-                <div class="tag-footer">
-                    <br><br><br><br>
-                </div>
-                <div>
-                    <a class="buttons nextListPage" style="" th:href="@{'/'(page=${posts.number + 1})}"
-                       title="xem thêm, còn nhiều lắm">xem thêm, còn nhiều lắm</a>
-                </div>
-                <div th:replace="~{layout/layout::footer}"></div>
             </div>
         </div>
-    </div>
+        <div class="col-sm-2 ">
+        </div>
+        <div class="jumbotron text-center" style="margin-bottom:0">
+            <p>Footer</p>
+        </div>
 
+            <div id="listEnd"></div>
+            <div class="listItemSeparator"></div>
+            <p class="loading" style="display: none">
+                <img src="https://s-xem.mkocdn.com/bundles/mkoxem/images/loading.gif" alt="loading">
+                <br>
+                Đang tải thêm ảnh...
+            </p>
+        </div>
+
+        <div class="tag-footer">
+            <br><br><br><br>
+        </div>
+        <div>
+            <a class="buttons nextListPage" style="" th:href="@{'/'(page=${posts.number + 1})}"
+               title="xem thêm, còn nhiều lắm">xem thêm, còn nhiều lắm</a>
+        </div>
+        <div th:replace="~{layout/layout::footer}"></div>
+    </div>
 </div>
 
 

@@ -63,14 +63,14 @@
             <th:block sec:authorize="isAuthenticated()">
                 <a href="/account/notification" class="notiButton" title="Thông báo">
                 </a>
-                <div class="avatar  noNoti ">
-                    <a th:href="@{/uploader/__${user.id}__}" class="avatarLink" title="Trang cá nhân">
-                        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
-                             th:alt="${user.avatarFileName}"></span>
-                    </a>
+                <div class="avatar noNoti ">
+<!--                    <a th:href="@{/uploader/__${user.id}__}" class="avatarLink" title="Trang cá nhân">-->
+<!--                        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"-->
+<!--                             th:alt="${user.avatarFileName}"></span>-->
+<!--                    </a>-->
                     <div class="blank"></div>
                     <ul>
-                        <li><a th:href="@{/uploader/__${user.id}__}" title="Ảnh của bạn">Ảnh của bạn</a></li>
+<!--                        <li><a th:href="@{/uploader/__${user.id}__}" title="Ảnh của bạn">Ảnh của bạn</a></li>-->
                         <li><a href="/account/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
                         <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
                         <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>
@@ -97,12 +97,7 @@
         <a href="/sitemaps/sitemap.html" target="_blank" rel="nofollow" title="Sitemap">Sitemap</a>
     </div>
     <div>
-        Cơ quan chủ quản : Công ty cổ phần dịch vụ phát triển người dùng MKO.<br>
-        Trụ sở : Số 8 , ngách 11/30, ngõ 63 Lê Đức Thọ, Phường Mỹ Đình 2, Quận Nam Từ Liêm, Thành phố Hà
-        Nội , Việt Nam.<br>
-        Tel : (84-4) 7 300 2828 - Fax : (84-4) 7 300 2828.<br>
-        Giấy phép mạng xã hội số 237/GP-BTTTT ngày cấp 12/06/2015 BỘ THÔNG TIN VÀ TRUYỀN THÔNG.<br>
-        Người chịu trách nhiệm xuất bản : Nguyễn Thị Quỳnh Phương
+        Hello I am Developer !
     </div>
     <div class="clear"></div>
 </div>
