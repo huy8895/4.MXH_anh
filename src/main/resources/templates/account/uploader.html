@@ -34,8 +34,10 @@
                                 <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
                             </h2>
                             <div class="uploader">
-                                Đăng bởi <a th:href="@{${post.appUser.username}}" th:title="${post.appUser.username}"
+                                Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                             th:text="${post.appUser.username}">toikobik</a>
+                                <!--                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
+                                <!--                                      th:name="*{post.dateUpload}"></time>-->
                                 <time th:text="${post.dateUpload}"
                                       th:name="*{post.dateUpload}"></time>
                             </div>

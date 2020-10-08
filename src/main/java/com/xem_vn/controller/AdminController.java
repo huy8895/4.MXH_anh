@@ -1,9 +1,6 @@
 package com.xem_vn.controller;
 
-import com.xem_vn.model.AppRole;
-import com.xem_vn.model.AppUser;
-import com.xem_vn.model.Post;
-import com.xem_vn.model.Status;
+import com.xem_vn.model.*;
 import com.xem_vn.service.IAppRoleService;
 import com.xem_vn.service.IAppUserService;
 import com.xem_vn.service.IPostService;
@@ -38,11 +35,12 @@ public class AdminController {
     @Autowired
     IStatusService statusService;
 
-    @GetMapping
-    public String adminPage() {
-        return "admin";
-    }
+//    @GetMapping
+//    public String adminPage() {
+//        return "admin";
+//    }
 
+    @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -112,13 +110,14 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/post/approval")
+    @GetMapping
     public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("/post/approval");
+        ModelAndView modelAndView = new ModelAndView("admin");
         Status status = statusService.findByName("pending").get();
         Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        modelAndView.addObject("newComment", new Comment());
         modelAndView.addObject("posts", postPage);
         return modelAndView;
     }

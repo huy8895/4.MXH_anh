@@ -1,7 +1,7 @@
 function like(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
-    let likesObj = document.getElementById("likes"+postID) ;
+    let likesObj = document.getElementById("likes" + postID);
     let json = {
         "post": {"id": postID},
         "appUser": {"id": userID}
@@ -21,9 +21,24 @@ function like(postID, userID) {
     event.preventDefault();
 }
 
-$(document).ready(function () {
+function deleteComment(commentId) {
+    console.log('commentId ' + commentId)
+    let json = {"id": commentId}
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "DELETE",
+        data: JSON.stringify(json),
+        url: $(location).attr('href'),
+        success: function (currentPost) {
+            $(likesObj).html(currentPost.likeCount);
+        }
+    });
+    event.preventDefault();
+}
 
-});
 
 function comment(postID, userID, content) {
     console.log('postID ' + postID)
@@ -42,8 +57,9 @@ function comment(postID, userID, content) {
         type: "POST",
         data: JSON.stringify(json),
         url: $(location).attr('href'),
-        success: function (post) {
-            console.log("comment thanh cong +  " + post.id)
+        success: function (comment) {
+            console.log("comment thanh cong +  " + comment.id)
+            createPostHTML(postID, userID, content,comment.id)
         }
     });
     event.preventDefault();
@@ -58,10 +74,11 @@ function lovePost(id) {
     }
 }
 
-function deletePost(id) {
+function deletePost(id,commentId) {
     let elementId = "article-container-" + id
     let element = document.getElementById(elementId)
     element.remove()
+    deleteComment(commentId)
 }
 
 
@@ -76,20 +93,19 @@ function submitPost(postID, userID) {
     textArea.value = "";
     counter.innerText = 0;
 
-    createPostHTML(postID, userID,contentToPost)
     comment(postID, userID, contentToPost)
     return false;
 }
 
 let currentPostId = 1;
 
-function createPostHTML(postID, userID,postContent) {
+function createPostHTML(postID, userID, postContent,commentId) {
     let now = new Date()
     let time = now.toLocaleTimeString()
     let date = now.toLocaleString()
-    let fullName = document.getElementById("fullName"+postID+userID).value
-    let username = document.getElementById("userName"+postID+userID).value
-    let avatarFile = document.getElementById("avatarFile"+postID+userID).value
+    let fullName = document.getElementById("fullName" + postID + userID).value
+    let username = document.getElementById("userName" + postID + userID).value
+    let avatarFile = document.getElementById("avatarFile" + postID + userID).value
     currentPostId = currentPostId + 1
     postContent = postContent.replace(/</g, "&lt;")
     postContent = postContent.replace(/\n/g, "<br />")
@@ -98,7 +114,7 @@ function createPostHTML(postID, userID,postContent) {
     let template = `
 				<article id="article-container-${currentPostId}">
 					<header>
-						<button class="close" onclick="deletePost(${currentPostId})">
+						<button class="close" onclick="deletePost(${currentPostId},${commentId})">
 							<img src="/data/close.png" height="15" width="15"/>
 						</button>
 						<div class="avatar_comment">

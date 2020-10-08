@@ -4,61 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <title>edit user</title>
+    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
-edit user
+<div th:replace="~{layout/layout::header(${user})}"></div>
+<div id="content">
+    <div id="mainContainer">
+        <div id="leftColumn">
+            <div class="mainBox">
+                <div class="mainBox infoBox inputForm updateAccount">
+                    <h3>Cập nhật thông tin cá nhân</h3>
+                    <form th:object="${user}" action="" method="post" enctype="multipart/form-data" class="submitForm">
+                        <p class="required">
+                            <label class="required">Tên đăng nhập</label>
+                            <input class="text mediumWidth" disabled="true" id="userName" th:field="*{username}"
+                                   type="text">
+                        </p>
 
-<form th:object="${user}" action="" method="post" enctype="multipart/form-data" class="submitForm">
-    <p class="required">
-        <label for="form_email" class="required">Email</label>
-        <input type="text" id="form_email" name="form[email]" required="required" class="text mediumWidth" disabled="disabled" value="huy8895@gmail.com">
+                        <p class="required">
+                            <label class="required">Tên hiển thị</label>
+                            <input class="text mediumWidth valid" data-val="true"
+                                   data-val-length="Không nhập quá 50 ký tự."
+                                   data-val-length-max="50" data-val-regex="Cần ít nhất 3 chữ số hoặc chữ cái"
+                                   data-val-regex-pattern="(.*?[0-9a-zA-Z]){3}.*"
+                                   data-val-required="Tên hiển thị là bắt buộc." id="name" th:field="*{fullName}"
+                                   type="text">
+                            <span class="field-validation-error" data-valmsg-for="name" data-valmsg-replace="true"><span
+                                    for="name" generated="true" class=""></span></span>
+                        </p>
+                        <p>
+                            <label>Avatar</label>
+                            <img class="avatar_comment" th:src="@{'/'+${user.avatarFileName}}" width="100" height="100">
+                            <input type="file" th:field="*{avatarFile}"/>
+                            <input type="hidden" th:field="*{avatarFileName}"/>
+                        </p>
 
 
-    </p>
+                        <p class="buttonSet">
+                            <button type="submit" class="buttons submitButton" title="Cập nhật">Cập nhật</button>
+                            <a class="buttons cancelButtons" href="/" title="Bỏ qua">Bỏ qua</a>
+                        </p>
+                        <p>
+                        </p><h4><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></h4>
+                        <p></p>
+                    </form>
+                </div>
 
-    <p class="required">
-        <label for="form_name" class="required">Tên đăng nhập</label>
-        <input class="text mediumWidth" disabled="true" id="userName" name="userName" type="text" value="trinhvanhuy8895">
-    </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <p class="required">
-        <label for="form_name" class="required">Tên hiển thị</label>
-        <input class="text mediumWidth valid" data-val="true" data-val-length="Không nhập quá 50 ký tự." data-val-length-max="50" data-val-regex="Cần ít nhất 3 chữ số hoặc chữ cái" data-val-regex-pattern="(.*?[0-9a-zA-Z]){3}.*" data-val-required="Tên hiển thị là bắt buộc." id="name" name="name" type="text" value="Tiểu Cường">
-        <span class="field-validation-error" data-valmsg-for="name" data-valmsg-replace="true"><span for="name" generated="true" class=""></span></span>
-
-    </p>
-    <p>
-        <label>Avatar</label>
-        <img class="avatar_comment" src="https://i-xem.mkocdn.com/i.xem.sb/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg" width="100" height="100">
-        <input type="file" name="avatarFile">
-        <input type="hidden" id="form_avatarUrl" name="form[avatarUrl]" value="/data/avatar/20160424/924fa438bcfb4f3c8d28038a4f542b93/thumbnail-acc87bbed1cb4c0bb554e6c9720a6f3d.jpg">
-    </p>
-
-    <p>
-        <label for="form_websites">Website</label>
-        <input type="text" id="form_websites" name="form[websites]" class="text mediumWidth">
-
-    </p>
-    <p>
-        <label for="form_about">Giới thiệu</label>
-        <input type="text" id="form_about" name="form[about]" class="text mediumWidth">
-
-    </p>
-
-    <p class="buttonSet">
-        <button type="submit" class="buttons submitButton" title="Cập nhật">Cập nhật</button>
-        <a class="buttons cancelButtons" href="/" title="Bỏ qua">Bỏ qua</a>
-    </p>
-    <p>
-    </p><h4> <a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></h4>
-    <p></p>
-</form>
-<form action="/account/edit" method="post" th:object="${user}">
-    <input type="text" readonly th:field="*{username}">
-    <input type="text" readonly th:field="*{username}">
-    <input type="text" readonly th:field="*{username}">
-
-    <input type="submit" value="edit">
-</form>
 </body>
 </html>
