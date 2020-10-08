@@ -1,9 +1,8 @@
 package com.xem_vn.config;
 
-import com.xem_vn.config.facebook.security.FacebookConnectionSignup;
-import com.xem_vn.config.facebook.security.FacebookSignInAdapter;
+import com.xem_vn.config.facebook.FacebookConnectionSignup;
+import com.xem_vn.config.facebook.FacebookSignInAdapter;
 import com.xem_vn.service.IAppUserService;
-import com.xem_vn.service.impl.AppUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +45,7 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/","/home","/create-account","/post/detail/*").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+//                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/account/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/post/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/**").permitAll()

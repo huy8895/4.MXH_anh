@@ -1,4 +1,4 @@
-package com.xem_vn.config.facebook.security;
+package com.xem_vn.config.facebook;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

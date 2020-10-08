@@ -1,4 +1,4 @@
-package com.xem_vn.config.facebook.security;
+package com.xem_vn.config.facebook;
 
 
 import com.xem_vn.model.AppRole;

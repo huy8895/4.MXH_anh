@@ -43,7 +43,7 @@ public class AccountController {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
         }
         return appUser;
     }
