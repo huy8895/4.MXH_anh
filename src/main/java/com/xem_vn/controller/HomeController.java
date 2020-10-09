@@ -112,4 +112,15 @@ public class HomeController {
         return modelAndView;
     }
 
+    @GetMapping("/vote")
+    public ModelAndView showVotePage(@PageableDefault(value = 10, page = 0)
+                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
+                                                 Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("/vote");
+        Status status = statusService.findByName("pending").get();
+        Page<Post> postPage =  postService.getAllPostByStatus(status, pageable);
+        modelAndView.addObject("posts", postPage);
+        modelAndView.addObject("currentTime", System.currentTimeMillis());
+        return modelAndView;
+    }
 }

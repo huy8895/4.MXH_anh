@@ -48,6 +48,8 @@ public class PostController {
     @Autowired
     ICommentService commentService;
 
+    @Autowired
+    IVoteService voteService;
     @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;
@@ -59,7 +61,7 @@ public class PostController {
         return appUser;
     }
 
-    private Date getCurrentDate(){
+    private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
     }
 
@@ -109,16 +111,16 @@ public class PostController {
     public ResponseEntity<Post> like(@RequestBody Like like) {
         Post currentPost = postService.getPostById(like.getPost().getId());
         AppUser currentUser = getPrincipal();
-        if (currentUser!=null && !likeService.existsByAppUserAndAndPost(currentUser, currentPost)){
+        if (currentUser != null && !likeService.existsByAppUserAndAndPost(currentUser, currentPost)) {
             likeService.save(like);
         } else {
-            Like currentLike = likeService.getByAppUserAndAndPost(currentUser,currentPost);
+            Like currentLike = likeService.getByAppUserAndAndPost(currentUser, currentPost);
             likeService.remove(currentLike);
         }
         Long countLike = likeService.countAllByPost(currentPost);
         currentPost.setLikeCount(countLike);
         postService.save(currentPost);
-        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+        return new ResponseEntity<>(currentPost, HttpStatus.OK);
     }
 
     @GetMapping("/detail/{id}")
@@ -127,7 +129,7 @@ public class PostController {
                                        @SortDefault(sort = "timeComment", direction = Sort.Direction.DESC)
                                                Pageable pageable) {
         Post currentPost = postService.getPostById(id);
-        Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost,pageable);
+        Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost, pageable);
         ModelAndView modelAndView = new ModelAndView("/post/detail");
         modelAndView.addObject("post", currentPost);
         modelAndView.addObject("commentPage", commentPage);
@@ -138,18 +140,18 @@ public class PostController {
 
     @PostMapping("/detail/{id}")
     public ResponseEntity<Comment> saveComment(@RequestBody Comment comment,
-                                            @PathVariable("id") Long id){
+                                               @PathVariable("id") Long id) {
         comment.setTimeComment(getCurrentDate());
         commentService.save(comment);
         Post currentPost = postService.getPostById(id);
         currentPost.setCommentCount(commentService.countAllByPost(currentPost));
         postService.save(currentPost);
-        return new ResponseEntity<>(comment,HttpStatus.OK);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @DeleteMapping("/detail/{id}")
     public ResponseEntity<Post> removeComment(@RequestBody Comment comment,
-                                            @PathVariable("id") Long id){
+                                              @PathVariable("id") Long id) {
         Comment currentComment = commentService.getCommentById(comment.getId());
         commentService.remove(currentComment);
 
@@ -157,8 +159,56 @@ public class PostController {
         currentPost.setCommentCount(commentService.countAllByPost(currentPost));
 
         postService.save(currentPost);
-        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+        return new ResponseEntity<>(currentPost, HttpStatus.OK);
 
     }
+
+    @PostMapping("/upVote")
+    public ResponseEntity<Post> upVotePost(@RequestBody Vote vote) {
+
+        Post currentPost = postService.getPostById(vote.getPost().getId());
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)){
+            vote.setValue(1L);
+            voteService.save(vote);
+        } else {
+            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser,currentPost);
+            if (currentVote.getValue()==-1L){
+                currentVote.setValue(1L);
+                voteService.save(currentVote);
+            } else {
+                voteService.remove(currentVote);
+            }
+        }
+        Long countVote = voteService.sumOfValues(currentPost);
+        System.out.println("upVote_countVote = " + countVote);
+        currentPost.setVoteCount(countVote);
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
+
+    @PostMapping("/downVote")
+    public ResponseEntity<Post> downVotePost(@RequestBody Vote vote) {
+        Post currentPost = postService.getPostById(vote.getPost().getId());
+        AppUser currentUser = getPrincipal();
+        if (currentUser!=null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)){
+            vote.setValue(-1L);
+            voteService.save(vote);
+        } else {
+            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser,currentPost);
+            if (currentVote.getValue()==1L){
+                currentVote.setValue(-1L);
+                voteService.save(currentVote);
+            } else {
+                voteService.remove(currentVote);
+            }
+        }
+        Long countVote = voteService.sumOfValues(currentPost);
+        System.out.println("downVote_countVote = " + countVote);
+        currentPost.setVoteCount(countVote);
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
+
 
 }

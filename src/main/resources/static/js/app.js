@@ -20,6 +20,50 @@ function like(postID, userID) {
     });
     event.preventDefault();
 }
+function upVote(postID, userID) {
+    console.log('postID ' + postID)
+    console.log('userID ' + userID)
+    let voteObj = document.getElementById("votes" + postID);
+    let json = {
+        "post": {"id": postID},
+        "appUser": {"id": userID}
+    }
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        data: JSON.stringify(json),
+        url: "/post/upVote",
+        success: function (currentPost) {
+            $(voteObj).html(currentPost.voteCount);
+        }
+    });
+    event.preventDefault();
+}
+function downVote(postID, userID) {
+    console.log('postID ' + postID)
+    console.log('userID ' + userID)
+    let voteObj = document.getElementById("votes" + postID);
+    let json = {
+        "post": {"id": postID},
+        "appUser": {"id": userID}
+    }
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        data: JSON.stringify(json),
+        url: "/post/downVote",
+        success: function (currentPost) {
+            $(voteObj).html(currentPost.voteCount);
+        }
+    });
+    event.preventDefault();
+}
 
 function deleteComment(commentId) {
     console.log('commentId ' + commentId)
