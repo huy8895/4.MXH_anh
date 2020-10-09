@@ -49,7 +49,7 @@
                                 <div class="likesWrapper" sec:authorize="isAuthenticated()">
                                     <button type="button"
                                             th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">like
-<!--                                            th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
+<!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
                                     </button>
                                     </button>
                                 </div>

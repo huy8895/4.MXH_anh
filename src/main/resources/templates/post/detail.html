@@ -120,13 +120,12 @@
                                 <input type="hidden" th:id="'avatarFile' + ${post.id} +${user.id}" th:value="'/'+${user.avatarFileName}" name="userName">
                             </form>
                             <article id="article-container-1" th:each="comment: ${commentPage}">
-                                <header>
-<!--                                    <button class="close" onclick="deletePost(1)">-->
-<!--                                        <img src="/data/close.png" height="15" width="15">-->
-<!--                                    </button>-->
-                                    <button class="close" th:onclick="'deletePost(\'' + 1 +'\',\''+${comment.id} + '\');'">
-                                        <img src="/data/close.png" height="15" width="15">
-                                    </button>
+                                <header >
+                                    <th:block th:if="${user.id == comment.appUser.id}">
+                                        <button class="close" th:onclick="'deletePost(\'' + 1 +'\',\''+${comment.id} + '\');'">
+                                            <img src="/data/close.png" height="15" width="15">
+                                        </button>
+                                    </th:block>
                                     <div class="avatar_comment">
                                         <img th:src="@{'/'+${comment.appUser.avatarFileName}}" height="40" width="40">
                                     </div>
