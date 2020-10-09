@@ -1,5 +1,6 @@
 package com.xem_vn.controller;
 
+import com.xem_vn.config.facebook.FacebookConnectionSignup;
 import com.xem_vn.model.AppRole;
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
@@ -46,6 +47,8 @@ public class HomeController {
 
     @Autowired
     IStatusService statusService;
+    @Autowired
+    private FacebookConnectionSignup facebookConnectionSignup;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -100,18 +103,20 @@ public class HomeController {
         System.out.println(user.getUsername());
         AppRole role = roleService.getRoleByName("ROLE_USER");
         user.setRole(role);
+        user.setEnabled(true);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        if(avatarFileName!=null)
+        if(avatarFileName!=null) {
             user.setAvatarFileName(avatarFileName);
+            try {
+                FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         else
             user.setAvatarFileName("default_avatar.jpg");
         userService.save(user);
-        try {
-            FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return  new ModelAndView("/account/create");
     }
 

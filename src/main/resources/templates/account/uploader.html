@@ -41,7 +41,9 @@
                 </a>
                 <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
 
-                    <button type="button" class="btn ">Like <i style='font-size:24px' class='far'>&#xf164;</i>
+                    <button type="button" class="btn " th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">Like <i style='font-size:24px' class='far'>&#xf164;<span
+                            class="likes" th:id="'likes'+${post.id}" title="Like"
+                            th:text="  ${post.likeCount}"></span></i>
                     </button>
 
 

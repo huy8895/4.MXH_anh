@@ -14,19 +14,13 @@
     <div th:if="${messageLogin}" th:text="${messageLogin}">
     </div>
     <h1 class="col-sm-12">Login</h1>
-    <form action="/signin/facebook" method="POST" style="width: 20%">
-        <input type="hidden" name="scope" value="public_profile"/>
-        <button class="loginBtn loginBtn--facebook" type="submit">
-            Log in
-        </button>
-    </form>
-    <form th:action="@{/login}" method="POST">
+    <form th:action="@{/login}" method="POST" th:object="${fbUser}">
         <div class="row col-sm-6">
-            <div class="form-group">
+            <div class="form-group" >
                 <label class="col-sm-3">Username</label>
                 <span class="col-sm-9">
-                    <input class="form-control" type="text" th:if="${fbUser}" th:text="${fbUser.username}" name="username"/>
-                    <input class="form-control" type="text"  name="username"/>
+                    <input class="form-control" type="text" th:if="${fbUser}" th:field="*{username}" name="username"/>
+                    <input class="form-control" type="text" th:unless="${fbUser}"  name="username"/>
                 </span>
             </div>
             <br/>
@@ -34,7 +28,7 @@
                 <label class="col-sm-3">Password</label>
                 <span class="col-sm-9">
                     <input class="form-control" type="text" name="password" th:if="${fbUser}"
-                           th:text="${fbUser.password}"/>
+                           th:field="*{password}"/>
                     <input class="form-control" type="password" name="password" th:unless="${fbUser}"
                     />
 				</span>

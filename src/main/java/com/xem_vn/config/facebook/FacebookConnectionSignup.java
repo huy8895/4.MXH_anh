@@ -36,11 +36,10 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
             AppRole role = roleService.getRoleByName("ROLE_USER");
             user.setRole(role);
             appUserService.save(user);
-            return user.getUsername();
         }else{
             user = appUserService.getUserByUserName(""+connection.getKey());
-            return user.getUsername();
         }
+        return user.getUsername();
 // tao random username
 //        Iterable<AppUser> users = appUserService.getAllUser();
 //        user = appUserService.findTopByOrderByIdDesc();

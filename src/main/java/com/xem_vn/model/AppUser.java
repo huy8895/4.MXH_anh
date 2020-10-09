@@ -1,9 +1,14 @@
 package com.xem_vn.model;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Data
 @Entity
@@ -13,7 +18,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true,columnDefinition = "varchar(50)")
+    @Column(unique = true, columnDefinition = "varchar(50)")
     private String username;
 
     private String fullName;
@@ -27,5 +32,12 @@ public class AppUser {
     private MultipartFile avatarFile;
 
     private String avatarFileName;
+
+    private boolean isEnabled;
+
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+
 
 }
