@@ -147,9 +147,6 @@ function editComment(commentId){
         url: $(location).attr('href'),
         success: function (comment) {
             let element = document.getElementById(elementId)
-            // let template = `<blockquote id="comment-content+${commentId}">
-            //             ${comment.content}
-            //             </blockquote>`;
             let template = `
                         ${comment.content}
                         `;
@@ -203,9 +200,9 @@ function createPostHTML(postID, userID, postContent, commentId) {
     let fullName = document.getElementById("fullName" + postID + userID).value
     let username = document.getElementById("userName" + postID + userID).value
     let avatarFile = document.getElementById("avatarFile" + postID + userID).value
-    postContent = postContent.replace(/</g, "&lt;")
-    postContent = postContent.replace(/\n/g, "<br />")
-    postContent = postContent.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\" target=\"_blank\">$1</a>")
+    // postContent = postContent.replace(/</g, "&lt;")
+    // postContent = postContent.replace(/\n/g, "<br />")
+    // postContent = postContent.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\" target=\"_blank\">$1</a>")
 
     let template = `
 				<article id="article-container-${commentId}">
@@ -213,13 +210,16 @@ function createPostHTML(postID, userID, postContent, commentId) {
 						<button class="close" onclick="deleteCommentInPost(${commentId})">
 							<img src="/data/close.png" height="15" width="15"/>
 						</button>
+						<button class="edit" onclick="editCommentInPost(${commentId})">
+                                            edit
+                                        </button>
 						<div class="avatar_comment">
-						<img src="${avatarFile}" height="40" width="40"/>
+						<img src="${avatarFile}" height="40" width="40" class="avatar_comment"/>
 						</div>
 						<h1 >${fullName}</h1>
 						<h2 >@${username}</h2>
 					</header>
-					<blockquote>
+					<blockquote id="comment-content${commentId}">
 						${postContent}
 					</blockquote>
 					<hr/>

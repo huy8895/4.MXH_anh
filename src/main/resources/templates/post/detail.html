@@ -102,7 +102,7 @@
                         <div id="container-wrapper">
                             <form id="form-container" action="" method="post" th:object="${newComment}">
                                 <div class="avatar_comment" id="input-avatar">
-                                    <img th:src="@{'/'+${user.avatarFileName}}" height="40" width="40">
+                                    <img class="avatar_comment" th:src="@{'/'+${user.avatarFileName}}" height="40" width="40">
                                 </div>
                                 <fieldset>
                                     <textarea th:name="*{content}"
@@ -129,7 +129,7 @@
                                             <img src="/data/close.png" height="15" width="15">
                                         </button>
                                         <div></div>
-                                        <button class="" th:onclick="'editCommentInPost(\'' + ${comment.id} + '\');'">
+                                        <button class="edit" th:onclick="'editCommentInPost(\'' + ${comment.id} + '\');'">
                                             edit
                                         </button>
                                         <div></div>
@@ -138,7 +138,7 @@
 <!--                                        </button>-->
                                     </th:block>
                                     <div class="avatar_comment">
-                                        <img th:src="@{'/'+${comment.appUser.avatarFileName}}" height="40" width="40">
+                                        <img class="avatar_comment" th:src="@{'/'+${comment.appUser.avatarFileName}}" height="40" width="40">
                                     </div>
                                     <h1 th:text="${comment.appUser.fullName}"></h1>
                                     <h2 th:text="'@'+${comment.appUser.username}"></h2>
