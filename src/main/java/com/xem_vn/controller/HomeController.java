@@ -103,7 +103,6 @@ public class HomeController {
         System.out.println(user.getUsername());
         AppRole role = roleService.getRoleByName("ROLE_USER");
         user.setRole(role);
-        user.setEnabled(true);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
         if(avatarFileName!=null) {

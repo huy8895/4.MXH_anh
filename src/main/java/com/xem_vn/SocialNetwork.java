@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class XemVnApplication {
+public class SocialNetwork {
 
     public static void main(String[] args) {
-        SpringApplication.run(XemVnApplication.class, args);
+        SpringApplication.run(SocialNetwork.class, args);
     }
 
 }

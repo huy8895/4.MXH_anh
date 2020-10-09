@@ -14,6 +14,7 @@ public class Comment {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+    private Long loveCount;
 
     @ManyToOne
     private AppUser appUser;

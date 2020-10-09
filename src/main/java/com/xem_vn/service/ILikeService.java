@@ -9,7 +9,7 @@ public interface ILikeService {
     Iterable<Like> findAllByUser(AppUser user);
     void save(Like like);
     void remove(Like like);
-    boolean existsByAppUserAndAndPost(AppUser user,Post post);
+    boolean existsByAppUserAndPost(AppUser user,Post post);
     Long countAllByPost (Post post);
-    Like getByAppUserAndAndPost (AppUser user,Post post);
+    Like getByAppUserAndPost (AppUser user,Post post);
 }

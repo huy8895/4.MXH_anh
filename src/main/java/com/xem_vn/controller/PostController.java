@@ -50,6 +50,8 @@ public class PostController {
 
     @Autowired
     IVoteService voteService;
+    @Autowired
+    ILoveCommentService loveCommentService;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -57,7 +59,6 @@ public class PostController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
-
         }
         return appUser;
     }
@@ -68,7 +69,7 @@ public class PostController {
 
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("/post/create");
+        ModelAndView modelAndView = new ModelAndView("post/create");
         modelAndView.addObject("post", new Post());
         return modelAndView;
     }
@@ -87,21 +88,21 @@ public class PostController {
             e.printStackTrace();
         }
         postService.save(post);
-        ModelAndView modelAndView = new ModelAndView("/post/create");
+        ModelAndView modelAndView = new ModelAndView("post/create");
         postService.save(post);
         return modelAndView;
     }
 
     @GetMapping("/edit")
     public ModelAndView showEditForm() {
-        ModelAndView modelAndView = new ModelAndView("/post/edit");
+        ModelAndView modelAndView = new ModelAndView("post/edit");
         modelAndView.addObject("post", new Post());
         return modelAndView;
     }
 
     @PostMapping("/edit")
     public ModelAndView edit(Post post) {
-        ModelAndView modelAndView = new ModelAndView("/post/edit");
+        ModelAndView modelAndView = new ModelAndView("post/edit");
         MultipartFile photo = post.getPhoto();
         post.setPhotoName(photo.getOriginalFilename());
         postService.save(post);
@@ -110,18 +111,34 @@ public class PostController {
 
     @PostMapping(value = "/like")
     public ResponseEntity<Post> like(@RequestBody Like like) {
-        Post currentPost = postService.getPostById(like.getPost().getId());
+        Post currentPost = like.getPost();
         AppUser currentUser = getPrincipal();
-        if (currentUser != null && !likeService.existsByAppUserAndAndPost(currentUser, currentPost)) {
+        if (currentUser != null && !likeService.existsByAppUserAndPost(currentUser, currentPost)) {
             likeService.save(like);
         } else {
-            Like currentLike = likeService.getByAppUserAndAndPost(currentUser, currentPost);
+            Like currentLike = likeService.getByAppUserAndPost(currentUser, currentPost);
             likeService.remove(currentLike);
         }
         Long countLike = likeService.countAllByPost(currentPost);
         currentPost.setLikeCount(countLike);
         postService.save(currentPost);
         return new ResponseEntity<>(currentPost, HttpStatus.OK);
+    }
+    @PostMapping("/loveComment")
+    public ResponseEntity<Comment> loveComment(@RequestBody LoveComment loveComment) {
+        Comment currentComment = loveComment.getComment();
+        System.out.println("id comment" + currentComment.getId());
+        AppUser currentUser = getPrincipal();
+        if (currentUser != null && !loveCommentService.existsByAppUserAndComment(currentUser, currentComment)) {
+            loveCommentService.save(loveComment);
+        } else {
+            LoveComment heart = loveCommentService.getByAppUserAndComment(currentUser, currentComment);
+            loveCommentService.remove(heart);
+        }
+        Long countLoveComment = loveCommentService.countAllByComment(currentComment);
+        currentComment.setLoveCount(countLoveComment);
+        commentService.save(currentComment);
+        return new ResponseEntity<>(currentComment, HttpStatus.OK);
     }
 
     @GetMapping("/detail/{id}")
@@ -131,7 +148,7 @@ public class PostController {
                                                Pageable pageable) {
         Post currentPost = postService.getPostById(id);
         Page<Comment> commentPage = commentService.getAllCommentByPost(currentPost, pageable);
-        ModelAndView modelAndView = new ModelAndView("/post/detail");
+        ModelAndView modelAndView = new ModelAndView("post/detail");
         modelAndView.addObject("post", currentPost);
         modelAndView.addObject("commentPage", commentPage);
         modelAndView.addObject("newComment", new Comment());

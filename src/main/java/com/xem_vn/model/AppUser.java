@@ -32,12 +32,4 @@ public class AppUser {
     private MultipartFile avatarFile;
 
     private String avatarFileName;
-
-    private boolean isEnabled;
-
-    private boolean isAccountNonExpired;
-    private boolean isAccountNonLocked;
-    private boolean isCredentialsNonExpired;
-
-
 }

@@ -73,7 +73,7 @@ public class AccountController {
 
     @GetMapping("/password")
     public String showPassWordForm() {
-        return "/account/password";
+        return "account/password";
     }
 
     @PostMapping("/password")
@@ -88,7 +88,7 @@ public class AccountController {
 
     @GetMapping("/notification")
     public String showNotificationPage() {
-        return "/account/notification";
+        return "account/notification";
     }
 
     @GetMapping("/favorite")
@@ -96,7 +96,7 @@ public class AccountController {
                                    @SortDefault(sort = "date_Upload", direction = Sort.Direction.DESC)
                                            Pageable pageable) {
         AppUser currentUser = getPrincipal();
-        ModelAndView modelAndView = new ModelAndView("/account/favorite");
+        ModelAndView modelAndView = new ModelAndView("account/favorite");
         Page<Post> posts = postService.findAllPostByUserLiked(currentUser.getId(), pageable);
         modelAndView.addObject("posts", posts);
         return modelAndView;

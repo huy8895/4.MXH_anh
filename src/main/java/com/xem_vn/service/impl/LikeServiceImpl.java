@@ -33,8 +33,8 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public boolean existsByAppUserAndAndPost(AppUser user, Post post) {
-        return likeRepository.existsByAppUserAndAndPost(user,post);
+    public boolean existsByAppUserAndPost(AppUser user, Post post) {
+        return likeRepository.existsByAppUserAndPost(user,post);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public Like getByAppUserAndAndPost(AppUser user, Post post) {
-        return likeRepository.getByAppUserAndAndPost(user, post);
+    public Like getByAppUserAndPost(AppUser user, Post post) {
+        return likeRepository.getByAppUserAndPost(user, post);
     }
 
 

@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface ILikeRepository extends CrudRepository<Like,Long> {
     Iterable<Like> findAllByPost(Post post);
     Iterable<Like> findAllByAppUser(AppUser user);
-    boolean existsByAppUserAndAndPost(AppUser user,Post post);
+    boolean existsByAppUserAndPost(AppUser user,Post post);
     Long countAllByPost (Post post);
-    Like getByAppUserAndAndPost (AppUser user,Post post);
+    Like getByAppUserAndPost (AppUser user,Post post);
 }
