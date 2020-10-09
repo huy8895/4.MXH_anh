@@ -23,6 +23,7 @@ public class Post {
 
     private long likeCount;
     private long commentCount;
+    private long voteCount;
 
     @ManyToOne
     private AppUser appUser;
