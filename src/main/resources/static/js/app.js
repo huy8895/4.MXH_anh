@@ -20,6 +20,7 @@ function like(postID, userID) {
     });
     event.preventDefault();
 }
+
 function upVote(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
@@ -42,6 +43,7 @@ function upVote(postID, userID) {
     });
     event.preventDefault();
 }
+
 function downVote(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
@@ -77,7 +79,7 @@ function deleteComment(commentId) {
         data: JSON.stringify(json),
         url: $(location).attr('href'),
         success: function (currentPost) {
-            $(likesObj).html(currentPost.likeCount);
+            deleteCommentInPost(commentId)
         }
     });
     event.preventDefault();
@@ -103,7 +105,7 @@ function comment(postID, userID, content) {
         url: $(location).attr('href'),
         success: function (comment) {
             console.log("comment thanh cong +  " + comment.id)
-            createPostHTML(postID, userID, content,comment.id)
+            createPostHTML(postID, userID, content, comment.id)
         }
     });
     event.preventDefault();
@@ -112,19 +114,63 @@ function comment(postID, userID, content) {
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
     if (heart.src.indexOf("active") === -1) {
-        heart.src = "tweeter/images/heart-active.svg"
+        heart.src = "/data/heart-active.svg"
     } else {
-        heart.src = "tweeter/images/heart.svg"
+        heart.src = "/data/heart.svg"
     }
 }
 
-function deletePost(id,commentId) {
-    let elementId = "article-container-" + id
+function deleteCommentInPost(commentId) {
+    let elementId = "article-container-" + commentId
     let element = document.getElementById(elementId)
     element.remove()
-    deleteComment(commentId)
 }
 
+function editComment(commentId){
+
+    let elementId = "content-textBoxEdit+" + commentId
+    let element = document.getElementById(elementId)
+    let content = document.getElementById(elementId).value
+    console.log('commentId'+commentId)
+    console.log('content'+content)
+    let json = {
+        "id":commentId,
+        "content":content
+    }
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "PUT",
+        data: JSON.stringify(json),
+        url: $(location).attr('href'),
+        success: function (comment) {
+            let template = `<blockquote id="comment-content+${commentId}">
+                        ${comment.content}
+                        </form>
+					</blockquote>`
+            console.log("comment thanh cong +  " + comment.id)
+            $(element).html(template);
+        }
+    });
+
+}
+
+function editCommentInPost(commentId) {
+    let elementId = "comment-content" + commentId
+    let element = document.getElementById(elementId)
+    let content = document.getElementById(elementId).innerText
+    console.log('commentId: '+commentId)
+    console.log('postContent: '+content)
+    let template = `<blockquote id="comment-content+${commentId}">
+                        <form method="post" action="">
+                        <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
+                        <button type="button" onclick="editComment(${commentId})">edit</button>
+                        </form>
+					</blockquote>`
+    $(element).html(template);
+}
 
 function submitPost(postID, userID) {
     let textArea = document.getElementById("input-textarea")
@@ -141,24 +187,22 @@ function submitPost(postID, userID) {
     return false;
 }
 
-let currentPostId = 1;
 
-function createPostHTML(postID, userID, postContent,commentId) {
+function createPostHTML(postID, userID, postContent, commentId) {
     let now = new Date()
     let time = now.toLocaleTimeString()
     let date = now.toLocaleString()
     let fullName = document.getElementById("fullName" + postID + userID).value
     let username = document.getElementById("userName" + postID + userID).value
     let avatarFile = document.getElementById("avatarFile" + postID + userID).value
-    currentPostId = currentPostId + 1
     postContent = postContent.replace(/</g, "&lt;")
     postContent = postContent.replace(/\n/g, "<br />")
     postContent = postContent.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\" target=\"_blank\">$1</a>")
 
     let template = `
-				<article id="article-container-${currentPostId}">
+				<article id="article-container-${commentId}">
 					<header>
-						<button class="close" onclick="deletePost(${currentPostId},${commentId})">
+						<button class="close" onclick="deleteCommentInPost(${commentId})">
 							<img src="/data/close.png" height="15" width="15"/>
 						</button>
 						<div class="avatar_comment">
@@ -175,8 +219,8 @@ function createPostHTML(postID, userID, postContent,commentId) {
 						<p class="date-posted">Posted
 							<time>${date}</time>
 						</p>
-						<button class="heart" onclick="lovePost(${currentPostId})">
-							<img src="/data/heart.svg" id="heart-image-${currentPostId}" height="15" width="16"/>
+						<button class="heart" onclick="lovePost(${commentId})">
+							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>
 						</button>
 					</footer>
 				</article>`
@@ -184,20 +228,9 @@ function createPostHTML(postID, userID, postContent,commentId) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 //==================simple function=====================//
-function goDetail(postId){
-    let url ="/post/detail/" +postId;
-    window.open(url,"_self");
+function goDetail(postId) {
+    let url = "/post/detail/" + postId;
+    window.open(url, "_self");
 }
 

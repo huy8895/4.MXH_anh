@@ -150,6 +150,18 @@ public class PostController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
+    @PutMapping("/detail/{id}")
+    public ResponseEntity<Comment> editComment(@RequestBody Comment commentEdited,
+                                               @PathVariable("id") Long id) {
+        Comment currentComment = commentService.getCommentById(commentEdited.getId());
+        currentComment.setContent(commentEdited.getContent());
+        commentService.save(currentComment);
+        Post currentPost = postService.getPostById(id);
+        currentPost.setCommentCount(commentService.countAllByPost(currentPost));
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentComment, HttpStatus.OK);
+    }
+
     @DeleteMapping("/detail/{id}")
     public ResponseEntity<Post> removeComment(@RequestBody Comment comment,
                                               @PathVariable("id") Long id) {

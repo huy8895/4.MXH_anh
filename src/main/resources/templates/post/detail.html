@@ -35,9 +35,9 @@
                         </div>
                     </div>
                     <div class="uploader">
-<!--                        th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
+                        <!--                        th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
                         <time
-                              th:name="*{post.dateUpload}"></time>
+                                th:name="*{post.dateUpload}"></time>
                         <time th:text="${post.dateUpload}"></time>
                         <div>
                             <img th:src="@{'/'+${post.appUser.avatarFileName}}">
@@ -115,16 +115,27 @@
                                     <img src="/data/compose-icon.png" height="20" width="20">
 
                                 </button>
-                                <input type="hidden" th:id="'fullName' + ${post.id} +${user.id}" th:value="${user.fullName}" name="fullName">
-                                <input type="hidden" th:id="'userName' + ${post.id} +${user.id}" th:value="${user.username}" name="userName">
-                                <input type="hidden" th:id="'avatarFile' + ${post.id} +${user.id}" th:value="'/'+${user.avatarFileName}" name="userName">
+                                <input type="hidden" th:id="'fullName' + ${post.id} +${user.id}"
+                                       th:value="${user.fullName}" name="fullName">
+                                <input type="hidden" th:id="'userName' + ${post.id} +${user.id}"
+                                       th:value="${user.username}" name="userName">
+                                <input type="hidden" th:id="'avatarFile' + ${post.id} +${user.id}"
+                                       th:value="'/'+${user.avatarFileName}" name="userName">
                             </form>
-                            <article id="article-container-1" th:each="comment: ${commentPage}">
-                                <header >
+                            <article th:id="'article-container-'+${comment.id}" th:each="comment: ${commentPage}">
+                                <header>
                                     <th:block th:if="${user.id == comment.appUser.id}">
-                                        <button class="close" th:onclick="'deletePost(\'' + 1 +'\',\''+${comment.id} + '\');'">
+                                        <button class="close" th:onclick="'deleteComment(\'' + ${comment.id} + '\');'">
                                             <img src="/data/close.png" height="15" width="15">
                                         </button>
+                                        <div></div>
+                                        <button class="" th:onclick="'editCommentInPost(\'' + ${comment.id} + '\');'">
+                                            edit
+                                        </button>
+                                        <div></div>
+<!--                                        <button  th:onclick="'editCommentInPost(\'' + ${comment.id}+ '\',\''+${comment.content}+ '\');'">-->
+<!--                                            edit-->
+<!--                                        </button>-->
                                     </th:block>
                                     <div class="avatar_comment">
                                         <img th:src="@{'/'+${comment.appUser.avatarFileName}}" height="40" width="40">
@@ -132,7 +143,7 @@
                                     <h1 th:text="${comment.appUser.fullName}"></h1>
                                     <h2 th:text="'@'+${comment.appUser.username}"></h2>
                                 </header>
-                                <blockquote th:text="${comment.content}">
+                                <blockquote th:text="${comment.content}" th:id="'comment-content'+${comment.id}">
                                 </blockquote>
                                 <hr>
                                 <footer>
