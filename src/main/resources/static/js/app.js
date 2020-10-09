@@ -128,8 +128,8 @@ function deleteCommentInPost(commentId) {
 
 function editComment(commentId){
 
-    let elementId = "content-textBoxEdit+" + commentId
-    let element = document.getElementById(elementId)
+    let elementId = "content-textBoxEdit+" + commentId;
+    let element = document.getElementById(elementId);
     let content = document.getElementById(elementId).value
     console.log('commentId'+commentId)
     console.log('content'+content)
@@ -146,12 +146,16 @@ function editComment(commentId){
         data: JSON.stringify(json),
         url: $(location).attr('href'),
         success: function (comment) {
-            let template = `<blockquote id="comment-content+${commentId}">
+            let element = document.getElementById(elementId)
+            // let template = `<blockquote id="comment-content+${commentId}">
+            //             ${comment.content}
+            //             </blockquote>`;
+            let template = `
                         ${comment.content}
-                        </form>
-					</blockquote>`
+                        `;
             console.log("comment thanh cong +  " + comment.id)
-            $(element).html(template);
+            document.getElementById(`comment-content${comment.id}`).innerHTML = template;
+            console.log("comment thanh cong +  " + comment.id)
         }
     });
 
@@ -163,12 +167,16 @@ function editCommentInPost(commentId) {
     let content = document.getElementById(elementId).innerText
     console.log('commentId: '+commentId)
     console.log('postContent: '+content)
-    let template = `<blockquote id="comment-content+${commentId}">
-                        <form method="post" action="">
+    // let template = `<blockquote id="comment-content+${commentId}">
+    //                     <form method="post" action="">
+    //                     <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
+    //                     <button type="button" onclick="editComment(${commentId})">edit</button>
+    //                     </form>
+	// 				</blockquote>`;
+    let template = `<form method="post" action="">
                         <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
                         <button type="button" onclick="editComment(${commentId})">edit</button>
-                        </form>
-					</blockquote>`
+                        </form>`;
     $(element).html(template);
 }
 
