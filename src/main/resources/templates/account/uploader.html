@@ -47,8 +47,8 @@
                     </button>
 
 
-                    <button type="button" th:href="@{/post/detail/__${post.id}__}" class="btn ">Comment <i
-                            style='font-size:24px' class='far'>&#xf27a;</i>
+                    <button type="button"  class="btn" th:onclick="'$(this).click(goDetail(\'' + ${post.id} +'\'))'">Comment <i
+                            style='font-size:24px' class='far'>&#xf27a;<span class="comments" title="Comments" th:text="${post.commentCount}"></span></i>
                     </button>
 
 

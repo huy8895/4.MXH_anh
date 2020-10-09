@@ -33,8 +33,7 @@
                 xuất hiện ở đây hơn
             </div>
             <div class="photoList">
-                <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}" data-id="1402992"
-                     data-newly-listed="True"
+                <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True"
                      data-nsfw="False">
                     <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                     th:text="${post.appUser.username}">toikobik</a>
@@ -51,25 +50,21 @@
                         <h2>
                             <a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a>
                         </h2>
-                        <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg"
-                             sec:authorize="isAuthenticated()">
+                        <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg" sec:authorize="isAuthenticated()">
 
-                            <button type="button" class="btn "
-                                    th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">Like
-                                <i style='font-size:24px' class='far'>&#xf164;<span
-                                        class="likes" th:id="'likes'+${post.id}" title="Like"
-                                        th:text="  ${post.likeCount}"></span></i>
+                            <button type="button" class="btn " th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">Like <i style='font-size:24px' class='far'>&#xf164;<span
+                                    class="likes" th:id="'likes'+${post.id}" title="Like"
+                                    th:text="  ${post.likeCount}"></span></i>
                             </button>
-                            <form th:action="@{/post/detail/__${post.id}__}">
-                            <button type="submit" class="btn ">Comment <i
-                                    style='font-size:24px' class='far'>&#xf27a;<span class="comments" title="Comments"
-                                                                                     th:text="${post.commentCount}"></span></i>
+
+                            <button type="button"  class="btn" th:onclick="'$(this).click(goDetail(\'' + ${post.id} +'\'))'">Comment <i
+                                    style='font-size:24px' class='far'>&#xf27a;<span class="comments" title="Comments" th:text="${post.commentCount}"></span></i>
                             </button>
-                            </form>
 
                             <button type="button" class="btn ">Share <i style='font-size:24px' class='fas'>&#xf14d;</i>
                             </button>
                         </div>
+
                     </div>
                     <!-- The Modal -->
                     <div class="modal fade" th:id="'myModal'+${post.id}">
@@ -94,8 +89,7 @@
                                                 <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
                                                      class="rounded-circle" style="width:60px;">
                                                 <div class="media-body">
-                                                    <h4 th:text="${post.appUser.username}"><small><i>Posted on February
-                                                        19,
+                                                    <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,
                                                         2016</i></small></h4>
                                                     <p th:text="${post.title}"></p>
                                                 </div>
@@ -109,8 +103,7 @@
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
                                     <a th:href="@{/post/detail/__${post.id}__}">
-                                        <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i>
-                                        </button>
+                                        <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
                                     </a>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>

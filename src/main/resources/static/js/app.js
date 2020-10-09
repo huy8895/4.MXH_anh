@@ -183,3 +183,21 @@ function createPostHTML(postID, userID, postContent,commentId) {
     document.getElementById("form-container").insertAdjacentHTML("afterend", template)
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//==================simple function=====================//
+function goDetail(postId){
+    let url ="/post/detail/" +postId;
+    window.open(url,"_self");
+}
+
