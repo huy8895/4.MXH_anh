@@ -50,12 +50,13 @@ public class PostController {
 
     @Autowired
     IVoteService voteService;
+
     @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername()).orElse(null);
+            appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
 
         }
         return appUser;
@@ -168,12 +169,12 @@ public class PostController {
 
         Post currentPost = postService.getPostById(vote.getPost().getId());
         AppUser currentUser = getPrincipal();
-        if (currentUser!=null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)){
+        if (currentUser != null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)) {
             vote.setValue(1L);
             voteService.save(vote);
         } else {
-            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser,currentPost);
-            if (currentVote.getValue()==-1L){
+            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser, currentPost);
+            if (currentVote.getValue() == -1L) {
                 currentVote.setValue(1L);
                 voteService.save(currentVote);
             } else {
@@ -182,21 +183,26 @@ public class PostController {
         }
         Long countVote = voteService.sumOfValues(currentPost);
         System.out.println("upVote_countVote = " + countVote);
-        currentPost.setVoteCount(countVote);
+        if (countVote == null) {
+            currentPost.setVoteCount(0);
+        } else {
+            currentPost.setVoteCount(countVote);
+        }
+
         postService.save(currentPost);
-        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+        return new ResponseEntity<>(currentPost, HttpStatus.OK);
     }
 
     @PostMapping("/downVote")
     public ResponseEntity<Post> downVotePost(@RequestBody Vote vote) {
         Post currentPost = postService.getPostById(vote.getPost().getId());
         AppUser currentUser = getPrincipal();
-        if (currentUser!=null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)){
+        if (currentUser != null && !voteService.existsByAppUserAndAndPost(currentUser, currentPost)) {
             vote.setValue(-1L);
             voteService.save(vote);
         } else {
-            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser,currentPost);
-            if (currentVote.getValue()==1L){
+            Vote currentVote = voteService.getByAppUserAndAndPost(currentUser, currentPost);
+            if (currentVote.getValue() == 1L) {
                 currentVote.setValue(-1L);
                 voteService.save(currentVote);
             } else {
@@ -204,10 +210,14 @@ public class PostController {
             }
         }
         Long countVote = voteService.sumOfValues(currentPost);
+        if (countVote == null) {
+            currentPost.setVoteCount(0);
+        } else {
+            currentPost.setVoteCount(countVote);
+        }
         System.out.println("downVote_countVote = " + countVote);
-        currentPost.setVoteCount(countVote);
         postService.save(currentPost);
-        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+        return new ResponseEntity<>(currentPost, HttpStatus.OK);
     }
 
 
