@@ -69,8 +69,16 @@ public class HomeController {
         return modelAndView;
     }
     @GetMapping("/login")
-    public String login(){
-        return "login";
+    public ModelAndView login(){
+        ModelAndView modelAndView = new ModelAndView("login");
+        AppUser checkFbUser = appUserService.findTopByOrderByIdDesc();
+        if(checkFbUser.getUsername().length()==15 && checkFbUser.getRole().getId()==2)
+        {
+            System.out.println("true check");
+            modelAndView.addObject("messageLogin","Successful !!");
+            modelAndView.addObject("fbUser",checkFbUser);
+        }
+        return modelAndView;
     }
 
     @GetMapping("/Access_Denied")
@@ -94,7 +102,10 @@ public class HomeController {
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        user.setAvatarFileName(avatarFileName);
+        if(avatarFileName!=null)
+            user.setAvatarFileName(avatarFileName);
+        else
+            user.setAvatarFileName("default_avatar.jpg");
         userService.save(user);
         try {
             FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));

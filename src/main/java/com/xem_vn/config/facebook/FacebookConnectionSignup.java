@@ -30,7 +30,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
         if(!appUserService.existsAppUserByUsername(""+connection.getKey())) {
             user.setFullName(connection.getDisplayName());
             user.setPassword(randomAlphabetic(8));
-            user.setAvatarFileName("post_NEOGDS-333615.jpg");
+            user.setAvatarFileName("default_avatar.jpg");
             String userName = connection.getKey().toString().substring(9);
             user.setUsername(userName);
             AppRole role = roleService.getRoleByName("ROLE_USER");

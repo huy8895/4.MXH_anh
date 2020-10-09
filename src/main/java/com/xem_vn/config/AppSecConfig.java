@@ -66,8 +66,6 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
     public ProviderSignInController providerSignInController() {
         ConnectionFactoryLocator connectionFactoryLocator = connectionFactoryLocator();
         UsersConnectionRepository usersConnectionRepository = getUsersConnectionRepository(connectionFactoryLocator);
-//        if(facebookConnectionSignup.execute() )
-//        ((InMemoryUsersConnectionRepository) usersConnectionRepository).createConnectionRepository(appUserService.get);
         ((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
         return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, new FacebookSignInAdapter());
     }
