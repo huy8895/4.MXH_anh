@@ -251,8 +251,8 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 						<div class="avatar_comment">
 						<img src="${avatarFile}" height="40" width="40" class="avatar_comment"/>
 						</div>
-						<h1 >${fullName}</h1>
-						<h2 >@${username}</h2>
+						<h4 >${fullName}</h4>
+						<i >@${username}</i>
 					</header>
 					<blockquote id="comment-content${commentId}">
 						${postContent}
