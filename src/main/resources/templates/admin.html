@@ -27,89 +27,26 @@
         <div class="col-sm-2 ">
         </div>
         <div class="col-sm-8">
-            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
-                <h2><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h2>
-                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
-                                th:text="${post.appUser.username}"></a>
-                    <time th:text="${post.dateUpload}"
-                          th:name="*{post.dateUpload}"></time>
-                </h5>
-                <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
-                    <img th:src="@{'/'+${post.photoName}}"
-                         th:alt="${post.title}" class="img-fluid">
-                </a>
-                <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
-
-                    <button type="button" class="btn "
-                            th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">Like <i
-                            style='font-size:24px' class='far'>&#xf164;<span
-                            class="likes" th:id="'likes'+${post.id}" title="Like"
-                            th:text="  ${post.likeCount}"></span></i>
-                    </button>
-
-
-                    <button type="button" class="btn" th:onclick="'$(this).click(goDetail(\'' + ${post.id} +'\'))'">
-                        Comment <i
-                            style='font-size:24px' class='far'>&#xf27a;<span class="comments" title="Comments"
-                                                                             th:text="${post.commentCount}"></span></i>
-                    </button>
-
-
-                    <button type="button" class="btn ">Share <i style='font-size:24px' class='fas'>&#xf14d;</i>
-                    </button>
-                </div>
-                <!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
-                <!--                    Open modal-->
-                <!--                </button>-->
-
-                <!-- The Modal -->
-                <div class="modal fade" th:id="'myModal'+${post.id}">
-                    <div class="modal-dialog modal-1000">
-                        <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <p th:text="${post.title}"></p>
-                                <button type="button" class="close" data-dismiss="modal">×</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <img th:src="@{'/'+${post.photoName}}"
-                                             th:alt="${post.title}" class="img-fluid">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="media border p-3 shadow">
-                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
-                                                 class="rounded-circle" style="width:60px;">
-                                            <div class="media-body">
-                                                <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,
-                                                    2016</i></small></h4>
-                                                <p th:text="${post.title}"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <a th:href="@{/post/detail/__${post.id}__}">
-                                    <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
-                                </a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <table class="table">
+               <tr>
+                   <th>UserID</th>
+                   <th>Username</th>
+                   <th>Full Name</th>
+                   <th>Avatar</th>
+                   <th>Role</th>
+                   <th>Action</th>
+               </tr>
+               <tr th:each="appUser : ${users}">
+                    <td th:text="${appUser.id}"></td>
+                    <td th:text="${appUser.username}"></td>
+                    <td th:text="${appUser.fullName}"></td>
+                    <td><img th:src="@{'/'+${appUser.avatarFileName}}" width="30px" height="30px"></td>
+                    <td th:text="${appUser.role.name}"></td>
+                    <td><button th:onclick="'blockUser(\''+${appUser.id} + '\')'" type="button">Block</button></td>
+               </tr>
+           </table>
         </div>
-        <div class="col-sm-2 ">
+<!--        <div class="col-sm-2 ">-->
         </div>
     </div>
 </div>
