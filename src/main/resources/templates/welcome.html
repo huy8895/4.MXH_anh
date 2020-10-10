@@ -21,50 +21,7 @@
     </style>
 </head>
 <body>
-<header>
-    <nav class="navbar p-0 pl-4 navbar-expand-sm navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="/">Home</a>
-        <!--    <a th:href="@{/uploader/__${user.id}__}" class="navbar-brand"  title="Trang cá nhân">-->
-        <!--        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30" class="d-inline-block align-top"-->
-        <!--             th:alt="${user.avatarFileName}">-->
-        <!--    </a>-->
-        <!--        <a class="navbar-brand" href="#">-->
-        <!--            <img th:src="@{'/'+${user.avatarFileName}}" class="rounded-circle"-->
-        <!--                 width="40" height="40"-->
-        <!--                 th:alt="${user.avatarFileName}" >-->
-        <!--        </a>-->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">
-<!--                        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"-->
-<!--                             class="d-inline-block align-top"-->
-<!--                             th:alt="${user.avatarFileName}">Home <span class="sr-only">(current)</span></a>-->
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<header th:replace="~{layout/layout::header(${user})}">
 </header>
 
 <div class="container mt-5">
