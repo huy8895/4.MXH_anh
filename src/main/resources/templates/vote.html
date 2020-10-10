@@ -44,8 +44,6 @@
                             Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}"
                                         th:title="${post.appUser.username}"
                                         th:text="${post.appUser.username}">toikobik</a>
-                            <!--                                <time th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
-                            <!--                                      th:name="*{post.dateUpload}"></time>-->
                             <time th:text="${post.dateUpload}"
                                   th:name="*{post.dateUpload}"></time>
                         </div>
@@ -59,13 +57,11 @@
                                 <button type="button"
                                         th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
                                     upVote
-                                    <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
                                 </button>
                                 <button type="button"
                                         th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
                                     downVote
-                                    <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
-                                </button>
+                                    </button>
                             </div>
                             <div class="clear"></div>
                         </div>

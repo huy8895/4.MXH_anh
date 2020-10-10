@@ -34,22 +34,16 @@
                                 <span class="text">Sưu tầm</span>
                             </span>
                 </div>
-                <div class="adminActions">
-                </div>
             </div>
             <div class="uploader">
-                <!--                        th:text="${currentTime}-${post.getDateUpload().getTime()}"-->
-                <time
-                        th:name="*{post.dateUpload}"></time>
-                <time th:text="${post.dateUpload}"></time>
                 <div>
-                    <img th:src="@{'/'+${post.appUser.avatarFileName}}" class="col-sm-8">
+                    <img th:src="@{'/'+${post.appUser.avatarFileName}}" style="width: 10%;height: 10%">
                     <div class="info">
                         <a href="/#" th:title="${post.appUser.fullName}"></a>
-                        <span title="lượt thích" class="likes" th:text="${post.likeCount}"></span>
                     </div>
-                    <div class="clear">
-                    </div>
+                    <time
+                            th:name="*{post.dateUpload}"></time>
+                    <time th:text="${post.dateUpload}"></time>
                 </div>
             </div>
             <div data-fixedtop="40" class="fixedScrollDetector">
