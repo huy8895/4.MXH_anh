@@ -69,15 +69,9 @@ public class PostController {
         return new Date(System.currentTimeMillis());
     }
 
-    @GetMapping("/create")
-    public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("post/create");
-        modelAndView.addObject("post", new Post());
-        return modelAndView;
-    }
 
     @PostMapping("/create")
-    public ModelAndView createPost(Post post) {
+    public ResponseEntity<String> createPost(Post post) {
         post.setDateUpload(getCurrentDate());
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
@@ -90,9 +84,7 @@ public class PostController {
             e.printStackTrace();
         }
         postService.save(post);
-        ModelAndView modelAndView = new ModelAndView("post/create");
-        postService.save(post);
-        return modelAndView;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/edit")
