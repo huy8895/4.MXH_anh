@@ -35,7 +35,7 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
 
     @Override
     public AppUser save(AppUser user) {
-        if(!userRepository.existsAppUserByUsername(user.getUsername()))
+        if (!userRepository.existsAppUserByUsername(user.getUsername()))
             return userRepository.save(user);
         return user;
     }
@@ -62,18 +62,17 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser optionalUser = userRepository.findAppUserByUsername(username);
-        if(optionalUser == null)
+        AppUser appUser = userRepository.findAppUserByUsername(username);
+        if (appUser == null)
             throw new UsernameNotFoundException(username);
         List<AppRole> roles = new ArrayList<>();
 
-//        if (optionalUser) {
-            roles.add(optionalUser.getRole());
-            User user = new User(optionalUser.getUsername(),optionalUser.getPassword(),true, true, true, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        if (appUser != null) {
+            roles.add(appUser.getRole());
+            User user = new User(appUser.getUsername(), appUser.getPassword(), roles);
             return user;
-//        }
-//        else {
-//            throw new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", username));
-//        }
+        } else {
+            throw new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", username));
+        }
     }
 }

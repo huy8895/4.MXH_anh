@@ -50,7 +50,12 @@
                 </div>
             </th:block>
             <div th:fragment="listpost" class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
-                <h2><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h2>
+                <th:block sec:authorize="isAuthenticated()">
+                    <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                        <button type="button" class="close">×</button>
+                    </div>
+                </th:block>
+                <h3><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
                     <time th:text="${post.dateUpload}"
