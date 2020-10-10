@@ -15,7 +15,7 @@ function like(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/like",
         success: function (currentPost) {
-            $(likesObj).innerHTML(currentPost.likeCount);
+            $(likesObj).html(currentPost.likeCount);
         }
     });
     event.preventDefault();
@@ -38,7 +38,7 @@ function upVote(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/upVote",
         success: function (currentPost) {
-            $(voteObj).innerHTML(currentPost.voteCount);
+            $(voteObj).html(currentPost.voteCount);
         }
     });
     event.preventDefault();
@@ -258,7 +258,7 @@ function loveComment(commentId, userId) {
         url: "/post/loveComment",
         success: function (currentComment) {
             lovePost(commentId);
-            $(heartObj).innerHTML(currentComment.loveCount);
+            $(heartObj).html(currentComment.loveCount);
         }
     });
     event.preventDefault();

@@ -12,7 +12,6 @@
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script th:src="@{/js/app.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/xemvn.css}">
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
@@ -44,7 +43,7 @@
                         th:name="*{post.dateUpload}"></time>
                 <time th:text="${post.dateUpload}"></time>
                 <div>
-                    <img th:src="@{'/'+${post.appUser.avatarFileName}}" width="10%" height="10%">
+                    <img th:src="@{'/'+${post.appUser.avatarFileName}}" class="col-sm-8">
                     <div class="info">
                         <a href="/#" th:title="${post.appUser.fullName}"></a>
                         <span title="lượt thích" class="likes" th:text="${post.likeCount}"></span>
@@ -55,9 +54,9 @@
             </div>
             <div data-fixedtop="40" class="fixedScrollDetector">
             </div>
-            <div class="photoImg" style="justify-content: center">
+            <div>
                 <img th:src="@{'/'+${post.photoName}}"
-                     th:alt="${post.title}">
+                     th:alt="${post.title}" class="img-fluid" >
             </div>
             <div class="commentContainer">
                 <h3>Bình luận
@@ -85,40 +84,6 @@
                         <input type="hidden" th:id="'avatarFile' + ${post.id} +${user.id}"
                                th:value="'/'+${user.avatarFileName}" name="userName">
                     </form>
-<!--                    <article th:id="'article-container-'+${comment.id}" th:each="comment: ${commentPage}">-->
-<!--                        <header>-->
-<!--                            <th:block th:if="${user.id == comment.appUser.id}">-->
-<!--                                <button class="close" th:onclick="'deleteComment(\'' + ${comment.id} + '\');'">-->
-<!--                                    <img src="/data/close.png" height="15" width="15">-->
-<!--                                </button>-->
-<!--                                <div></div>-->
-<!--                                <button class="edit" th:onclick="'editCommentInPost(\'' + ${comment.id} + '\');'">-->
-<!--                                    edit-->
-<!--                                </button>-->
-<!--                                <div></div>-->
-<!--                                &lt;!&ndash;                                        <button  th:onclick="'editCommentInPost(\'' + ${comment.id}+ '\',\''+${comment.content}+ '\');'">&ndash;&gt;-->
-<!--                                &lt;!&ndash;                                            edit&ndash;&gt;-->
-<!--                                &lt;!&ndash;                                        </button>&ndash;&gt;-->
-<!--                            </th:block>-->
-<!--                            <div class="avatar_comment">-->
-<!--                                <img class="avatar_comment" th:src="@{'/'+${comment.appUser.avatarFileName}}"-->
-<!--                                     height="40" width="40">-->
-<!--                            </div>-->
-<!--                            <h1 th:text="${comment.appUser.fullName}"></h1>-->
-<!--                            <h2 th:text="'@'+${comment.appUser.username}"></h2>-->
-<!--                        </header>-->
-<!--                        <blockquote th:text="${comment.content}" th:id="'comment-content'+${comment.id}">-->
-<!--                        </blockquote>-->
-<!--                        <hr>-->
-<!--                        <footer>-->
-<!--                            <p class="date-posted">Posted-->
-<!--                                <time th:text="${comment.timeComment}"></time>-->
-<!--                            </p>-->
-<!--                            <button class="heart" onclick="lovePost(1)">-->
-<!--                                <img src="/data/heart.svg" id="heart-image-1" height="15" width="16">-->
-<!--                            </button>-->
-<!--                        </footer>-->
-<!--                    </article>-->
                 </div>
             </div>
             <input type="hidden" th:id="'fullName' + ${post.id} +${user.id}" th:value="${user.fullName}"
@@ -167,12 +132,8 @@
                 </footer>
             </article>
         </div>
-        <div th:replace="~{layout/layout::footer}"></div>
+        <div class="col-sm-2"></div>
     </div>
-</div>
-<div class="col-sm-2"></div>
-</div>
-
 </div>
 <div th:replace="~{layout/layout::footer}"></div>
 </body>
