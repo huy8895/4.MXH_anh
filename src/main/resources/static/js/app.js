@@ -26,13 +26,15 @@ function likeStatus(postID){
     let like = document.getElementById("LikeButton-" + postID)
 
     if (like.style.color.indexOf("blue") === -1) {
-        // like.innerHTML = "<i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue' th:id="''LikeButton-' + ${post.id}"></i>";
         like.style.color="blue";
     } else {
-        // like.innerHTML ="<i clas?s='far fa-thumbs-up' style='font-size: 1.9em;color:gray' th:id="'LikeButton-' + ${post.id}"></i>";
         like.style.color="gray";
     }
 }
+
+//=============================================================================================
+
+
 function upVote(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
@@ -79,6 +81,8 @@ function downVote(postID, userID) {
     event.preventDefault();
 }
 
+
+//=============================================================================================
 function deleteComment(commentId) {
     console.log('commentId ' + commentId)
     let json = {"id": commentId}
@@ -123,14 +127,6 @@ function comment(postID, userID, content) {
     event.preventDefault();
 }
 
-function lovePost(id) {
-    let heart = document.getElementById("heart-image-" + id)
-    if (heart.src.indexOf("active") === -1) {
-        heart.src = "/data/heart-active.svg"
-    } else {
-        heart.src = "/data/heart.svg"
-    }
-}
 
 function deleteCommentInPost(commentId) {
     let elementId = "article-container-" + commentId
@@ -274,6 +270,19 @@ function goDetail(postId) {
     window.open(url, "_self");
 }
 
+
+//=============================================================================================
+
+
+
+function lovePost(id) {
+    let heart = document.getElementById("heart-image-" + id)
+    if (heart.src.indexOf("active") === -1) {
+        heart.src = "/data/heart-active.svg"
+    } else {
+        heart.src = "/data/heart.svg"
+    }
+}
 function loveComment(commentId, userId) {
     console.log('commentID ' + commentId);
     console.log('userID ' + userId);
@@ -298,3 +307,24 @@ function loveComment(commentId, userId) {
     event.preventDefault();
 }
 
+//=============================================================================================
+
+
+function blockUser(userId){
+
+    console.log('userID deleting' + userId);
+    let json = {"id": userId}
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        data: JSON.stringify(json),
+        url: "/admin/block",
+        success: function (currentComment) {
+            console.log("delete thanh cong");
+        }
+    });
+    event.preventDefault();
+}

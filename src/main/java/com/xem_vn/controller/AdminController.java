@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.Repository;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.management.relation.Role;
 import java.util.List;
 
 @Controller
 @RequestMapping("admin")
+@CrossOrigin("*")
 public class AdminController {
     @Autowired
     IAppUserService userService;
@@ -35,10 +38,15 @@ public class AdminController {
     @Autowired
     IStatusService statusService;
 
-//    @GetMapping
-//    public String adminPage() {
-//        return "admin";
-//    }
+    @GetMapping
+    public ModelAndView adminPage() {
+        ModelAndView modelAndView = new ModelAndView("admin");
+        modelAndView.addObject("users",listUser());
+        return modelAndView;
+    }
+    private Iterable<AppUser> listUser(){
+        return userService.getAllUser();
+    }
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -110,16 +118,25 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping
-    public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
-                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
-                                                 Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("admin");
-        Status status = statusService.findByName("pending").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
-        modelAndView.addObject("newComment", new Comment());
-        modelAndView.addObject("posts", postPage);
-        return modelAndView;
+//    @GetMapping
+//    public ModelAndView showApprovalPage(@PageableDefault(value = 5, page = 0)
+//                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
+//                                                 Pageable pageable) {
+//        ModelAndView modelAndView = new ModelAndView("admin");
+//        Status status = statusService.findByName("pending").get();
+//        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+//        modelAndView.addObject("newComment", new Comment());
+//        modelAndView.addObject("posts", postPage);
+//        return modelAndView;
+//    }
+
+    @PostMapping("/block")
+    public ResponseEntity<String> blockUser(@RequestBody AppUser user){
+        AppUser blockUser = userService.getUserById(user.getId());
+        AppRole appRole = roleService.getRoleByName("ROLE_BLOCKED");
+        blockUser.setRole(appRole);
+        userService.save(blockUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/post/approval/accept/{id}")
