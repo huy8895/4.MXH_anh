@@ -8,6 +8,8 @@ import com.xem_vn.service.ILoveCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LoveCommentService implements ILoveCommentService {
     @Autowired
@@ -45,5 +47,15 @@ public class LoveCommentService implements ILoveCommentService {
     @Override
     public void remove(LoveComment loveComment) {
         loveCommentRepository.delete(loveComment);
+    }
+
+    @Override
+    public boolean existsByAppUserId(Long appUserId) {
+        return loveCommentRepository.existsByAppUserId(appUserId);
+    }
+
+    @Override
+    public List<Long> getListUserIds() {
+        return loveCommentRepository.getListUserIds();
     }
 }

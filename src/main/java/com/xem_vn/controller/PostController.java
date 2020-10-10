@@ -1,7 +1,6 @@
 package com.xem_vn.controller;
 
 import com.xem_vn.model.*;
-import com.xem_vn.repository.IPostRepository;
 import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,10 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -25,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("post")
@@ -61,6 +59,10 @@ public class PostController {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
         }
         return appUser;
+    }
+    private List<Long> getListHeartUserId(){
+        List<Long> list = loveCommentService.getListUserIds();
+        return list;
     }
 
     private Date getCurrentDate() {
@@ -153,6 +155,7 @@ public class PostController {
         modelAndView.addObject("commentPage", commentPage);
         modelAndView.addObject("newComment", new Comment());
         modelAndView.addObject("currentTime", System.currentTimeMillis());
+        modelAndView.addObject("listHeartUserIds", getListHeartUserId());
         return modelAndView;
     }
 

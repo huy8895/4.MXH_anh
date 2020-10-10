@@ -7,83 +7,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="https://s-xem.mkocdn.com/bundles/mkoxem/css/xem.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
-<div id="header" th:fragment="header(user)">
-    <div id="headerContent">
-        <h1><a href="/" id="logo" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">xem.vn</a></h1>
-        <ul id="menuBar">
-            <li class="hotTag">
-                <img src="https://s-xem.mkocdn.com/bundles/mkoxemsp/images/nav-icon.png" width="20" height="20">
-                <div class="blank"></div>
-                <ul>
-                    <li><a href="/#">Clip Sock</a></li>
-                    <li><a href="/#">Chế anime</a></li>
-                    <li><a href="/#">Ảnh chế one Piece</a></li>
-                    <li><a href="/#">Clip hot trên mạng</a></li>
-                </ul>
-            </li>
-            <li class="selected"><a href="/" title="Cộng đồng chế ảnh troll , ảnh vui hài hước , anh che haivl">Mới</a>
-            </li>
-            <li><a href="/#" title="Ảnh mới chưa xem">Chưa xem</a></li>
-            <li><a href="/vote" title="Bình chọn ảnh">Bình chọn</a></li>
-            <li><a href="/#" title="Xem.vn - Tuyển tập video clip hot nhất trên mạng">Video</a></li>
-            <li><a href="/#" title="Ảnh đang hot">Hot</a></li>
-            <li><a href="/#" title="Cũ người mới ta :)">Cũ</a></li>
-            <li>
-                <span class="upload">Đăng bài</span>
-                <ul>
-                    <li><a href="/post/create" title="Đăng ảnh">Đăng ảnh</a></li>
-                    <li><a href="/#" title="Đăng video">Đăng video</a></li>
-                </ul>
-            </li>
-            <li>
-                <span>Chế ảnh</span>
-                <ul>
-                    <li><a href="/#" title="Chế rage comic">Chế rage comic</a></li>
-                    <li><a href="/#" title="Chế meme">Chế meme</a></li>
-                </ul>
-            </li>
-            <li><a href="/#" rel="nofollow" title="Đua Top">Đua Top</a><img
-                    src="https://s-xem.mkocdn.com/bundles/mkoxem/images/quiznhe.png" style="margin-left: -6px;"></li>
+<header id="header" th:fragment="header(user)">
+    <nav class="navbar p-0 pl-4 navbar-expand-sm navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="/">Trang Chủ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bình chọn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Ảnh Yêu Thích</a>
+                </li>
+                <th:block sec:authorize="isAnonymous()">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login" title="Đăng nhập">Đăng nhập</a>
+                    </li>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/uploader/__${user.id}__}">
+                            <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
+                                 class="d-inline-block align-top"
+                                 th:alt="${user.avatarFileName}"><span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a>
+                            <a class="dropdown-item" href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="/logout" title="Thoát">Thoát</a>
+                        </div>
+                    </li>
 
-        </ul>
-
-        <!--        <div id="headerRight">-->
-
-        <!--        </div>-->
-        <div id="headerRight">
-            <th:block sec:authorize="isAnonymous()">
-                <div class="login">
-                    <a href="/login" title="Đăng nhập">Đăng nhập</a>
-                </div>
-            </th:block>
-            <th:block sec:authorize="isAuthenticated()">
-                <a href="/account/notification" class="notiButton" title="Thông báo">
-                </a>
-                <div class="avatar noNoti ">
-                    <a th:href="@{/uploader/__${user.id}__}" class="avatarLink" title="Trang cá nhân">
-                        <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
-                             th:alt="${user.avatarFileName}"></span>
-                    </a>
-                    <div class="blank"></div>
-                    <ul>
-                        <li><a th:href="@{/uploader/__${user.id}__}" title="Ảnh của bạn">Ảnh của bạn</a></li>
-                        <li><a href="/account/favorite" title="Ảnh yêu thích">Ảnh yêu thích</a></li>
-                        <li><a href="/account/edit" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
-                        <li><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></li>
-                        <li><a href="/logout" title="Thoát">Thoát</a></li>
-                    </ul>
-                </div>
-            </th:block>
-
+                </th:block>
+            </ul>
         </div>
-        <div class="clear">
-        </div>
-    </div>
-</div>
+    </nav>
+</header>
 <div id="footer" th:fragment="footer">
     <div class="links">
         <a class="first" href="/contact/" rel="nofollow" title="Liên hệ">Liên hệ</a> ·
