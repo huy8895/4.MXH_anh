@@ -69,6 +69,7 @@ public class HomeController {
         Page<Post> postPage =  postService.getAllPostByStatus(status, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
+        modelAndView.addObject("post", new Post());
         return modelAndView;
     }
     @GetMapping("/login")
