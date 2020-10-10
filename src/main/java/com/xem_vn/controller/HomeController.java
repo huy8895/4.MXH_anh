@@ -5,10 +5,8 @@ import com.xem_vn.model.AppRole;
 import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Post;
 import com.xem_vn.model.Status;
-import com.xem_vn.service.IAppRoleService;
-import com.xem_vn.service.IAppUserService;
-import com.xem_vn.service.IPostService;
-import com.xem_vn.service.IStatusService;
+import com.xem_vn.repository.ILikeRepository;
+import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -28,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -48,6 +47,8 @@ public class HomeController {
     @Autowired
     IStatusService statusService;
     @Autowired
+    ILikeService likeService;
+    @Autowired
     private FacebookConnectionSignup facebookConnectionSignup;
 
     @ModelAttribute("user")
@@ -58,6 +59,11 @@ public class HomeController {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
         }
         return appUser;
+    }
+    @ModelAttribute("likedUserIds")
+    private List<Long> getListLikedUserIds(){
+        List<Long> list = likeService.getListLikedUserIds();
+        return list;
     }
 
     @GetMapping({"/", "/home"})

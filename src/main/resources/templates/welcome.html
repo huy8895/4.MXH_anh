@@ -35,7 +35,8 @@
                             <div class="form-group">
                                 <label for="newPostContent">Đăng bài mới</label>
                                 <button type="reset" class="close">×</button>
-                                <textarea th:field="*{title}" class="form-control" id="newPostContent" rows="3"></textarea>
+                                <textarea th:field="*{title}" class="form-control" id="newPostContent"
+                                          rows="3"></textarea>
                             </div>
                             <div class="mb-3">
                                 <input th:field="*{photo}" type="file" class="form-control-file"
@@ -61,30 +62,29 @@
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
-
-
                         <button type="button" class="btn "
-                                th:onclick="'$(this).click(like(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">Like <i
-                                style='font-size:24px' class='far'>&#xf164;<span
+                                th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
+                            <th:block th:if="${#lists.contains(likedUserIds, user.id)}">
+                                <i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue'
+                                   th:id="'LikeButton-' + ${post.id}"></i>
+                            </th:block>
+                            <th:block th:unless="${#lists.contains(likedUserIds, user.id)}">
+                                <i class='far fa-thumbs-up' style='font-size: 1.9em;color:gray'
+                                   th:id="'LikeButton-' + ${post.id}"></i>
+                            </th:block>
+                            &nbsp;<span style="font-weight: bold">Like&nbsp;</span><span
                                 class="likes" th:id="'likes'+${post.id}" title="Like"
-                                th:text="  ${post.likeCount}"></span></i>
+                                th:text="  ${post.likeCount}"></span>
                         </button>
-
-
-                        <button type="button" class="btn" th:onclick="'$(this).click(goDetail(\'' + ${post.id} +'\'))'">
-                            Comment <i
-                                style='font-size:24px' class='far'>&#xf27a;<span class="comments" title="Comments"
-                                                                                 th:text="${post.commentCount}"></span></i>
+                        <button type="button" class="btn" th:onclick="'goDetail(\'' + ${post.id} +'\')'">
+                            <i style='font-size:1.9em' class='far'>&#xf27a;</i><span style="font-weight: bold">&nbsp;Comment&nbsp;</span><span
+                                class="comments" title="Comments"
+                                th:text="${post.commentCount}"></span>
                         </button>
-
-
-                        <button type="button" class="btn ">Share <i style='font-size:24px' class='fas'>&#xf14d;</i>
+                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span style="font-weight: bold">&nbsp;Share</span>
                         </button>
                     </div>
                 </th:block>
-                <!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
-                <!--                    Open modal-->
-                <!--                </button>-->
 
                 <!-- The Modal -->
                 <div class="modal fade" th:id="'myModal'+${post.id}">

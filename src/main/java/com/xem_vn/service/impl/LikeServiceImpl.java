@@ -8,6 +8,8 @@ import com.xem_vn.service.ILikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LikeServiceImpl implements ILikeService {
     @Autowired
@@ -47,6 +49,10 @@ public class LikeServiceImpl implements ILikeService {
         return likeRepository.getByAppUserAndPost(user, post);
     }
 
+    @Override
+    public List<Long> getListLikedUserIds() {
+        return likeRepository.getListLikedUserIds();
+    }
 
 
 }

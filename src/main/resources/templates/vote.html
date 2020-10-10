@@ -24,11 +24,10 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-sm-2"></div>
+        <div class="col-sm-2" ></div>
         <div class="col-sm-8">
             <div class="photoList">
-                <div class="photoListItem" th:each="post: ${posts}" data-id="1402992" data-newly-listed="True"
-                     data-nsfw="False">
+                <div class="photoListItem" th:each="post: ${posts}">
                     <div class="listItemSeparator"></div>
                     <div class="thumbnail">
                         <a th:href="@{/post/detail/__${post.id}__}" target="_blank" th:title="${post.title}">

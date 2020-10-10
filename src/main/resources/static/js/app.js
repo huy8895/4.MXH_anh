@@ -15,12 +15,24 @@ function like(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/like",
         success: function (currentPost) {
+            likeStatus(postID);
             $(likesObj).html(currentPost.likeCount);
         }
     });
     event.preventDefault();
 }
 
+function likeStatus(postID){
+    let like = document.getElementById("LikeButton-" + postID)
+
+    if (like.style.color.indexOf("blue") === -1) {
+        // like.innerHTML = "<i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue' th:id="''LikeButton-' + ${post.id}"></i>";
+        like.style.color="blue";
+    } else {
+        // like.innerHTML ="<i clas?s='far fa-thumbs-up' style='font-size: 1.9em;color:gray' th:id="'LikeButton-' + ${post.id}"></i>";
+        like.style.color="gray";
+    }
+}
 function upVote(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)

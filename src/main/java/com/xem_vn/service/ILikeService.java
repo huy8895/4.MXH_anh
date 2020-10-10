@@ -4,6 +4,8 @@ import com.xem_vn.model.AppUser;
 import com.xem_vn.model.Like;
 import com.xem_vn.model.Post;
 
+import java.util.List;
+
 public interface ILikeService {
     Iterable<Like> findAllByPost(Post post);
     Iterable<Like> findAllByUser(AppUser user);
@@ -12,4 +14,5 @@ public interface ILikeService {
     boolean existsByAppUserAndPost(AppUser user,Post post);
     Long countAllByPost (Post post);
     Like getByAppUserAndPost (AppUser user,Post post);
+    List<Long> getListLikedUserIds();
 }
