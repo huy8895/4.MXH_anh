@@ -37,6 +37,8 @@ dependencies {
 
     compile "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"
     compile "org.apache.commons:commons-lang3"
+    runtimeOnly 'org.postgresql:postgresql'
+
 }
 
 test {

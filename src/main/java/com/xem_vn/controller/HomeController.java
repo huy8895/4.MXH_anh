@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class HomeController {
@@ -112,15 +113,14 @@ public class HomeController {
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        if(avatarFileName!=null) {
+        if (!Objects.equals(avatarFileName, "")) {
             user.setAvatarFileName(avatarFileName);
             try {
                 FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else
+        } else
             user.setAvatarFileName("default_avatar.jpg");
         userService.save(user);
         return  new ModelAndView("/account/create");
