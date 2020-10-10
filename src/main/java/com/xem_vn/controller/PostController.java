@@ -111,7 +111,7 @@ public class PostController {
 
     @PostMapping(value = "/like")
     public ResponseEntity<Post> like(@RequestBody Like like) {
-        Post currentPost = like.getPost();
+        Post currentPost = postService.getPostById(like.getPost().getId());
         AppUser currentUser = getPrincipal();
         if (currentUser != null && !likeService.existsByAppUserAndPost(currentUser, currentPost)) {
             likeService.save(like);
@@ -126,7 +126,7 @@ public class PostController {
     }
     @PostMapping("/loveComment")
     public ResponseEntity<Comment> loveComment(@RequestBody LoveComment loveComment) {
-        Comment currentComment = loveComment.getComment();
+        Comment currentComment = commentService.getCommentById(loveComment.getComment().getId());
         System.out.println("id comment" + currentComment.getId());
         AppUser currentUser = getPrincipal();
         if (currentUser != null && !loveCommentService.existsByAppUserAndComment(currentUser, currentComment)) {
@@ -165,6 +165,18 @@ public class PostController {
         currentPost.setCommentCount(commentService.countAllByPost(currentPost));
         postService.save(currentPost);
         return new ResponseEntity<>(comment, HttpStatus.OK);
+    }
+
+    @PutMapping("/detail/{id}")
+    public ResponseEntity<Comment> editComment(@RequestBody Comment commentEdited,
+                                               @PathVariable("id") Long id) {
+        Comment currentComment = commentService.getCommentById(commentEdited.getId());
+        currentComment.setContent(commentEdited.getContent());
+        commentService.save(currentComment);
+        Post currentPost = postService.getPostById(id);
+        currentPost.setCommentCount(commentService.countAllByPost(currentPost));
+        postService.save(currentPost);
+        return new ResponseEntity<>(currentComment, HttpStatus.OK);
     }
 
     @DeleteMapping("/detail/{id}")

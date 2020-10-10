@@ -79,6 +79,7 @@ function deleteComment(commentId) {
         data: JSON.stringify(json),
         url: $(location).attr('href'),
         success: function (currentPost) {
+            deleteCommentInPost(commentId)
         }
     });
     event.preventDefault();
@@ -110,13 +111,72 @@ function comment(postID, userID, content) {
     event.preventDefault();
 }
 
-function deletePost(id, commentId) {
-    let elementId = "article-container-" + id
+function lovePost(id) {
+    let heart = document.getElementById("heart-image-" + id)
+    if (heart.src.indexOf("active") === -1) {
+        heart.src = "/data/heart-active.svg"
+    } else {
+        heart.src = "/data/heart.svg"
+    }
+}
+
+function deleteCommentInPost(commentId) {
+    let elementId = "article-container-" + commentId
     let element = document.getElementById(elementId)
     element.remove()
     deleteComment(commentId)
 }
 
+function editComment(commentId){
+
+    let elementId = "content-textBoxEdit+" + commentId;
+    let element = document.getElementById(elementId);
+    let content = document.getElementById(elementId).value
+    console.log('commentId'+commentId)
+    console.log('content'+content)
+    let json = {
+        "id":commentId,
+        "content":content
+    }
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "PUT",
+        data: JSON.stringify(json),
+        url: $(location).attr('href'),
+        success: function (comment) {
+            let element = document.getElementById(elementId)
+            let template = `
+                        ${comment.content}
+                        `;
+            console.log("comment thanh cong +  " + comment.id)
+            document.getElementById(`comment-content${comment.id}`).innerHTML = template;
+            console.log("comment thanh cong +  " + comment.id)
+        }
+    });
+
+}
+
+function editCommentInPost(commentId) {
+    let elementId = "comment-content" + commentId
+    let element = document.getElementById(elementId)
+    let content = document.getElementById(elementId).innerText
+    console.log('commentId: '+commentId)
+    console.log('postContent: '+content)
+    // let template = `<blockquote id="comment-content+${commentId}">
+    //                     <form method="post" action="">
+    //                     <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
+    //                     <button type="button" onclick="editComment(${commentId})">edit</button>
+    //                     </form>
+	// 				</blockquote>`;
+    let template = `<form method="post" action="">
+                        <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
+                        <button type="button" onclick="editComment(${commentId})">edit</button>
+                        </form>`;
+    $(element).html(template);
+}
 
 function submitPost(postID, userID) {
     let textArea = document.getElementById("input-textarea")
@@ -135,15 +195,15 @@ function submitPost(postID, userID) {
 
 
 function createPostHTML(postID, userID, postContent, commentId) {
-    let now = new Date();
-    let time = now.toLocaleTimeString();
-    let date = now.toLocaleString();
-    let fullName = document.getElementById("fullName" + postID + userID).value;
-    let username = document.getElementById("userName" + postID + userID).value;
-    let avatarFile = document.getElementById("avatarFile" + postID + userID).value;
-    // postContent = postContent.replace(/</g, "&lt;");
-    // postContent = postContent.replace(/\n/g, "<br />");
-    // postContent = postContent.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\" target=\"_blank\">$1</a>");
+    let now = new Date()
+    let time = now.toLocaleTimeString()
+    let date = now.toLocaleString()
+    let fullName = document.getElementById("fullName" + postID + userID).value
+    let username = document.getElementById("userName" + postID + userID).value
+    let avatarFile = document.getElementById("avatarFile" + postID + userID).value
+    // postContent = postContent.replace(/</g, "&lt;")
+    // postContent = postContent.replace(/\n/g, "<br />")
+    // postContent = postContent.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\" target=\"_blank\">$1</a>")
 
     let template = `
 				<article id="article-container-${commentId}">
@@ -168,33 +228,19 @@ function createPostHTML(postID, userID, postContent, commentId) {
 						<p class="date-posted">Posted
 							<time>${date}</time>
 						</p>
-                            <button class="heart"
-                                    th:onclick="'loveComment(\''+ ${commentId} +'\',\'' + ${commentId} +'\',\''+${userID} + '\');'">
-                                <img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>
-                                <span
-                                        class="heart" th:id="'heart' + ${comment.id}" title="heart"
-                                        th:text="  ${comment.loveCount}"></span>
-                            </button>
+						<button class="heart" onclick="loveComment(${commentId},${userID})">
+							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>
+						</button>
 					</footer>
 				</article>`
     document.getElementById("form-container").insertAdjacentHTML("afterend", template)
 }
-
 function goDetail(postId) {
     let url = "/post/detail/" + postId;
     window.open(url, "_self");
 }
 
-function lovePost(id) {
-    let heart = document.getElementById("heart-image-" + id)
-    if (heart.src.indexOf("active") === -1) {
-        heart.src = "/data/heart-active.svg"
-    } else {
-        heart.src = "/data/heart.svg"
-    }
-}
-
-function loveComment(idPass, commentId, userId) {
+function loveComment(commentId, userId) {
     console.log('commentID ' + commentId);
     console.log('userID ' + userId);
     let heartObj = document.getElementById("heart" + commentId);
@@ -211,7 +257,7 @@ function loveComment(idPass, commentId, userId) {
         data: JSON.stringify(json),
         url: "/post/loveComment",
         success: function (currentComment) {
-            lovePost(idPass);
+            lovePost(commentId);
             $(heartObj).innerHTML(currentComment.loveCount);
         }
     });
