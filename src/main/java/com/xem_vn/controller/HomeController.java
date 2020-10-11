@@ -1,10 +1,7 @@
 package com.xem_vn.controller;
 
 import com.xem_vn.config.facebook.FacebookConnectionSignup;
-import com.xem_vn.model.AppRole;
-import com.xem_vn.model.AppUser;
-import com.xem_vn.model.Post;
-import com.xem_vn.model.Status;
+import com.xem_vn.model.*;
 import com.xem_vn.repository.ILikeRepository;
 import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class HomeController {
@@ -62,6 +60,11 @@ public class HomeController {
         return appUser;
     }
 
+
+    private List<Long> getAllPostIdByUserLiked(Long userId){
+        List<Long> list = postService.getAllPostIdByUserLiked(userId);
+        return list;
+    }
     @GetMapping({"/", "/home"})
     public ModelAndView showApprovalPage(@PageableDefault(value = 10, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
@@ -72,6 +75,9 @@ public class HomeController {
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("post", new Post());
+        if(getPrincipal()!=null) {
+            modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
+        }
         return modelAndView;
     }
     @GetMapping("/login")
@@ -108,14 +114,15 @@ public class HomeController {
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        if (!Objects.equals(avatarFileName, "")) {
+        if(avatarFileName!=null) {
             user.setAvatarFileName(avatarFileName);
             try {
                 FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else
+        }
+        else
             user.setAvatarFileName("default_avatar.jpg");
         userService.save(user);
         return  new ModelAndView("/account/create");

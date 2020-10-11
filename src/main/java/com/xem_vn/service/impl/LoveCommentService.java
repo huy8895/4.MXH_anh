@@ -58,4 +58,14 @@ public class LoveCommentService implements ILoveCommentService {
     public List<Long> getListUserIds() {
         return loveCommentRepository.getListUserIds();
     }
+
+    @Override
+    public List<LoveComment> getListLoveComment(Long userId) {
+        return loveCommentRepository.getListLoveComment(userId);
+    }
+
+    @Override
+    public LoveComment getByCommentId(Long commentId) {
+        return loveCommentRepository.getByCommentId(commentId);
+    }
 }

@@ -60,8 +60,9 @@ public class PostController {
         }
         return appUser;
     }
-    private List<Long> getListHeartUserId(){
-        List<Long> list = loveCommentService.getListUserIds();
+
+    private List<Long> getAllCommentIdByUserLoved(Long userId){
+        List<Long> list = commentService.getAllCommentIdByUserLoved(userId);
         return list;
     }
 
@@ -118,6 +119,7 @@ public class PostController {
         postService.save(currentPost);
         return new ResponseEntity<>(currentPost, HttpStatus.OK);
     }
+
     @PostMapping("/loveComment")
     public ResponseEntity<Comment> loveComment(@RequestBody LoveComment loveComment) {
         Comment currentComment = commentService.getCommentById(loveComment.getComment().getId());
@@ -148,6 +150,9 @@ public class PostController {
         modelAndView.addObject("newComment", new Comment());
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("listHeartUserIds", getListHeartUserId());
+        if(getPrincipal()!=null) {
+            modelAndView.addObject("listCommentIdLoved", getAllCommentIdByUserLoved(getPrincipal().getId()));
+        }
         return modelAndView;
     }
 

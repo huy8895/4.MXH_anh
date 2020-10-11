@@ -13,7 +13,12 @@ public interface ILoveCommentRepository extends CrudRepository<LoveComment,Long>
     Long countAllByComment (Comment comment);
     LoveComment getByAppUserAndComment (AppUser user,Comment comment);
     boolean existsByAppUserId(Long appUserId);
+    LoveComment getByCommentId(Long commentId);
 
     @Query(value = "select app_user_id from lovescomment",nativeQuery = true)
     List<Long> getListUserIds();
+
+    @Query(value = "select * from lovescomment where app_user_id = ?1 ",nativeQuery = true)
+    List<LoveComment> getListLoveComment(Long userId);
+
 }

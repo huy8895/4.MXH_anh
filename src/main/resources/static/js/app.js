@@ -276,8 +276,6 @@ function goDetail(postId) {
 
 //=============================================================================================
 
-
-
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
     if (heart.src.indexOf("active") === -1) {
@@ -315,8 +313,9 @@ function loveComment(commentId, userId) {
 
 function blockUser(userId){
 
-    console.log('userID deleting' + userId);
-    let json = {"id": userId}
+    console.log('userID blocking  ' + userId);
+    let json = {"id": userId};
+    let template = document.getElementById("role-"+userId);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -326,7 +325,8 @@ function blockUser(userId){
         data: JSON.stringify(json),
         url: "/admin/block",
         success: function (currentComment) {
-            console.log("delete thanh cong");
+            template.innerHTML = "ROLE_BLOCKED";
+            console.log("block thanh cong");
         }
     });
     event.preventDefault();
