@@ -14,7 +14,7 @@
                         <button type="button" class="close">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}" style="text-decoration: none; color: black"
                        th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
