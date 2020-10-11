@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout/layout::head}"></head>
+<head th:insert="~{layout/layout::head}">
+    <style>
+        .button1:hover{
+            transform: scale(1.2);
+        }
+    </style>
+</head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
 <div class="container-fluid mt-5">
@@ -32,13 +38,13 @@
                             <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                         </div>
                         <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                            <button type="button"
-                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">upVote
-                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
+                            <button type="button" class="btn "
+                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
+                                <i class='fas fa-caret-up"' style='font-size: 1.9em;'
+                                   th:id="'LikeButton-' + ${post.id}"></i>
                             </button>
-                            <button type="button"
-                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">downVote
-                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
+                            <button style="width: 1.2em;height: 1.2em"
+                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class=" fas fa-caret-down">
                             </button>
                         </div>
                         <div class="clear"></div>

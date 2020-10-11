@@ -285,8 +285,7 @@ function deletePost(postId) {
         data: JSON.stringify(json),
         url: "/post/delete",
         success: function (currentPost) {
-            console.log("success delete postID: " +currentPost.id)
-            $(currentPostHTML).html("");
+            currentPostHTML.remove();
         }
     });
     event.preventDefault();
