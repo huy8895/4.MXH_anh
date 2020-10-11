@@ -137,6 +137,9 @@ public class HomeController {
         Page<Post> posts = postService.getAllPostByUser(user, pageable);
         ModelAndView modelAndView = new ModelAndView("/account/uploader");
         modelAndView.addObject("posts", posts);
+        if(getPrincipal()!=null) {
+            modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
+        }
         return modelAndView;
     }
 

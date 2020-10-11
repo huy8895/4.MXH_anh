@@ -149,7 +149,6 @@ public class PostController {
         modelAndView.addObject("commentPage", commentPage);
         modelAndView.addObject("newComment", new Comment());
         modelAndView.addObject("currentTime", System.currentTimeMillis());
-        modelAndView.addObject("listHeartUserIds", getListHeartUserId());
         if(getPrincipal()!=null) {
             modelAndView.addObject("listCommentIdLoved", getAllCommentIdByUserLoved(getPrincipal().getId()));
         }
