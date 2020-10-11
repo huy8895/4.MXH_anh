@@ -3,33 +3,115 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script th:src="@{/js/app.js}"></script>
-    <style>
-        .modal-1000 {
-            max-width: 80%;
-            margin: 80px auto;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
-
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-sm-1 col-md-2 col-lg-3"></div>
         <div class="col-sm-10 col-md-8 col-lg-6">
-            <div th:replace="~{welcome::listpost}"></div>        </div>
+            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
+                <th:block sec:authorize="isAuthenticated()">
+                    <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                        <button type="button" class="close">×</button>
+                    </div>
+                </th:block>
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                       th:title="${post.title}" th:text="${post.title}"></a></h3>
+                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                                th:text="${post.appUser.username}"></a>
+                    <time th:text="${post.dateUpload}"
+                          th:name="*{post.dateUpload}"></time>
+                </h5>
+                <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
+                    <img th:src="@{'/'+${post.photoName}}"
+                         th:alt="${post.title}" class="img-fluid">
+                </a>
+                <th:block sec:authorize="isAuthenticated()">
+                    <div class="stats">
+                        <div class="viewComments">
+                            <span class="votes" th:id="'votes'+${post.id}" title="vote" th:text="${post.voteCount}"></span>
+                            <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
+                        </div>
+                        <div class="likesWrapper" sec:authorize="isAuthenticated()">
+                            <button type="button"
+                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">upVote
+                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
+                            </button>
+                            <button type="button"
+                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">downVote
+                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
+                            </button>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </th:block>
+
+                <!-- The Modal -->
+                <div class="modal fade" th:id="'myModal'+${post.id}">
+                    <div class="modal-dialog modal-1000">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <!--                                <p th:text="${post.title}"></p>-->
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <img th:src="@{'/'+${post.photoName}}"
+                                             th:alt="${post.title}" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="media border p-3 shadow">
+                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
+                                                 class="rounded-circle" style="width:60px;">
+                                            <div class="media-body">
+                                                <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,
+                                                    2016</i></small></h4>
+                                                <p th:text="${post.title}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <a th:href="@{/post/detail/__${post.id}__}">
+                                    <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
+                                </a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-1 col-md-2 col-lg-2">
         </div>
     </div>
 </div>
+
+
+<table>
+    <tr>
+
+    </tr>
+</table>
 
 </body>
 </html>
