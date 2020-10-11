@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IPostService {
     Page<Post> getAllPost(Pageable pageable);
     Post getPostById(long id);
@@ -18,5 +20,5 @@ public interface IPostService {
     void setStatusForPost(Long statusID,Long postID);
 
     Page<Post> findAllPostByUserLiked(Long appUserId, Pageable pageable);
-
+    List<Long> getAllPostIdByUserLiked(Long userId);
 }

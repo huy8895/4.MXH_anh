@@ -14,6 +14,4 @@ public interface ILikeRepository extends CrudRepository<Like,Long> {
     boolean existsByAppUserAndPost(AppUser user,Post post);
     Long countAllByPost (Post post);
     Like getByAppUserAndPost (AppUser user,Post post);
-    @Query(value = "select app_user_id from likes",nativeQuery = true)
-    List<Long> getListLikedUserIds();
 }

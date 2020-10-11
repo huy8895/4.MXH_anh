@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IPostRepository extends PagingAndSortingRepository<Post, Long> {
     Page<Post> getAllByAppUser(AppUser appUser, Pageable pageable);
 
@@ -19,6 +21,9 @@ public interface IPostRepository extends PagingAndSortingRepository<Post, Long> 
 
     @Query(value = "select * from post where post.id in (select likes.post_id from likes where likes.app_user_id = ?1)", nativeQuery = true)
     Page<Post> findAllPostByUserLiked(Long appUserId, Pageable pageable);
+
+    @Query(value = "select post.id from post where post.id in (select likes.post_id from likes where likes.app_user_id = ?1)", nativeQuery = true)
+    List<Long> getAllPostIdByUserLiked(Long userId);
 
 //    @Query("select * from Post and ")
 //    Page<>

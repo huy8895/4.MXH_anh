@@ -32,6 +32,32 @@ function likeStatus(postID){
     }
 }
 
+function checkLikeStatus(postId, userId){
+    console.log("run check like")
+    let json = {
+        "post": {"id": postId},
+        "appUser": {"id": userId}
+    }
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        data: JSON.stringify(json),
+        url: "/checkLikeStatus",
+
+
+        success: function (status) {
+            if(status){
+                let like = document.getElementById("LikeButton-" + postId)
+                like.style.color="blue";
+            }
+            console.log("status"+status);
+        }
+    });
+    event.preventDefault();
+}
 //=============================================================================================
 
 
@@ -272,7 +298,17 @@ function goDetail(postId) {
 
 
 //=============================================================================================
-
+ function heart(commentId, userId,heartObjList){
+    let check = false;
+    for (let i =0;i<heartObjList.length;i++){
+        if(heartObjList[i].comment.id == commentId && heartObjList[i].appUser.id == userId) {
+            check = true;
+            break;
+        }
+    }
+     let heart = document.getElementById("heart-image-" + commentId);
+     heart.src = "/data/heart-active.svg";
+ }
 
 
 function lovePost(id) {
@@ -312,8 +348,9 @@ function loveComment(commentId, userId) {
 
 function blockUser(userId){
 
-    console.log('userID deleting' + userId);
-    let json = {"id": userId}
+    console.log('userID blocking  ' + userId);
+    let json = {"id": userId};
+    let template = document.getElementById("role-"+userId);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -323,7 +360,8 @@ function blockUser(userId){
         data: JSON.stringify(json),
         url: "/admin/block",
         success: function (currentComment) {
-            console.log("delete thanh cong");
+            template.innerHTML = "ROLE_BLOCKED";
+            console.log("block thanh cong");
         }
     });
     event.preventDefault();

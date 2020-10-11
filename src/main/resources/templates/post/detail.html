@@ -80,7 +80,7 @@
                 <article th:id="'article-container-'+${comment.id}" th:each="comment: ${commentPage}">
                     <header>
                         <th:block th:if="${user.id == comment.appUser.id}">
-                            <button class="close" th:onclick="'deleteComment(\'' + ${comment.id} + '\');'">
+                            <button class="close" th:onclick="'deleteComment(\'' + ${comment.id} + '\')'">
                                 <img src="/data/close.png" height="15" width="15">
                             </button>
                             <div></div>
@@ -100,18 +100,17 @@
                     </blockquote>
                     <hr>
                     <footer>
-                        <p class="date-posted">Posted
-                            <time th:text="${comment.timeComment}"></time>
-                        </p>
                         <button class="heart"
                                 th:onclick="'loveComment(\'' + ${comment.id} +'\',\''+${user.id} + '\');'">
-                            <th:block th:if="${#lists.contains(listHeartUserIds, user.id)}">
+                            <th:block th:if="${#lists.contains(listCommentIdLoved, comment.id)}">
                                 <img src="/data/heart-active.svg" th:id="'heart-image-'+${comment.id}" height="15"
                                      width="16">
                             </th:block>
-                            <th:block th:unless="${#lists.contains(listHeartUserIds, user.id)}">
-                                <img src="/data/heart.svg" th:id="'heart-image-'+${comment.id}" height="15" width="16">
+                            <th:block th:unless="${#lists.contains(listCommentIdLoved, comment.id)}">
+                                <img src="/data/heart.svg" th:id="'heart-image-'+${comment.id}" height="15"
+                                     width="16">
                             </th:block>
+
                             <span
                                     class="heart" th:id="'heart' + ${comment.id}" title="heart"
                                     th:text="  ${comment.loveCount}"></span>

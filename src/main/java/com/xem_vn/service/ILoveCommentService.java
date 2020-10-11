@@ -17,4 +17,7 @@ public interface ILoveCommentService {
     void remove(LoveComment loveComment);
     boolean existsByAppUserId(Long appUserId);
     List<Long> getListUserIds();
+    List<LoveComment> getListLoveComment(Long userId);
+    LoveComment getByCommentId(Long commentId);
+
 }

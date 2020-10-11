@@ -66,14 +66,14 @@
                          th:alt="${post.title}" class="img-fluid">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
-                    <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg">
+                    <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg" th:onload="'checkLikeStatus(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
                         <button type="button" class="btn "
                                 th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
-                            <th:block th:if="${#lists.contains(likedUserIds, user.id)}">
-                                <i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue'
-                                   th:id="'LikeButton-' + ${post.id}"></i>
-                            </th:block>
-                            <th:block th:unless="${#lists.contains(likedUserIds, user.id)}">
+                                <th:block th:if="${#lists.contains(listPostLiked, post.id)}">
+                                    <i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue'
+                                       th:id="'LikeButton-' + ${post.id}"></i>
+                                </th:block>
+                            <th:block th:unless="${#lists.contains(listPostLiked, post.id)}">
                                 <i class='far fa-thumbs-up' style='font-size: 1.9em;color:gray'
                                    th:id="'LikeButton-' + ${post.id}"></i>
                             </th:block>

@@ -1,10 +1,7 @@
 package com.xem_vn.controller;
 
 import com.xem_vn.config.facebook.FacebookConnectionSignup;
-import com.xem_vn.model.AppRole;
-import com.xem_vn.model.AppUser;
-import com.xem_vn.model.Post;
-import com.xem_vn.model.Status;
+import com.xem_vn.model.*;
 import com.xem_vn.repository.ILikeRepository;
 import com.xem_vn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -60,12 +59,12 @@ public class HomeController {
         }
         return appUser;
     }
-    @ModelAttribute("likedUserIds")
-    private List<Long> getListLikedUserIds(){
-        List<Long> list = likeService.getListLikedUserIds();
+
+
+    private List<Long> getAllPostIdByUserLiked(Long userId){
+        List<Long> list = postService.getAllPostIdByUserLiked(userId);
         return list;
     }
-
     @GetMapping({"/", "/home"})
     public ModelAndView showApprovalPage(@PageableDefault(value = 10, page = 0)
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
@@ -76,6 +75,9 @@ public class HomeController {
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("post", new Post());
+        if(getPrincipal()!=null) {
+            modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
+        }
         return modelAndView;
     }
     @GetMapping("/login")

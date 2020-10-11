@@ -1,6 +1,7 @@
 package com.xem_vn.service.impl;
 
 import com.xem_vn.model.Comment;
+import com.xem_vn.model.LoveComment;
 import com.xem_vn.model.Post;
 import com.xem_vn.repository.ICommentRepository;
 import com.xem_vn.service.ICommentService;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -44,4 +47,11 @@ public class CommentServiceImpl implements ICommentService {
     public Long countAllByPost(Post post) {
         return commentRepository.countAllByPost(post);
     }
+
+    @Override
+    public List<Long> getAllCommentIdByUserLoved(Long commentId) {
+        return commentRepository.getAllCommentIdByUserLoved(commentId);
+    }
+
+
 }
