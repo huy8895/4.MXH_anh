@@ -14,5 +14,4 @@ public interface ILikeService {
     boolean existsByAppUserAndPost(AppUser user,Post post);
     Long countAllByPost (Post post);
     Like getByAppUserAndPost (AppUser user,Post post);
-    List<Long> getListLikedUserIds();
 }

@@ -22,6 +22,7 @@ function like(postID, userID) {
     event.preventDefault();
 }
 
+
 function likeStatus(postID){
     let like = document.getElementById("LikeButton-" + postID)
 
@@ -31,7 +32,9 @@ function likeStatus(postID){
         like.style.color="gray";
     }
 }
-
+function test(postID) {
+    console.log('postID ' + postID)
+}
 //=============================================================================================
 
 

@@ -49,10 +49,6 @@ public class LikeServiceImpl implements ILikeService {
         return likeRepository.getByAppUserAndPost(user, post);
     }
 
-    @Override
-    public List<Long> getListLikedUserIds() {
-        return likeRepository.getListLikedUserIds();
-    }
 
 
 }

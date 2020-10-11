@@ -61,11 +61,6 @@ public class HomeController {
         }
         return appUser;
     }
-    @ModelAttribute("likedUserIds")
-    private List<Long> getListLikedUserIds(){
-        List<Long> list = likeService.getListLikedUserIds();
-        return list;
-    }
 
     @GetMapping({"/", "/home"})
     public ModelAndView showApprovalPage(@PageableDefault(value = 10, page = 0)
