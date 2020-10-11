@@ -60,14 +60,6 @@ public class PostController {
         }
         return appUser;
     }
-    private List<Long> getListHeartUserId() {
-        List<Long> list = loveCommentService.getListUserIds();
-        return list;
-    }
-    private List<LoveComment> getListLoveComment(){
-        AppUser user = getPrincipal();
-        return loveCommentService.getListLoveComment(user.getId());
-    }
 
     private List<Long> getAllCommentIdByUserLoved(Long userId){
         List<Long> list = commentService.getAllCommentIdByUserLoved(userId);

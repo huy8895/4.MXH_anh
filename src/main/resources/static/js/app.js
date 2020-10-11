@@ -32,32 +32,6 @@ function likeStatus(postID){
     }
 }
 
-function checkLikeStatus(postId, userId){
-    console.log("run check like")
-    let json = {
-        "post": {"id": postId},
-        "appUser": {"id": userId}
-    }
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        data: JSON.stringify(json),
-        url: "/checkLikeStatus",
-
-
-        success: function (status) {
-            if(status){
-                let like = document.getElementById("LikeButton-" + postId)
-                like.style.color="blue";
-            }
-            console.log("status"+status);
-        }
-    });
-    event.preventDefault();
-}
 //=============================================================================================
 
 
@@ -298,18 +272,6 @@ function goDetail(postId) {
 
 
 //=============================================================================================
- function heart(commentId, userId,heartObjList){
-    let check = false;
-    for (let i =0;i<heartObjList.length;i++){
-        if(heartObjList[i].comment.id == commentId && heartObjList[i].appUser.id == userId) {
-            check = true;
-            break;
-        }
-    }
-     let heart = document.getElementById("heart-image-" + commentId);
-     heart.src = "/data/heart-active.svg";
- }
-
 
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
