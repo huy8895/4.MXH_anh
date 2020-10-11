@@ -20,13 +20,11 @@
     </style>
 </head>
 <body>
-
 <header th:replace="~{layout/layout::header(${user})}"></header>
 <div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-md-3 ">
-        </div>
-        <div class="col-md-6">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
             <th:block sec:authorize="isAuthenticated()">
                 <div id="formNewPost_container">
                     <div class="content border rounded-lg p-3 mb-3">
@@ -55,7 +53,8 @@
                         <button type="button" class="close">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h3>
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                       th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
                     <time th:text="${post.dateUpload}"
@@ -86,7 +85,8 @@
                                 class="comments" title="Comments"
                                 th:text="${post.commentCount}"></span>
                         </button>
-                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span style="font-weight: bold">&nbsp;Share</span>
+                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span
+                                style="font-weight: bold">&nbsp;Share</span>
                         </button>
                     </div>
                 </th:block>
@@ -98,7 +98,7 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <p th:text="${post.title}"></p>
+                                <!--                                <p th:text="${post.title}"></p>-->
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
 
@@ -136,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 ">
+        <div class="col-sm-1 col-md-2 col-lg-2">
         </div>
     </div>
 </div>
