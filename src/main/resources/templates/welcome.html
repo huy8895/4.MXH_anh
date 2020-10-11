@@ -31,85 +31,91 @@
                 </div>
             </th:block>
             <div th:fragment="listpost" class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
-                <th:block sec:authorize="isAuthenticated()">
-                    <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                        <button type="button" class="close">×</button>
-                    </div>
-                </th:block>
-                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
-                       th:title="${post.title}" th:text="${post.title}"></a></h3>
-                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
-                                th:text="${post.appUser.username}"></a>
-                    <time th:text="${post.dateUpload}"
-                          th:name="*{post.dateUpload}"></time>
-                </h5>
-                <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
-                    <img th:src="@{'/'+${post.photoName}}"
-                         th:alt="${post.title}" class="img-fluid">
-                </a>
-                <th:block sec:authorize="isAuthenticated()">
-                    <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg" th:onload="'checkLikeStatus(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
-                        <button type="button" class="btn "
-                                th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
+                <div th:id="'postCurrent-'+${post.id}">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <button type="button" class="close" th:onclick="'deletePost(\'' +${post.id}+ '\');'"
+                                    th:id="'postPre'+${post.id}">×
+                            </button>
+                        </div>
+                    </th:block>
+                    <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                           th:title="${post.title}" th:text="${post.title}"></a></h3>
+                    <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                                    th:text="${post.appUser.username}"></a>
+                        <time th:text="${post.dateUpload}"
+                              th:name="*{post.dateUpload}"></time>
+                    </h5>
+                    <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
+                        <img th:src="@{'/'+${post.photoName}}"
+                             th:alt="${post.title}" class="img-fluid">
+                    </a>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg"
+                             th:onload="'checkLikeStatus(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
+                            <button type="button" class="btn "
+                                    th:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
                                 <th:block th:if="${#lists.contains(listPostLiked, post.id)}">
                                     <i class='far fa-thumbs-up' style='font-size: 1.9em;color:blue'
                                        th:id="'LikeButton-' + ${post.id}"></i>
                                 </th:block>
-                            <th:block th:unless="${#lists.contains(listPostLiked, post.id)}">
-                                <i class='far fa-thumbs-up' style='font-size: 1.9em;color:gray'
-                                   th:id="'LikeButton-' + ${post.id}"></i>
-                            </th:block>
-                            &nbsp;<span style="font-weight: bold">Like&nbsp;</span><span
-                                class="likes" th:id="'likes'+${post.id}" title="Like"
-                                th:text="  ${post.likeCount}"></span>
-                        </button>
-                        <button type="button" class="btn" th:onclick="'goDetail(\'' + ${post.id} +'\')'">
-                            <i style='font-size:1.9em' class='far'>&#xf27a;</i><span style="font-weight: bold">&nbsp;Comment&nbsp;</span><span
-                                class="comments" title="Comments"
-                                th:text="${post.commentCount}"></span>
-                        </button>
-                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span
-                                style="font-weight: bold">&nbsp;Share</span>
-                        </button>
-                    </div>
-                </th:block>
+                                <th:block th:unless="${#lists.contains(listPostLiked, post.id)}">
+                                    <i class='far fa-thumbs-up' style='font-size: 1.9em;color:gray'
+                                       th:id="'LikeButton-' + ${post.id}"></i>
+                                </th:block>
+                                &nbsp;<span style="font-weight: bold">Like&nbsp;</span><span
+                                    class="likes" th:id="'likes'+${post.id}" title="Like"
+                                    th:text="  ${post.likeCount}"></span>
+                            </button>
+                            <button type="button" class="btn" th:onclick="'goDetail(\'' + ${post.id} +'\')'">
+                                <i style='font-size:1.9em' class='far'>&#xf27a;</i><span style="font-weight: bold">&nbsp;Comment&nbsp;</span><span
+                                    class="comments" title="Comments"
+                                    th:text="${post.commentCount}"></span>
+                            </button>
+                            <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span
+                                    style="font-weight: bold">&nbsp;Share</span>
+                            </button>
+                        </div>
+                    </th:block>
 
-                <!-- The Modal -->
-                <div class="modal fade" th:id="'myModal'+${post.id}">
-                    <div class="modal-dialog modal-1000">
-                        <div class="modal-content">
+                    <!-- The Modal -->
+                    <div class="modal fade" th:id="'myModal'+${post.id}">
+                        <div class="modal-dialog modal-1000">
+                            <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <!--                                <p th:text="${post.title}"></p>-->
-                                <button type="button" class="close" data-dismiss="modal">×</button>
-                            </div>
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <!--                                <p th:text="${post.title}"></p>-->
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                </div>
 
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <img th:src="@{'/'+${post.photoName}}"
-                                             th:alt="${post.title}" class="img-fluid">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="media border p-3 shadow">
-                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
-                                                 class="rounded-circle" style="width:60px;">
-                                            <div class="media-body">
-                                                <h4 th:text="${post.appUser.username}"><small><i></i></small></h4>
-                                                <p th:text="${post.title}"></p>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img th:src="@{'/'+${post.photoName}}"
+                                                 th:alt="${post.title}" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="media border p-3 shadow">
+                                                <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
+                                                     class="rounded-circle" style="width:60px;">
+                                                <div class="media-body">
+                                                    <h4 th:text="${post.appUser.username}"><small><i></i></small></h4>
+                                                    <p th:text="${post.title}"></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <a th:href="@{/post/detail/__${post.id}__}">
-                                    <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i></button>
-                                </a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <a th:href="@{/post/detail/__${post.id}__}">
+                                        <button style='font-size:24px'>Comment <i class='far fa-comment-alt'></i>
+                                        </button>
+                                    </a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>

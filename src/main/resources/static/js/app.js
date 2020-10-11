@@ -204,6 +204,7 @@ function submitComment(postID, userID) {
     return false;
 }
 
+//=============================================================================================================================================================
 function createNewPost(){
     let form = $('#uploadForm')[0];
     let data = new FormData(form);
@@ -269,6 +270,26 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 					</footer>
 				</article>`
     document.getElementById("form-container").insertAdjacentHTML("afterend", template)
+}
+function deletePost(postId) {
+    console.log('deleting postID' + postId);
+    let postHtml = document.getElementById("postPre" + postId);
+    let json = {"id": postId};
+    let currentPostHTML = document.getElementById("postCurrent-"+postId);
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "DELETE",
+        data: JSON.stringify(json),
+        url: "/post/delete",
+        success: function (currentPost) {
+            console.log("success delete postID: " +currentPost.id)
+            $(currentPostHTML).html("");
+        }
+    });
+    event.preventDefault();
 }
 function goDetail(postId) {
     let url = "/post/detail/" + postId;

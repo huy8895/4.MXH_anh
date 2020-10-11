@@ -248,4 +248,10 @@ public class PostController {
         return new ResponseEntity<>(currentPost, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Post> deletePost(@RequestBody Post post){
+        Post currentPost = postService.getPostById(post.getId());
+        postService.remove(currentPost);
+        return new ResponseEntity<>(currentPost,HttpStatus.OK);
+    }
 }
