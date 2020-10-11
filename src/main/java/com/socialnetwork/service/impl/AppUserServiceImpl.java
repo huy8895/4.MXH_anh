@@ -21,8 +21,8 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
     private IAppUserRepository userRepository;
 
     @Override
-    public Iterable<AppUser> getAllUser() {
-        return userRepository.findAll();
+    public List<AppUser> getAllUser() {
+        return userRepository.getAllUser();
     }
 
     @Override

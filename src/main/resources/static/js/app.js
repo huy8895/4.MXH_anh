@@ -21,8 +21,6 @@ function like(postID, userID) {
     });
     event.preventDefault();
 }
-
-
 function likeStatus(postID){
     let like = document.getElementById("LikeButton-" + postID)
 
@@ -55,12 +53,15 @@ function upVote(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/upVote",
         success: function (currentPost) {
-            $(voteObj).html(currentPost.voteCount);
+            let approvedPost = document.getElementById("postCurrent-"+postID);
+            if(currentPost.voteCount>=4)
+                voteObj.remove();
+            else
+                $(voteObj).html(currentPost.voteCount);
         }
     });
     event.preventDefault();
 }
-
 function downVote(postID, userID) {
     console.log('postID ' + postID)
     console.log('userID ' + userID)
@@ -103,34 +104,6 @@ function deleteComment(commentId) {
     });
     event.preventDefault();
 }
-
-
-function comment(postID, userID, content) {
-    console.log('postID ' + postID)
-    console.log('userID ' + userID)
-    console.log('content ' + content)
-    let json = {
-        "post": {"id": postID},
-        "appUser": {"id": userID},
-        "content": content
-    }
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        data: JSON.stringify(json),
-        url: $(location).attr('href'),
-        success: function (comment) {
-            console.log("comment thanh cong +  " + comment.id)
-            createCommentInHtml(postID, userID, content, comment.id)
-        }
-    });
-    event.preventDefault();
-}
-
-
 function deleteCommentInPost(commentId) {
     let elementId = "article-container-" + commentId
     let element = document.getElementById(elementId)
@@ -169,7 +142,6 @@ function editComment(commentId){
     });
 
 }
-
 function editCommentInPost(commentId) {
     let elementId = "comment-content" + commentId
     let element = document.getElementById(elementId)
@@ -202,31 +174,6 @@ function submitComment(postID, userID) {
 
     comment(postID, userID, contentToPost)
     return false;
-}
-
-//=============================================================================================================================================================
-function createNewPost(){
-    let form = $('#uploadForm')[0];
-    let data = new FormData(form);
-    $("#submit-bt").prop("disabled", true);
-
-    $.ajax({
-        enctype: 'multipart/form-data',
-        type: "POST",
-        data: data,
-        url: "/post/create",
-        // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
-        processData: false,
-        contentType: false,
-        success: function (post) {
-            console.log(" da dang bai thang cong ")
-            let respContent = "<div class=\"alert alert-success alert-dismissible fade show\">\n" +
-                "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
-                "    <strong>Đăng bài thành công! </strong>ảnh sau khi đăng sẽ xuất hiện trên  <a href=\"vote\" class=\"alert-link\">trang bình chọn</a>\n" +
-                "  </div>";
-            $("#formNewPost_container").html(respContent);
-        }
-    });
 }
 function createCommentInHtml(postID, userID, postContent, commentId) {
     let now = new Date()
@@ -271,32 +218,30 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 				</article>`
     document.getElementById("form-container").insertAdjacentHTML("afterend", template)
 }
-function deletePost(postId) {
-    console.log('deleting postID' + postId);
-    let postHtml = document.getElementById("postPre" + postId);
-    let json = {"id": postId};
-    let currentPostHTML = document.getElementById("postCurrent-"+postId);
+function comment(postID, userID, content) {
+    console.log('postID ' + postID)
+    console.log('userID ' + userID)
+    console.log('content ' + content)
+    let json = {
+        "post": {"id": postID},
+        "appUser": {"id": userID},
+        "content": content
+    }
     $.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        type: "DELETE",
+        type: "POST",
         data: JSON.stringify(json),
-        url: "/post/delete",
-        success: function (currentPost) {
-            currentPostHTML.remove();
+        url: $(location).attr('href'),
+        success: function (comment) {
+            console.log("comment thanh cong +  " + comment.id)
+            createCommentInHtml(postID, userID, content, comment.id)
         }
     });
     event.preventDefault();
 }
-function goDetail(postId) {
-    let url = "/post/detail/" + postId;
-    window.open(url, "_self");
-}
-
-
-//=============================================================================================
 
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
@@ -328,6 +273,54 @@ function loveComment(commentId, userId) {
         }
     });
     event.preventDefault();
+}
+
+//=============================================================================================================================================================
+function createNewPost(){
+    let form = $('#uploadForm')[0];
+    let data = new FormData(form);
+    $("#submit-bt").prop("disabled", true);
+
+    $.ajax({
+        enctype: 'multipart/form-data',
+        type: "POST",
+        data: data,
+        url: "/post/create",
+        // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
+        processData: false,
+        contentType: false,
+        success: function (post) {
+            console.log(" da dang bai thang cong ")
+            let respContent = "<div class=\"alert alert-success alert-dismissible fade show\">\n" +
+                "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                "    <strong>Đăng bài thành công! </strong>ảnh sau khi đăng sẽ xuất hiện trên  <a href=\"vote\" class=\"alert-link\">trang bình chọn</a>\n" +
+                "  </div>";
+            $("#formNewPost_container").html(respContent);
+        }
+    });
+}
+function deletePost(postId) {
+    console.log('deleting postID' + postId);
+    let postHtml = document.getElementById("postPre" + postId);
+    let json = {"id": postId};
+    let currentPostHTML = document.getElementById("postCurrent-"+postId);
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "DELETE",
+        data: JSON.stringify(json),
+        url: "/post/delete",
+        success: function (currentPost) {
+            currentPostHTML.remove();
+        }
+    });
+    event.preventDefault();
+}
+function goDetail(postId) {
+    let url = "/post/detail/" + postId;
+    window.open(url, "_self");
 }
 
 //=============================================================================================
