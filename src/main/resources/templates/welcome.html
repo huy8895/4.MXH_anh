@@ -1,32 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>Admin Manage</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <script th:src="@{/js/app.js}"></script>
-    <style>
-        .modal-1000 {
-            max-width: 90%;
-            margin: 80px auto;
-        }
-    </style>
-</head>
+<head th:replace="~{layout/layout::head}"></head>
 <body>
-
 <header th:replace="~{layout/layout::header(${user})}"></header>
 <div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-md-3 ">
-        </div>
-        <div class="col-md-6">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
             <th:block sec:authorize="isAuthenticated()">
                 <div id="formNewPost_container">
                     <div class="content border rounded-lg p-3 mb-3">
@@ -55,7 +36,8 @@
                         <button type="button" class="close">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" href="/#" th:title="${post.title}" th:text="${post.title}"></a></h3>
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                       th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
                     <time th:text="${post.dateUpload}"
@@ -86,7 +68,8 @@
                                 class="comments" title="Comments"
                                 th:text="${post.commentCount}"></span>
                         </button>
-                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span style="font-weight: bold">&nbsp;Share</span>
+                        <button type="button" class="btn "><i style='font-size:1.9em' class='fas'>&#xf14d;</i><span
+                                style="font-weight: bold">&nbsp;Share</span>
                         </button>
                     </div>
                 </th:block>
@@ -98,7 +81,7 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <p th:text="${post.title}"></p>
+                                <!--                                <p th:text="${post.title}"></p>-->
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
 
@@ -120,8 +103,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                             <!-- Modal footer -->
@@ -136,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 ">
+        <div class="col-sm-1 col-md-2 col-lg-2">
         </div>
     </div>
 </div>

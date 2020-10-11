@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -37,6 +38,11 @@ public class AccountController {
 
     @Value("${upload.path}")
     private String upload_path;
+
+    private List<Long> getAllPostIdByUserLiked(Long userId){
+        List<Long> list = postService.getAllPostIdByUserLiked(userId);
+        return list;
+    }
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -99,6 +105,11 @@ public class AccountController {
         ModelAndView modelAndView = new ModelAndView("account/favorite");
         Page<Post> posts = postService.findAllPostByUserLiked(currentUser.getId(), pageable);
         modelAndView.addObject("posts", posts);
+        modelAndView.addObject("currentTime", System.currentTimeMillis());
+        modelAndView.addObject("post", new Post());
+        if(getPrincipal()!=null) {
+            modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
+        }
         return modelAndView;
     }
 
