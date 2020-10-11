@@ -23,18 +23,20 @@ function like(postID, userID) {
 }
 
 
-function likeStatus(postID){
+function likeStatus(postID) {
     let like = document.getElementById("LikeButton-" + postID)
 
     if (like.style.color.indexOf("blue") === -1) {
-        like.style.color="blue";
+        like.style.color = "blue";
     } else {
-        like.style.color="gray";
+        like.style.color = "gray";
     }
 }
+
 function test(postID) {
     console.log('postID ' + postID)
 }
+
 //=============================================================================================
 
 
@@ -138,16 +140,16 @@ function deleteCommentInPost(commentId) {
     deleteComment(commentId)
 }
 
-function editComment(commentId){
+function editComment(commentId) {
 
     let elementId = "content-textBoxEdit+" + commentId;
     let element = document.getElementById(elementId);
     let content = document.getElementById(elementId).value
-    console.log('commentId'+commentId)
-    console.log('content'+content)
+    console.log('commentId' + commentId)
+    console.log('content' + content)
     let json = {
-        "id":commentId,
-        "content":content
+        "id": commentId,
+        "content": content
     }
     $.ajax({
         headers: {
@@ -174,14 +176,14 @@ function editCommentInPost(commentId) {
     let elementId = "comment-content" + commentId
     let element = document.getElementById(elementId)
     let content = document.getElementById(elementId).innerText
-    console.log('commentId: '+commentId)
-    console.log('postContent: '+content)
+    console.log('commentId: ' + commentId)
+    console.log('postContent: ' + content)
     // let template = `<blockquote id="comment-content+${commentId}">
     //                     <form method="post" action="">
     //                     <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
     //                     <button type="button" onclick="editComment(${commentId})">edit</button>
     //                     </form>
-	// 				</blockquote>`;
+    // 				</blockquote>`;
     let template = `<form method="post" action="">
                         <input type="text" value="${content}" id="content-textBoxEdit+${commentId}"/>
                         <button type="button" onclick="editComment(${commentId})">edit</button>
@@ -205,7 +207,7 @@ function submitComment(postID, userID) {
 }
 
 //=============================================================================================================================================================
-function createNewPost(){
+function createNewPost() {
     let form = $('#uploadForm')[0];
     let data = new FormData(form);
     $("#submit-bt").prop("disabled", true);
@@ -228,6 +230,7 @@ function createNewPost(){
         }
     });
 }
+
 function createCommentInHtml(postID, userID, postContent, commentId) {
     let now = new Date()
     let time = now.toLocaleTimeString()
@@ -271,11 +274,12 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 				</article>`
     document.getElementById("form-container").insertAdjacentHTML("afterend", template)
 }
+
 function deletePost(postId) {
     console.log('deleting postID' + postId);
     let postHtml = document.getElementById("postPre" + postId);
     let json = {"id": postId};
-    let currentPostHTML = document.getElementById("postCurrent-"+postId);
+    let currentPostHTML = document.getElementById("postCurrent-" + postId);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -285,12 +289,13 @@ function deletePost(postId) {
         data: JSON.stringify(json),
         url: "/post/delete",
         success: function (currentPost) {
-            console.log("success delete postID: " +currentPost.id)
+            console.log("success delete postID: " + currentPost.id)
             $(currentPostHTML).html("");
         }
     });
     event.preventDefault();
 }
+
 function goDetail(postId) {
     let url = "/post/detail/" + postId;
     window.open(url, "_self");
@@ -302,11 +307,12 @@ function goDetail(postId) {
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
     if (heart.style.color.indexOf("deeppink") === -1) {
-        heart.style.color="deeppink";
+        heart.style.color = "deeppink";
     } else {
-        heart.style.color="antiquewhite";
+        heart.style.color = "antiquewhite";
     }
 }
+
 function loveComment(commentId, userId) {
     console.log('commentID ' + commentId);
     console.log('userID ' + userId);
@@ -334,11 +340,11 @@ function loveComment(commentId, userId) {
 //=============================================================================================
 
 
-function blockUser(userId){
+function blockUser(userId) {
 
     console.log('userID blocking  ' + userId);
     let json = {"id": userId};
-    let template = document.getElementById("role-"+userId);
+    let template = document.getElementById("role-" + userId);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -354,3 +360,16 @@ function blockUser(userId){
     });
     event.preventDefault();
 }
+
+//========================================================================
+function checkPass() {
+    let newPass = document.getElementById("form_new").value;
+    let newPass_confirm = document.getElementById("form_confirmNew").value;
+    if (newPass == newPass_confirm) {
+        document.getElementById("form_newPass").submit();
+    } else {
+        document.getElementById("response").innerHTML = "mật khẩu không trùng khớp!!";
+    }
+}
+
+
