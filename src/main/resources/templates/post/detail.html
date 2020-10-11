@@ -93,6 +93,9 @@
                     </blockquote>
                     <hr>
                     <footer>
+                        <p class="date-posted">Posted
+                            <time th:text="${comment.timeComment}"></time>
+                        </p>
                         <button class="heart"
                                 th:onclick="'loveComment(\'' + ${comment.id} +'\',\''+${user.id} + '\');'">
                             <th:block th:if="${#lists.contains(listCommentIdLoved, comment.id)}">
