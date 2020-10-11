@@ -262,7 +262,9 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 							<time>${date}</time>
 						</p>
 						<button class="heart" onclick="loveComment(${commentId},${userID})">
-							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>
+<!--							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>-->
+							<i class='fa fa-heart' style='font-size: 1.2em;color:antiquewhite'
+                                   id="'heart-image-${commentId}"></i>
 						</button>
 					</footer>
 				</article>`
@@ -278,10 +280,10 @@ function goDetail(postId) {
 
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
-    if (heart.src.indexOf("active") === -1) {
-        heart.src = "/data/heart-active.svg"
+    if (heart.style.color.indexOf("deeppink") === -1) {
+        heart.style.color="deeppink";
     } else {
-        heart.src = "/data/heart.svg"
+        heart.style.color="antiquewhite";
     }
 }
 function loveComment(commentId, userId) {

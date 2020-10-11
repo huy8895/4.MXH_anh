@@ -105,12 +105,13 @@
                         <button class="heart"
                                 th:onclick="'loveComment(\'' + ${comment.id} +'\',\''+${user.id} + '\');'">
                             <th:block th:if="${#lists.contains(listCommentIdLoved, comment.id)}">
-                                <img src="/data/heart-active.svg" th:id="'heart-image-'+${comment.id}" height="15"
-                                     width="16">
+                                <i class='fa fa-heart' aria-hidden="true" style='font-size: 1.2em;color:deeppink'
+                                   th:id="'heart-image-'+${comment.id}"></i>
+
                             </th:block>
                             <th:block th:unless="${#lists.contains(listCommentIdLoved, comment.id)}">
-                                <img src="/data/heart.svg" th:id="'heart-image-'+${comment.id}" height="15"
-                                     width="16">
+                                <i class='fa fa-heart' style='font-size: 1.2em;color:antiquewhite'
+                                   th:id="'heart-image-'+${comment.id}"></i>
                             </th:block>
 
                             <span
