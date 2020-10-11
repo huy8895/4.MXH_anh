@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
-<head>
-    <meta charset="UTF-8">
-    <title>AccessDenied page</title>
-</head>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layout/layout::head('AccessDenied page')}"></head>
 <body>
 Dear <strong th:text="${user}"></strong>, You are not authorized to access this page
-<p><a th:href="@{/logout}">Logout</a></p>
+<p><a th:href="@{/logout}" class="btn btn-danger">Logout</a></p>
 
 </body>
 </html>

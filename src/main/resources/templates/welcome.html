@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout/layout::head}"></head>
+<head th:replace="~{layout/layout::head('home')}"></head>
 <body>
 <header th:replace="~{layout/layout::header(${user})}"></header>
 <div class="container-fluid mt-5">
@@ -39,16 +39,16 @@
                             </button>
                         </div>
                     </th:block>
-                    <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
-                           th:title="${post.title}" th:text="${post.title}"></a></h3>
-                    <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                    <h5><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                           th:title="${post.title}" th:text="${post.title}" style="text-decoration: none; color: black"></a></h5>
+                    <small><i>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                     th:text="${post.appUser.username}"></a>
                         <time th:text="${post.dateUpload}"
                               th:name="*{post.dateUpload}"></time>
-                    </h5>
+                    </i></small>
                     <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
                         <img th:src="@{'/'+${post.photoName}}"
-                             th:alt="${post.title}" class="img-fluid">
+                             th:alt="${post.title}" class="img-fluid rounded-lg">
                     </a>
                     <th:block sec:authorize="isAuthenticated()">
                         <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg"
@@ -99,7 +99,7 @@
                                         <div class="col-md-4">
                                             <div class="media border p-3 shadow">
                                                 <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
-                                                     class="rounded-circle" style="width:60px;">
+                                                     class="rounded-circle m-1" style="width:60px;">
                                                 <div class="media-body">
                                                     <h4 th:text="${post.appUser.username}"><small><i></i></small></h4>
                                                     <p th:text="${post.title}"></p>

@@ -2,43 +2,91 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout/layout::head}"></head>
+<head th:replace="~{layout/layout::head('create account')}"></head>
 <body>
-<h1 style="text-align: center">CREATE USER</h1>
-<div id="content" class="d-flex justify-content-center">
-        <form method="post" th:object="${newUser}" action="/create-account" id="uploadForm"
-              enctype="multipart/form-data">
-            <table>
-                <tbody>
-                <tr>
-                    <td>username:</td>
-                    <td><input th:type="text" th:field="*{username}"/></td>
-                </tr>
-                <tr>
-                    <td>full name:</td>
-                    <td><input th:type="text" th:field="*{fullName}"/></td>
-                </tr>
-                <tr>
-                    <td>password:</td>
-                    <td><input type="password" th:field="*{password}"/></td>
-                </tr>
-                <tr>
-                    <td>Image:</td>
-                    <td><input type="file" th:field="*{avatarFile}"/></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Create" id="submit-bt"/></td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-        <form action="/signin/facebook" method="POST" style="width: 20%">
-            <input type="hidden" name="scope" value="public_profile"/>
-            <button class="loginBtn loginBtn--facebook" type="submit">
-                Sign Up
-            </button>
-        </form>
-</div>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-sm-1 col-md-4"></div>
+        <div class="col-sm-10 col-md-4">
+            <div class="mainBox infoBox inputForm updateAccount">
+                <form method="post" th:object="${newUser}" action="/create-account" id="uploadForm"
+                      enctype="multipart/form-data">
+                    <table class="table">
+                        <tr>
+                            <th style="text-align: center" colspan="2">CREATE USER</th>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Username
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" type="text" th:field="*{username}"/>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Password
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" type="password" th:field="*{password}"/>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Tên hiển thị
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" data-val="true"
+                                       data-val-length="Không nhập quá 50 ký tự."
+                                       data-val-length-max="50" data-val-regex="Cần ít nhất 3 chữ số hoặc chữ cái"
+                                       data-val-regex-pattern="(.*?[0-9a-zA-Z]){3}.*"
+                                       data-val-required="Tên hiển thị là bắt buộc." id="name" th:field="*{fullName}"
+                                       type="text" required>
+                                <span class="field-validation-error" data-valmsg-for="name"
+                                      data-valmsg-replace="true"><span
+                                        for="name" generated="true"></span></span>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Avatar
+                            </td>
+                            <td class="col-8">
+                                <div class="float-left">
+                                    <input type="file" th:field="*{avatarFile}"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-3" align="center">
+                                <button type="submit" class="btn btn-success" title="Tạo">Tạo</button>
+                            </td>
 
+                            <td class="col-3" align="center">
+                                <a class="btn btn-primary " href="/login" title="Đăng nhập"><span
+                                        class="badge badge-primary">Đăng nhập</span></a>
+                            </td>
+                            <td class="col-3" align="center">
+                                <a class="btn btn-secondary " href="/" title="Bỏ qua"><span
+                                        class="badge badge-secondary">Bỏ qua</span></a>
+                            </td>
+                            <td class="col-3" align="center">
+                                <form action="/signin/facebook" method="POST" style="width: 20%">
+                                    <input type="hidden" name="scope" value="public_profile"/>
+                                    <button class="loginBtn loginBtn--facebook" type="submit">
+                                        Sign Up
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-4">
+        </div>
+    </div>
+</div>
 </body>
 </html>
