@@ -297,7 +297,7 @@ function createNewPost(){
             contentType: false,
             success: function (post) {
                 console.log(" da dang bai thang cong ")
-                let respContent = "<div class=\"alert alert-success alert-dismissible fade show\">\n" +
+                let respContent = "<div class=\"alert alert-success alert-dismissible fade show mt-4\">\n" +
                     "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
                     "    <strong>Đăng bài thành công! </strong>ảnh sau khi đăng sẽ xuất hiện trên  <a href=\"vote\" class=\"alert-link\">trang bình chọn</a>\n" +
                     "  </div>";
