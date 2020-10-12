@@ -285,25 +285,32 @@ function loveComment(commentId, userId) {
 function createNewPost(){
     let form = $('#uploadForm')[0];
     let data = new FormData(form);
-    $("#submit-bt").prop("disabled", true);
+    let newPostContent = document.getElementById("newPostContent").value;
+    console.log('newPostContent'+newPostContent.length)
+    if(newPostContent.length !== 0){
+        $("#submit-bt").prop("disabled", true);
 
-    $.ajax({
-        enctype: 'multipart/form-data',
-        type: "POST",
-        data: data,
-        url: "/post/create",
-        // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
-        processData: false,
-        contentType: false,
-        success: function (post) {
-            console.log(" da dang bai thang cong ")
-            let respContent = "<div class=\"alert alert-success alert-dismissible fade show\">\n" +
-                "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
-                "    <strong>Đăng bài thành công! </strong>ảnh sau khi đăng sẽ xuất hiện trên  <a href=\"vote\" class=\"alert-link\">trang bình chọn</a>\n" +
-                "  </div>";
-            $("#formNewPost_container").html(respContent);
-        }
-    });
+        $.ajax({
+            enctype: 'multipart/form-data',
+            type: "POST",
+            data: data,
+            url: "/post/create",
+            // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
+            processData: false,
+            contentType: false,
+            success: function (post) {
+                console.log(" da dang bai thang cong ")
+                let respContent = "<div class=\"alert alert-success alert-dismissible fade show\">\n" +
+                    "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                    "    <strong>Đăng bài thành công! </strong>ảnh sau khi đăng sẽ xuất hiện trên  <a href=\"vote\" class=\"alert-link\">trang bình chọn</a>\n" +
+                    "  </div>";
+                $("#formNewPost_container").html(respContent);
+            }
+        });
+    } else {
+        alert("bạn chưa nhập nội dung của Post ")
+    }
+
 }
 function deletePost(postId) {
     console.log('deleting postID' + postId);
