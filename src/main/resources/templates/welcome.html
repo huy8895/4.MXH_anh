@@ -10,7 +10,7 @@
         <div class="col-sm-10 col-md-8 col-lg-6">
             <th:block sec:authorize="isAuthenticated()">
                 <div id="formNewPost_container">
-                    <div class="content border rounded-lg p-3 mb-3">
+                    <div class="content border rounded-lg p-3 mb-3 mt-4">
                         <form method="post" th:object="${post}" action="/post/create" id="uploadForm"
                               enctype="multipart/form-data">
                             <div class="form-group">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </th:block>
-            <div th:fragment="listpost" class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}"
+            <div th:fragment="listpost" class="content border rounded-lg p-3 mb-3 mt-4" th:each="post: ${posts}"
                  th:id="'postCurrent-'+${post.id}">
 
                 <th:block sec:authorize="isAuthenticated()">
