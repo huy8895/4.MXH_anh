@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:insert="~{layout/layout::head}">
-    <style>
-        .button1:hover{
-            transform: scale(1.2);
-        }
-    </style>
-</head>
+<head th:replace="~{layout/layout::head('vote page')}"></head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-sm-1 col-md-2 col-lg-3"></div>
         <div class="col-sm-10 col-md-8 col-lg-6">
-            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}" th:id="'postCurrent-'+${post.id}" >
+            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
                 <th:block sec:authorize="isAuthenticated()">
                     <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                        <button type="button" class="close" th:onclick="'deletePost(\'' +${post.id}+ '\');'">×</button>
+                        <button type="button" class="close">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}" style="text-decoration: none; color: black"
                        th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
@@ -38,11 +32,13 @@
                             <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                         </div>
                         <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                            <button style="width: 1.2em;height: 1.2em" type="button"
-                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class='fas fa-caret-up btn'>
+                            <button type="button"
+                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">upVote
+                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
                             </button>
-                            <button style="width: 1.2em;height: 1.2em"
-                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class=" fas fa-caret-down">
+                            <button type="button"
+                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">downVote
+                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
                             </button>
                         </div>
                         <div class="clear"></div>

@@ -1,38 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/layout::head}"></head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/layout::head('login')}"></head>
 <body>
-<div class="container">
-    <div th:if="${param.logout}" class="alert alert-info">You have been logged out</div>
-    <div th:if="${param.error}" class="alert alert-danger">There was an error, please try again</div>
-    <div th:if="${messageLogin}" th:text="${messageLogin}">
-    </div>
-    <h1 class="col-sm-12">Login</h1>
-    <form th:action="@{/login}" method="POST" th:object="${fbUser}">
-        <div class="row col-sm-6">
-            <div class="form-group" >
-                <label class="col-sm-3">Username</label>
-                <span class="col-sm-9">
-                    <input class="form-control" type="text" th:if="${fbUser}" th:field="*{username}" name="username"/>
-                    <input class="form-control" type="text" th:unless="${fbUser}"  name="username"/>
-                </span>
-            </div>
-            <br/>
-            <div class="form-group">
-                <label class="col-sm-3">Password</label>
-                <span class="col-sm-9">
-                    <input class="form-control" type="text" name="password" th:if="${fbUser}"
-                           th:field="*{password}"/>
-                    <input class="form-control" type="password" name="password" th:unless="${fbUser}"
-                    />
-				</span>
-            </div>
-
-            <div class="col-sm-12">
-                <input type="submit" value="LOGIN" class="btn btn-default"/>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-sm-1 col-md-4"></div>
+        <div class="col-sm-10 col-md-4">
+            <div class="mainBox infoBox inputForm updateAccount">
+                <form th:action="@{/login}" method="POST" th:object="${fbUser}">
+                    <table class="table">
+                                <th:block th:if="${param.logout}" class="alert alert-info">You have been logged out</th:block>
+                                <th:block th:if="${param.error}" class="alert alert-danger">There was an error, please try again</th:block>
+                                <th:block th:if="${messageLogin}" th:text="${messageLogin}"></th:block>
+                        <tr>
+                            <th style="text-align: center" colspan="2">Login</th>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Username
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" type="text" th:if="${fbUser}" th:field="*{username}" name="username"/>
+                                <input class="form-control" type="text" th:unless="${fbUser}"  name="username"/>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Password
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" type="text" name="password" th:if="${fbUser}"
+                                       th:field="*{password}"/>
+                                <input class="form-control" type="password" name="password" th:unless="${fbUser}"
+                                />
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-6" align="center">
+                                <input type="submit" value="LOGIN" class="btn btn-outline-primary"/>
+                            </td>
+                            <td class="col-6" align="center">
+                                <a class="btn btn-outline-success" href="/create-account" title="Đăng ký"><span
+                                        class="badge badge-outline-success">Đăng ký</span></a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
-    </form>
+        <div class="col-sm-1 col-md-4">
+        </div>
+    </div>
 </div>
 </body>
 </html>

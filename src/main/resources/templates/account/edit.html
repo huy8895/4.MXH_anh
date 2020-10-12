@@ -1,52 +1,77 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout/layout::head}"></head>
+<head th:replace="~{layout/layout::head('edit account')}"></head>
 <body>
 <div th:replace="~{layout/layout::header(${user})}"></div>
-<div id="content">
-    <div id="mainContainer">
-        <div id="leftColumn">
-            <div class="mainBox">
-                <div class="mainBox infoBox inputForm updateAccount">
-                    <h3>Cập nhật thông tin cá nhân</h3>
-                    <form th:object="${user}" action="" method="post" enctype="multipart/form-data" class="submitForm">
-                        <p class="required">
-                            <label class="required">Tên đăng nhập</label>
-                            <input class="text mediumWidth" disabled="true" id="userName" th:field="*{username}"
-                                   type="text">
-                        </p>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-sm-1 col-md-3"></div>
+        <div class="col-sm-10 col-md-6">
+            <div class="mainBox infoBox inputForm updateAccount">
+                <form th:object="${user}" action="" method="post" enctype="multipart/form-data">
+                    <table class="table">
+                        <tr>
+                            <th style="text-align: center" colspan="2">Cập nhật thông tin cá nhân</th>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Tên đăng nhập
+                            </td>
+                            <td class="col-8">
 
-                        <p class="required">
-                            <label class="required">Tên hiển thị</label>
-                            <input class="text mediumWidth valid" data-val="true"
-                                   data-val-length="Không nhập quá 50 ký tự."
-                                   data-val-length-max="50" data-val-regex="Cần ít nhất 3 chữ số hoặc chữ cái"
-                                   data-val-regex-pattern="(.*?[0-9a-zA-Z]){3}.*"
-                                   data-val-required="Tên hiển thị là bắt buộc." id="name" th:field="*{fullName}"
-                                   type="text">
-                            <span class="field-validation-error" data-valmsg-for="name" data-valmsg-replace="true"><span
-                                    for="name" generated="true" class=""></span></span>
-                        </p>
-                        <p>
-                            <label>Avatar</label>
-                            <img class="avatar_comment" th:src="@{'/'+${user.avatarFileName}}" width="100" height="100">
-                            <input type="file" th:field="*{avatarFile}"/>
-                            <input type="hidden" th:field="*{avatarFileName}"/>
-                        </p>
+                                <input class="form-control" type="text" disabled="true" id="userName"
+                                       th:field="*{username}">
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Tên hiển thị
+                            </td>
+                            <td class="col-8">
+                                <input class="form-control" data-val="true"
+                                       data-val-length="Không nhập quá 50 ký tự."
+                                       data-val-length-max="50" data-val-regex="Cần ít nhất 3 chữ số hoặc chữ cái"
+                                       data-val-regex-pattern="(.*?[0-9a-zA-Z]){3}.*"
+                                       data-val-required="Tên hiển thị là bắt buộc." id="name" th:field="*{fullName}"
+                                       type="text" required>
+                                <span class="field-validation-error" data-valmsg-for="name"
+                                      data-valmsg-replace="true"><span
+                                        for="name" generated="true"></span></span>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-4" style="align-content: center ;text-align: left">
+                                Avatar
+                            </td>
+                            <td class="col-8">
 
+                                    <img class="rounded-lg float-left mb-1" th:src="@{'/'+${user.avatarFileName}}" width="100"                                                                                        height="100">
 
-                        <p class="buttonSet">
-                            <button type="submit" class="buttons submitButton" title="Cập nhật">Cập nhật</button>
-                            <a class="buttons cancelButtons" href="/" title="Bỏ qua">Bỏ qua</a>
-                        </p>
-                        <p>
-                        </p><h4><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></h4>
-                        <p></p>
-                    </form>
-                </div>
-
+                                    <div class="float-left">
+                                        <input type="file" th:field="*{avatarFile}"/>
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr tr class="d-flex">
+                            <td class="col-6" align="center">
+                                <button type="submit" class="btn btn-success" title="Cập nhật">Cập nhật</button>
+                            </td>
+                            <td class="col-6" align="center">
+                                <a class="btn btn-secondary " href="/" title="Bỏ qua"><span
+                                        class="badge badge-secondary">Bỏ qua</span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center">
+                                <h4><a href="/account/password" title="Đổi mật khẩu">Đổi mật khẩu</a></h4>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
+        </div>
+        <div class="col-sm-1 col-md-3">
         </div>
     </div>
 </div>

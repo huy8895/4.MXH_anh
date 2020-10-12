@@ -4,8 +4,8 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<th:block th:fragment="head">
-    <title>Admin Manage</title>
+<th:block th:fragment="head(title)">
+    <title th:text="${title}"></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -55,7 +55,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/uploader/__${user.id}__}">
                             <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
-                                 class="d-inline-block align-top"
+                                 class="d-inline-block align-top rounded-circle"
                                  th:alt="${user.avatarFileName}"><span class="sr-only">(current)</span>
                         </a>
                     </li>
