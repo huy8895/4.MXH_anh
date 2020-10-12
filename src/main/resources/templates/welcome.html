@@ -24,7 +24,7 @@
                                        id="exampleFormControlFile1">
                             </div>
                             <button id="submit-bt" type="button" class="btn btn-outline-primary btn-block "
-                                    onclick="createNewPost()">Post
+                                    onclick="createNewPost()" style="transform: none">Post
                             </button>
                         </form>
                     </div>
@@ -50,7 +50,7 @@
                 </i></small>
                 <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
                     <img th:src="@{'/'+${post.photoName}}"
-                         th:alt="${post.title}" class="img-fluid rounded-lg">
+                         th:alt="${post.title}" class="img-fluid rounded-lg mx-auto d-block">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg"

@@ -24,7 +24,7 @@
                 </small>
                 <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
                     <img th:src="@{'/'+${post.photoName}}"
-                         th:alt="${post.title}" class="img-fluid">
+                         th:alt="${post.title}" class="img-fluid mx-auto d-block">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
 

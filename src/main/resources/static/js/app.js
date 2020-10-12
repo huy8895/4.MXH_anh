@@ -171,14 +171,11 @@ function submitComment(postID, userID) {
     let counter = document.getElementById("input-characters")
     console.log("click submit" + postID + " " + userID)
     let contentToPost = textArea.value;
-    if (contentToPost.length === 0) {
-        return false;
-    }
     textArea.value = "";
     counter.innerText = 0;
-
-    comment(postID, userID, contentToPost)
-    return false;
+    if (contentToPost.length != 0) {
+        comment(postID, userID, contentToPost)
+    }
 }
 function createCommentInHtml(postID, userID, postContent, commentId) {
     let now = new Date()
