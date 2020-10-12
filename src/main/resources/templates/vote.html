@@ -38,8 +38,8 @@
                             <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
                         </div>
                         <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                            <button style="width: 1.2em;height: 1.2em" type="button" class="btn "
-                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class='fas fa-caret-up'>
+                            <button style="width: 1.2em;height: 1.2em" type="button"
+                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class='fas fa-caret-up btn'>
                             </button>
                             <button style="width: 1.2em;height: 1.2em"
                                     th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'" class=" fas fa-caret-down">

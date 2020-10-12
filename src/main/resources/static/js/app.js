@@ -211,7 +211,7 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 						</p>
 						<button class="heart" onclick="loveComment(${commentId},${userID})">
 <!--							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>-->
-							<i class='fa fa-heart' style='font-size: 1.2em;color:antiquewhite'
+							<i class='fa fa-heart' style='font-size: 1.2em;color:darkgrey'
                                    id="'heart-image-${commentId}"></i>
 						</button>
 					</footer>
@@ -248,7 +248,7 @@ function lovePost(id) {
     if (heart.style.color.indexOf("deeppink") === -1) {
         heart.style.color="deeppink";
     } else {
-        heart.style.color="antiquewhite";
+        heart.style.color="darkgrey";
     }
 }
 function loveComment(commentId, userId) {
