@@ -146,7 +146,7 @@ hr {
 }
 
 /* Form */
-form {
+form.form-comment {
     background-color: #ffffff;
     border-width: 1px;
     border-style: solid;

@@ -27,7 +27,7 @@
 </th:block>
 <body>
 <header id="header" th:fragment="header(user)">
-    <nav class="navbar p-0 pl-4 navbar-expand-sm navbar-light bg-light fixed-top">
+    <nav class="navbar p-0 pl-4 navbar-expand-md navbar-light bg-light fixed-top">
         <a class="navbar-brand" href="/">Trang Chủ</a>
         <th:block sec:authorize="isAuthenticated()">
             <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
