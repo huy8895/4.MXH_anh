@@ -212,7 +212,10 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 						<button class="heart" onclick="loveComment(${commentId},${userID})">
 <!--							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>-->
 							<i class='fa fa-heart' style='font-size: 1.2em;color:darkgrey'
-                                   id="'heart-image-${commentId}"></i>
+                                   id="heart-image-${commentId}"></i>
+                           <span
+                                class="heart" th:id="heart${comment.id}" title="heart"
+                                th:text="  ${comment.loveCount}"></span>
 						</button>
 					</footer>
 				</article>`
@@ -245,6 +248,7 @@ function comment(postID, userID, content) {
 
 function lovePost(id) {
     let heart = document.getElementById("heart-image-" + id)
+    console.log("comment id: "+id);
     if (heart.style.color.indexOf("deeppink") === -1) {
         heart.style.color="deeppink";
     } else {
@@ -268,7 +272,7 @@ function loveComment(commentId, userId) {
         data: JSON.stringify(json),
         url: "/post/loveComment",
         success: function (currentComment) {
-            lovePost(commentId);
+            lovePost(currentComment.id);
             $(heartObj).html(currentComment.loveCount);
         }
     });
