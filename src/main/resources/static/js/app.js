@@ -53,9 +53,14 @@ function upVote(postID, userID) {
         data: JSON.stringify(json),
         url: "/post/upVote",
         success: function (currentPost) {
-            let approvedPost = document.getElementById("postCurrent-"+postID);
-            if(currentPost.voteCount>=4)
-                voteObj.remove();
+            if(currentPost.voteCount>=4) {
+                let currentPostHtml = document.getElementById("postCurrent-"+postID);
+                let respContent = "<div class=\"alert alert-primary alert-dismissible fade show\">\n" +
+                    "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                    "    <strong>UpVote thành công! </strong>Chúc Mừng Ảnh đã được lên <a href=\"home\" class=\"alert-lik\">Trang Chủ</a>\n" +
+                    "  </div>";
+                currentPostHtml.innerHTML = respContent;
+            }
             else
                 $(voteObj).html(currentPost.voteCount);
         }
@@ -213,9 +218,6 @@ function createCommentInHtml(postID, userID, postContent, commentId) {
 <!--							<img src="/data/heart.svg" id="heart-image-${commentId}" height="15" width="16"/>-->
 							<i class='fa fa-heart' style='font-size: 1.2em;color:darkgrey'
                                    id="heart-image-${commentId}"></i>
-                           <span
-                                class="heart" th:id="heart${comment.id}" title="heart"
-                                th:text="  ${comment.loveCount}"></span>
 						</button>
 					</footer>
 				</article>`

@@ -8,13 +8,14 @@
     <div class="row">
         <div class="col-sm-1 col-md-2 col-lg-3"></div>
         <div class="col-sm-10 col-md-8 col-lg-6">
-            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}">
+            <div class="content border rounded-lg p-3 mb-3" th:each="post: ${posts}" th:id="'postCurrent-'+${post.id}">
                 <th:block sec:authorize="isAuthenticated()">
                     <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                        <button type="button" class="close">×</button>
+                        <button type="button" class="close" th:onclick="'deletePost(\'' +${post.id}+ '\');'">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}" style="text-decoration: none; color: black"
+                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                       style="text-decoration: none; color: black"
                        th:title="${post.title}" th:text="${post.title}"></a></h3>
                 <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
                                 th:text="${post.appUser.username}"></a>
@@ -26,22 +27,29 @@
                          th:alt="${post.title}" class="img-fluid">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
-                    <div class="stats">
-                        <div class="viewComments">
-                            <span class="votes" th:id="'votes'+${post.id}" title="vote" th:text="${post.voteCount}"></span>
-                            <span class="comments" title="Comments" th:text="${post.commentCount}"></span>
-                        </div>
-                        <div class="likesWrapper" sec:authorize="isAuthenticated()">
-                            <button type="button"
-                                    th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">upVote
-                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
-                            </button>
-                            <button type="button"
-                                    th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">downVote
-                                <!--                                            oth:onclick="'like(\'' + ${post.id} +'\',\''+${user.id} + '\');'">like-->
-                            </button>
-                        </div>
-                        <div class="clear"></div>
+
+                    <div class="btn-group btn-group-sm btn-block mt-2 fa-border rounded-lg"
+                         th:onload="'checkLikeStatus(\'' + ${post.id} +'\',\''+${user.id} + '\')'">
+                        <button class="btn " type="button"
+                                th:onclick="'$(this).click(upVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
+                            <i class="fas fa-caret-up" style='font-size: 2.3em;color:black'></i><span
+                                style="font-weight: bold">&nbsp;Up&nbsp;</span>
+                        </button>
+                        <button class="btn" disabled>
+                            <h5><span class="votes" th:id="'votes'+${post.id}" title="vote"
+                                         th:text="${post.voteCount}" style="font-weight: bold"></span></h5>
+                        </button>
+                        <button type="button" class="btn"
+                                th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
+                            <i class="fas fa-caret-down" style='font-size: 2.3em;color:black'
+                            ></i><span
+                                style="font-weight: bold">&nbsp;Down&nbsp;</span>
+                        </button>
+                        <button type="button" class="btn" th:onclick="'goDetail(\'' + ${post.id} +'\')'">
+                            <i style='font-size:1.9em' class='far'>&#xf27a;</i><span style="font-weight: bold">&nbsp;Comment&nbsp;</span><span
+                                class="comments" title="Comments"
+                                th:text="${post.commentCount}"></span>
+                        </button>
                     </div>
                 </th:block>
 
