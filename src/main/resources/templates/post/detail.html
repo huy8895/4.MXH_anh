@@ -105,7 +105,7 @@
                         <button class="heart"
                                 th:onclick="'loveComment(\'' + ${comment.id} +'\',\''+${user.id} + '\',\'' + ${comment.loveCount} +'\');'">
                             <th:block th:if="${#lists.contains(listCommentIdLoved, comment.id)}">
-                                <i class='fa fa-heart' aria-hidden="true" style='color:deeppink'
+                                <i class='fa fa-heart' aria-hidden="true" style='font-size: 1.2em; color:deeppink'
                                    th:id="'heart-image-'+${comment.id}"></i>
 
                             </th:block>

@@ -14,14 +14,14 @@
                         <button type="button" class="close" th:onclick="'deletePost(\'' +${post.id}+ '\');'">×</button>
                     </div>
                 </th:block>
-                <h3><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
-                       style="text-decoration: none; color: black"
-                       th:title="${post.title}" th:text="${post.title}"></a></h3>
-                <h5>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
-                                th:text="${post.appUser.username}"></a>
+                <h5><a target="_blank" th:href="@{/post/detail/__${post.id}__}"
+                       th:title="${post.title}" th:text="${post.title}" style="text-decoration: none; color: black"></a>
+                </h5>
+                <small>Đăng bởi <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                                   th:text="${post.appUser.username}"></a>
                     <time th:text="${post.dateUpload}"
                           th:name="*{post.dateUpload}"></time>
-                </h5>
+                </small>
                 <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
                     <img th:src="@{'/'+${post.photoName}}"
                          th:alt="${post.title}" class="img-fluid">
@@ -37,7 +37,7 @@
                         </button>
                         <button class="btn" disabled>
                             <h5><span class="votes" th:id="'votes'+${post.id}" title="vote"
-                                         th:text="${post.voteCount}" style="font-weight: bold"></span></h5>
+                                      th:text="${post.voteCount}" style="font-weight: bold"></span></h5>
                         </button>
                         <button type="button" class="btn"
                                 th:onclick="'$(this).click(downVote(\'' + ${post.id} +'\',\''+${user.id} + '\'))'">
