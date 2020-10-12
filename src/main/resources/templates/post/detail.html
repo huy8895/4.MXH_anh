@@ -30,10 +30,10 @@
                          style="width:60px;">
                 </a>
                 <div class="media-body">
-                    <h4>
-                        <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}"
+                    <h5>
+                        <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username} " style="color: black;text-decoration: none"
                            th:text="${post.appUser.fullName}"></a>
-                    </h4>
+                    </h5>
                     <small><i>Posted on
                         <time th:text="${post.dateUpload}">
                         </time>
