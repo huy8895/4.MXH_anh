@@ -27,5 +27,5 @@ Nơi mọi người có thể lướt web vui vẻ, thoải mái với giao di�
 - Mỗi người dùng có thể vào trang cá nhân để xem các bài post mình đã đăng 
 - Có thể vào trang cá nhân của người dùng khác để xem 
 - Dùng ajax trong toàn bộ các post, comment,like,heart để create, edit, delete, update để tăng trải nghiệm người dùng
-- Có trang Admin đẻ quản lý người dùng và bài post 
+- Có trang Admin để quản lý người dùng và bài post 
 - Có tính năng chỉnh sửa thông tin người dùng
