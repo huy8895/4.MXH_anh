@@ -16,6 +16,7 @@ HM social network là project mạng xã hội có các chứng năng chính và
  Phát triển theo hướng trang web mạng xã hội tương tác bình chọn đăng ảnh, video , audio ,etc.
 Nơi mọi người có thể lướt web vui vẻ, thoải mái với giao diện đơn giản nhưng tinh tế và chức năng hoạt động tốt. 
 #### Tính năng hiện có
+Simple Mind Map: https://www.xmind.net/m/VrwdmA/
 - Phân quyền account: USER, ADMIN, BLOCKED
 - Like có trạng thái từng post  và số lượng like tự động tăng 
 - Vote bài post có tăng giảm tự động
