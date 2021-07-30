@@ -215,11 +215,8 @@ public class PostController {
         } else {
             currentPost.setVoteCount(countVote);
         }
-        if(currentPost.getVoteCount()>=4){
-            //TODO: STATUS
-//            Status approved = new Status();
-//            approved.setId(3);
-//            currentPost.setStatus(approved);
+        if(currentPost.getVoteCount()>=2){
+            currentPost.setStatus(Status.APPROVED);
         }
         postService.save(currentPost);
         return new ResponseEntity<>(currentPost, HttpStatus.OK);
