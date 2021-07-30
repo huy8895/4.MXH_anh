@@ -91,7 +91,7 @@ public class AdminController {
 
     @GetMapping("/user-manager")
     public ModelAndView showListUser() {
-        ModelAndView modelAndView = new ModelAndView("/account/list");
+        ModelAndView modelAndView = new ModelAndView("account/list");
         Iterable<AppUser> userList = userService.getAllUser();
         modelAndView.addObject("userList", userList);
         return modelAndView;
@@ -99,7 +99,7 @@ public class AdminController {
 
     @GetMapping("/user-manager/edit/{id}")
     public ModelAndView showDetail(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("/account/edit");
+        ModelAndView modelAndView = new ModelAndView("account/edit");
         AppUser appUser = userService.getUserById(id);
         modelAndView.addObject("user", appUser);
         return modelAndView;
@@ -107,7 +107,7 @@ public class AdminController {
 
     @GetMapping("/user-manager/delete/{id}")
     public ModelAndView deleteUser(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("/account/list");
+        ModelAndView modelAndView = new ModelAndView("account/list");
         userService.remove(userService.getUserById(id));
         Iterable<AppUser> userList = userService.getAllUser();
         modelAndView.addObject("userList", userList);
@@ -152,7 +152,7 @@ public class AdminController {
                                       @PageableDefault(value = 10, page = 0)
                                       @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                               Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("/post/approval");
+        ModelAndView modelAndView = new ModelAndView("post/approval");
         postService.setStatusForPost(Status.DENY,postId);
         Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);

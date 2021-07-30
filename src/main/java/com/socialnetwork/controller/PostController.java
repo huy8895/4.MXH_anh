@@ -32,22 +32,12 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class PostController {
-    @Autowired
-    IPostService postService;
-
-    @Autowired
-    IAppUserService userService;
-
-    @Autowired
-    ILikeService likeService;
-
-    @Autowired
-    ICommentService commentService;
-
-    @Autowired
-    IVoteService voteService;
-    @Autowired
-    ILoveCommentService loveCommentService;
+    private final IPostService postService;
+    private final IAppUserService userService;
+    private final ILikeService likeService;
+    private final ICommentService commentService;
+    private final IVoteService voteService;
+    private final ILoveCommentService loveCommentService;
     private final AmazonClient amazonClient;
 
     @ModelAttribute("user")

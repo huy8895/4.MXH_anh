@@ -2,10 +2,8 @@ package com.socialnetwork.service;
 
 import com.socialnetwork.model.AppUser;
 
-import java.util.List;
-
 public interface IAppUserService {
-    List<AppUser> getAllUser();
+    Iterable<AppUser> getAllUser();
     AppUser getUserById(Long id);
     AppUser save(AppUser user);
     void remove(AppUser user);

@@ -10,6 +10,4 @@ public interface IAppUserRepository extends CrudRepository<AppUser,Long> {
     AppUser findAppUserByUsername(String userName);
     boolean existsAppUserByUsername(String userName);
     AppUser findTopByOrderByIdDesc();
-    @Query(value = "select * from user",nativeQuery = true)
-    List<AppUser> getAllUser();
 }

@@ -111,7 +111,7 @@ public class HomeController {
         final String fileUrl = amazonClient.uploadFile(user.getAvatarFile());
         user.setAvatarUrl(fileUrl);
         userService.save(user);
-        return new ModelAndView("/account/create");
+        return new ModelAndView("account/create");
     }
 
     @GetMapping("/uploader/{id}")
@@ -121,7 +121,7 @@ public class HomeController {
                                                  Pageable pageable) {
         AppUser user = userService.getUserById(userId);
         Page<Post> posts = postService.getAllPostByUser(user, pageable);
-        ModelAndView modelAndView = new ModelAndView("/account/uploader");
+        ModelAndView modelAndView = new ModelAndView("account/uploader");
         modelAndView.addObject("posts", posts);
         if (getPrincipal() != null) {
             modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
@@ -133,7 +133,7 @@ public class HomeController {
     public ModelAndView showVotePage(@PageableDefault(value = 10, page = 0)
                                      @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                              Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("/vote");
+        ModelAndView modelAndView = new ModelAndView("vote");
         Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
