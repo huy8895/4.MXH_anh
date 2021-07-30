@@ -1,13 +1,16 @@
 package com.socialnetwork.controller;
 
+import com.socialnetwork.config.amazon.AmazonClient;
 import com.socialnetwork.config.facebook.FacebookConnectionSignup;
 import com.socialnetwork.model.AppRole;
 import com.socialnetwork.model.AppUser;
 import com.socialnetwork.model.Post;
 import com.socialnetwork.model.Status;
-import com.socialnetwork.service.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.socialnetwork.service.IAppRoleService;
+import com.socialnetwork.service.IAppUserService;
+import com.socialnetwork.service.ILikeService;
+import com.socialnetwork.service.IPostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,38 +21,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-    @Autowired
-    IAppRoleService roleService;
-
-    @Autowired
-    IPostService postService;
-
-    @Value("${upload.path}")
-    private String upload_path;
-    @Autowired
-    private IAppUserService appUserService;
-
-    @Autowired
-    private IAppUserService userService;
-
-    @Autowired
-    IStatusService statusService;
-    @Autowired
-    ILikeService likeService;
-    @Autowired
-    private FacebookConnectionSignup facebookConnectionSignup;
+    private final IAppRoleService roleService;
+    private final IPostService postService;
+    private final IAppUserService appUserService;
+    private final IAppUserService userService;
+    private final AmazonClient amazonClient;
+    private final ILikeService likeService;
+    private final FacebookConnectionSignup facebookConnectionSignup;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -72,8 +62,7 @@ public class HomeController {
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("welcome");
-        Status status = statusService.findByName("approve").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.APPROVED, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("post", new Post());
@@ -118,15 +107,9 @@ public class HomeController {
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        if (!Objects.equals(avatarFileName, "")) {
-            user.setAvatarFileName(avatarFileName);
-            try {
-                FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else
-            user.setAvatarFileName("default_avatar.jpg");
+        user.setAvatarFileName(avatarFileName);
+        final String fileUrl = amazonClient.uploadFile(user.getAvatarFile());
+        user.setAvatarUrl(fileUrl);
         userService.save(user);
         return new ModelAndView("/account/create");
     }
@@ -151,8 +134,7 @@ public class HomeController {
                                      @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                              Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/vote");
-        Status status = statusService.findByName("pending").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;

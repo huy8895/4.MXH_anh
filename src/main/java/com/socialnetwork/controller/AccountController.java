@@ -1,10 +1,12 @@
 package com.socialnetwork.controller;
 
+import com.socialnetwork.config.amazon.AmazonClient;
 import com.socialnetwork.model.AppUser;
 import com.socialnetwork.model.Post;
 import com.socialnetwork.service.IAppRoleService;
 import com.socialnetwork.service.IAppUserService;
 import com.socialnetwork.service.IPostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,17 +29,12 @@ import java.util.Objects;
 @Controller
 @RequestMapping("account")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class AccountController {
-    @Autowired
-    IAppUserService userService;
-    @Autowired
-    IAppRoleService roleService;
-
-    @Autowired
-    IPostService postService;
-
-    @Value("${upload.path}")
-    private String upload_path;
+    private final IAppUserService userService;
+    private final IAppRoleService roleService;
+    private final IPostService postService;
+    private final AmazonClient amazonClient;
 
     private List<Long> getAllPostIdByUserLiked(Long userId){
         List<Long> list = postService.getAllPostIdByUserLiked(userId);
@@ -66,11 +63,8 @@ public class AccountController {
         if (!Objects.equals(user.getAvatarFile().getOriginalFilename(), "")) {
             avatarFileName = "avatar_" + user.getId() + user.getAvatarFile().getOriginalFilename();
             user.setAvatarFileName(avatarFileName);
-            try {
-                FileCopyUtils.copy(user.getAvatarFile().getBytes(), new File(upload_path + avatarFileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            final String fileUrl = amazonClient.uploadFile(user.getAvatarFile());
+            user.setAvatarUrl(fileUrl);
         }
         userService.save(user);
         return "/account/edit";

@@ -28,8 +28,10 @@ public class Post {
     @ManyToOne
     private AppUser appUser;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+    private String photoUrl;
 
     @Column(name = "date_Upload")
     private Date dateUpload;

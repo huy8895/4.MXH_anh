@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "app_user")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,8 @@ public class AppUser {
 
     @ManyToOne
     private AppRole role;
+
+    private String avatarUrl;
 
     @Transient
     private MultipartFile avatarFile;
