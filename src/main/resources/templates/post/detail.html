@@ -19,14 +19,14 @@
     <div class="row">
         <div class="col-md-8">
             <div id="img-content">
-                <img th:src="@{'/'+${post.photoName}}"
+                <img th:src="${post.photoUrl}"
                      th:alt="${post.title}" class="img-fluid mx-auto d-block">
             </div>
         </div>
         <div class="h-scroll col-md-4" >
             <div class="media border p-3">
                 <a th:href="@{/uploader/__${post.appUser.id}__}" th:title="${post.appUser.username}">
-                    <img th:src="@{'/'+${post.appUser.avatarFileName}}" class="mr-3 mt-3 rounded-circle"
+                    <img th:src="${post.appUser.avatarUrl}" class="mr-3 mt-3 rounded-circle"
                          style="width:60px;">
                 </a>
                 <div class="media-body">
@@ -53,7 +53,7 @@
                     <div id="container-wrapper">
                         <form id="form-container" action="" method="post" th:object="${newComment}" class="form-comment">
                             <div class="avatar_comment" id="input-avatar">
-                                <img class="avatar_comment" th:src="@{'/'+${user.avatarFileName}}" height="40"
+                                <img class="avatar_comment" th:src="${user.avatarUrl}" height="40"
                                      width="40">
                             </div>
                             <fieldset>
@@ -89,7 +89,7 @@
                             <div></div>
                         </th:block>
                         <div class="avatar_comment">
-                            <img class="avatar_comment" th:src="@{'/'+${comment.appUser.avatarFileName}}"
+                            <img class="avatar_comment" th:src="${comment.appUser.avatarUrl}"
                                  height="40" width="40">
                         </div>
                         <h4 th:text="${comment.appUser.fullName}"></h4>

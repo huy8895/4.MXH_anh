@@ -38,6 +38,8 @@ dependencies {
     compile "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"
     compile "org.apache.commons:commons-lang3"
     runtimeOnly 'org.postgresql:postgresql'
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.12.35'
 
 }
 

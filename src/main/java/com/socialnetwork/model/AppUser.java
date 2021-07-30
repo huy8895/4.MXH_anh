@@ -23,6 +23,8 @@ public class AppUser {
     @ManyToOne
     private AppRole role;
 
+    private String avatarUrl;
+
     @Transient
     private MultipartFile avatarFile;
 
