@@ -32,9 +32,6 @@ public class PostController {
     @Autowired
     IPostService postService;
 
-    @Autowired
-    IStatusService statusService;
-
     @Value("${upload.path}")
     private String upload_path;
 
@@ -78,7 +75,7 @@ public class PostController {
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
-        post.setStatus(statusService.findByName("pending").get());
+        post.setStatus(Status.PENDING);
         post.setAppUser(getPrincipal());
         try {
             FileCopyUtils.copy(photo.getBytes(), new File(upload_path + photoName));
@@ -218,9 +215,10 @@ public class PostController {
             currentPost.setVoteCount(countVote);
         }
         if(currentPost.getVoteCount()>=4){
-            Status approved = new Status();
-            approved.setId(3);
-            currentPost.setStatus(approved);
+            //TODO: STATUS
+//            Status approved = new Status();
+//            approved.setId(3);
+//            currentPost.setStatus(approved);
         }
         postService.save(currentPost);
         return new ResponseEntity<>(currentPost, HttpStatus.OK);

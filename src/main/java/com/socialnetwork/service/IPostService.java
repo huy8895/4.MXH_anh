@@ -15,7 +15,7 @@ public interface IPostService {
     void remove(Post post);
     Page<Post> getAllPostByUser(AppUser user, Pageable pageable);
     Page<Post> getAllPostByStatus(Status status,Pageable pageable);
-    void setStatusForPost(Long statusID,Long postID);
+    void setStatusForPost(Status status,Long postID);
 
     Page<Post> findAllPostByUserLiked(Long appUserId, Pageable pageable);
     List<Long> getAllPostIdByUserLiked(Long userId);

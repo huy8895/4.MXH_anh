@@ -45,8 +45,6 @@ public class HomeController {
     private IAppUserService userService;
 
     @Autowired
-    IStatusService statusService;
-    @Autowired
     ILikeService likeService;
     @Autowired
     private FacebookConnectionSignup facebookConnectionSignup;
@@ -72,8 +70,7 @@ public class HomeController {
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("welcome");
-        Status status = statusService.findByName("approve").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.APPROVED, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("post", new Post());
@@ -151,8 +148,7 @@ public class HomeController {
                                      @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                              Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/vote");
-        Status status = statusService.findByName("pending").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;
