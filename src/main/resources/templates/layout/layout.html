@@ -58,7 +58,7 @@
                 <th:block sec:authorize="isAuthenticated()">
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/uploader/__${user.id}__}">
-                            <img th:src="@{'/'+${user.avatarFileName}}" width="30" height="30"
+                            <img th:src="${user.avatarUrl}" width="30" height="30"
                                  class="d-inline-block align-top rounded-circle"
                                  th:alt="${user.avatarFileName}"><span class="sr-only">(current)</span>
                         </a>

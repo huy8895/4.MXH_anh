@@ -31,6 +31,8 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String photoUrl;
+
     @Column(name = "date_Upload")
     private Date dateUpload;
 }
