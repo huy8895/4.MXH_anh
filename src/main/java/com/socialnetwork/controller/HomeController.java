@@ -1,5 +1,6 @@
 package com.socialnetwork.controller;
 
+import com.socialnetwork.config.amazon.AmazonClient;
 import com.socialnetwork.config.facebook.FacebookConnectionSignup;
 import com.socialnetwork.model.AppRole;
 import com.socialnetwork.model.AppUser;
@@ -7,6 +8,7 @@ import com.socialnetwork.model.Post;
 import com.socialnetwork.model.Status;
 import com.socialnetwork.service.*;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,27 +31,19 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-    @Autowired
-    IAppRoleService roleService;
-
-    @Autowired
-    IPostService postService;
+    private final IAppRoleService roleService;
+    private final IPostService postService;
+    private final IAppUserService appUserService;
+    private final IAppUserService userService;
+    private final AmazonClient amazonClient;
+    private final IStatusService statusService;
+    private final ILikeService likeService;
+    private final FacebookConnectionSignup facebookConnectionSignup;
 
     @Value("${upload.path}")
     private String upload_path;
-    @Autowired
-    private IAppUserService appUserService;
-
-    @Autowired
-    private IAppUserService userService;
-
-    @Autowired
-    IStatusService statusService;
-    @Autowired
-    ILikeService likeService;
-    @Autowired
-    private FacebookConnectionSignup facebookConnectionSignup;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -118,15 +112,9 @@ public class HomeController {
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
         String avatarFileName = avatar.getOriginalFilename();
-        if (!Objects.equals(avatarFileName, "")) {
-            user.setAvatarFileName(avatarFileName);
-            try {
-                FileCopyUtils.copy(avatar.getBytes(), new File(upload_path + avatarFileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else
-            user.setAvatarFileName("default_avatar.jpg");
+        user.setAvatarFileName(avatarFileName);
+        final String fileUrl = amazonClient.uploadFile(user.getAvatarFile());
+        user.setAvatarUrl(fileUrl);
         userService.save(user);
         return new ModelAndView("/account/create");
     }

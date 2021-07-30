@@ -1,10 +1,12 @@
 package com.socialnetwork.controller;
 
+import com.socialnetwork.config.amazon.AmazonClient;
 import com.socialnetwork.model.AppUser;
 import com.socialnetwork.model.Post;
 import com.socialnetwork.service.IAppRoleService;
 import com.socialnetwork.service.IAppUserService;
 import com.socialnetwork.service.IPostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,14 +29,12 @@ import java.util.Objects;
 @Controller
 @RequestMapping("account")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class AccountController {
-    @Autowired
-    IAppUserService userService;
-    @Autowired
-    IAppRoleService roleService;
-
-    @Autowired
-    IPostService postService;
+    private final IAppUserService userService;
+    private final IAppRoleService roleService;
+    private final IPostService postService;
+    private final AmazonClient amazonClient;
 
     @Value("${upload.path}")
     private String upload_path;
