@@ -23,7 +23,7 @@
                           th:name="*{post.dateUpload}"></time>
                 </small>
                 <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
-                    <img th:src="@{'/'+${post.photoName}}"
+                    <img th:src="${post.photoUrl}"
                          th:alt="${post.title}" class="img-fluid mx-auto d-block">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
@@ -68,12 +68,12 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <img th:src="@{'/'+${post.photoName}}"
+                                        <img th:src="${post.photoUrl}"
                                              th:alt="${post.title}" class="img-fluid rounded-lg">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="media border p-3 shadow">
-                                            <img th:src="@{'/'+${post.appUser.avatarFileName}}" alt="John Doe"
+                                            <img th:src="${post.appUser.avatarUrl}" alt="John Doe"
                                                  class="rounded-circle" style="width:60px;">
                                             <div class="media-body">
                                                 <h4 th:text="${post.appUser.username}"><small><i>Posted on February 19,

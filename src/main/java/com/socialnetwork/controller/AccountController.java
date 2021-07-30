@@ -66,11 +66,8 @@ public class AccountController {
         if (!Objects.equals(user.getAvatarFile().getOriginalFilename(), "")) {
             avatarFileName = "avatar_" + user.getId() + user.getAvatarFile().getOriginalFilename();
             user.setAvatarFileName(avatarFileName);
-            try {
-                FileCopyUtils.copy(user.getAvatarFile().getBytes(), new File(upload_path + avatarFileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            final String fileUrl = amazonClient.uploadFile(user.getAvatarFile());
+            user.setAvatarUrl(fileUrl);
         }
         userService.save(user);
         return "/account/edit";

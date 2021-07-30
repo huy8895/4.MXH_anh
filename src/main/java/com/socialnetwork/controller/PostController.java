@@ -1,8 +1,10 @@
 package com.socialnetwork.controller;
 
+import com.socialnetwork.config.amazon.AmazonClient;
 import com.socialnetwork.model.*;
 import com.socialnetwork.service.*;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ import java.util.List;
 @Controller
 @RequestMapping("post")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class PostController {
     @Autowired
     IPostService postService;
@@ -51,6 +54,7 @@ public class PostController {
     IVoteService voteService;
     @Autowired
     ILoveCommentService loveCommentService;
+    private final AmazonClient amazonClient;
 
     @ModelAttribute("user")
     private AppUser getPrincipal() {
@@ -80,11 +84,8 @@ public class PostController {
         post.setPhotoName(photoName);
         post.setStatus(statusService.findByName("pending").get());
         post.setAppUser(getPrincipal());
-        try {
-            FileCopyUtils.copy(photo.getBytes(), new File(upload_path + photoName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final String fileUrl = amazonClient.uploadFile(post.getPhoto());
+        post.setPhotoUrl(fileUrl);
         postService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }

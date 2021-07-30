@@ -49,7 +49,7 @@
                           th:name="*{post.dateUpload}"></time>
                 </i></small>
                 <a data-toggle="modal" th:href="'#myModal'+${post.id}" target="_blank" th:title="${post.title}">
-                    <img th:src="@{'/'+${post.photoName}}"
+                    <img th:src="${post.photoUrl}"
                          th:alt="${post.title}" class="img-fluid rounded-lg mx-auto d-block">
                 </a>
                 <th:block sec:authorize="isAuthenticated()">
@@ -95,7 +95,7 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <img th:src="@{'/'+${post.photoName}}"
+                                        <img th:src="${post.photoUrl}"
                                              th:alt="${post.title}" class="img-fluid">
                                     </div>
                                     <div class="col-md-4">
