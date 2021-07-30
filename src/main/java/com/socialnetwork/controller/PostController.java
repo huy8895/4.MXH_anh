@@ -36,12 +36,6 @@ public class PostController {
     IPostService postService;
 
     @Autowired
-    IStatusService statusService;
-
-    @Value("${upload.path}")
-    private String upload_path;
-
-    @Autowired
     IAppUserService userService;
 
     @Autowired
@@ -82,7 +76,7 @@ public class PostController {
         MultipartFile photo = post.getPhoto();
         String photoName = "post_" + photo.getOriginalFilename();
         post.setPhotoName(photoName);
-        post.setStatus(statusService.findByName("pending").get());
+        post.setStatus(Status.PENDING);
         post.setAppUser(getPrincipal());
         final String fileUrl = amazonClient.uploadFile(post.getPhoto());
         post.setPhotoUrl(fileUrl);
@@ -218,10 +212,8 @@ public class PostController {
         } else {
             currentPost.setVoteCount(countVote);
         }
-        if(currentPost.getVoteCount()>=4){
-            Status approved = new Status();
-            approved.setId(3);
-            currentPost.setStatus(approved);
+        if(currentPost.getVoteCount()>=2){
+            currentPost.setStatus(Status.APPROVED);
         }
         postService.save(currentPost);
         return new ResponseEntity<>(currentPost, HttpStatus.OK);

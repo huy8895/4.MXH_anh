@@ -7,7 +7,6 @@ import com.socialnetwork.model.Status;
 import com.socialnetwork.service.IAppRoleService;
 import com.socialnetwork.service.IAppUserService;
 import com.socialnetwork.service.IPostService;
-import com.socialnetwork.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +33,6 @@ public class AdminController {
 
     @Autowired
     IPostService postService;
-    @Autowired
-    IStatusService statusService;
 
     @GetMapping
     public ModelAndView adminPage() {
@@ -144,22 +141,20 @@ public class AdminController {
                                          @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/post/approval");
-        postService.setStatusForPost(statusService.findByName("approve").get().getId(),postId);
-        Status status = statusService.findByName("pending").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        postService.setStatusForPost(Status.APPROVED,postId);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);
         return modelAndView;
     }
 
     @GetMapping("/post/approval/deny/{id}")
     public ModelAndView setStatusDeny(@PathVariable("id") Long postId,
-                                         @PageableDefault(value = 10, page = 0)
-                                         @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
-                                                 Pageable pageable) {
+                                      @PageableDefault(value = 10, page = 0)
+                                      @SortDefault(sort = "dateUpload", direction = Sort.Direction.DESC)
+                                              Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/post/approval");
-        postService.setStatusForPost(statusService.findByName("deny").get().getId(),postId);
-        Status status = statusService.findByName("pending").get();
-        Page<Post> postPage = postService.getAllPostByStatus(status, pageable);
+        postService.setStatusForPost(Status.DENY,postId);
+        Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
         modelAndView.addObject("posts", postPage);
         return modelAndView;
     }

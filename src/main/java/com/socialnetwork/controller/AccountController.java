@@ -36,9 +36,6 @@ public class AccountController {
     private final IPostService postService;
     private final AmazonClient amazonClient;
 
-    @Value("${upload.path}")
-    private String upload_path;
-
     private List<Long> getAllPostIdByUserLiked(Long userId){
         List<Long> list = postService.getAllPostIdByUserLiked(userId);
         return list;
