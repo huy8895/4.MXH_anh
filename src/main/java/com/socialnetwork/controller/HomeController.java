@@ -41,9 +41,6 @@ public class HomeController {
     private final ILikeService likeService;
     private final FacebookConnectionSignup facebookConnectionSignup;
 
-    @Value("${upload.path}")
-    private String upload_path;
-
     @ModelAttribute("user")
     private AppUser getPrincipal() {
         AppUser appUser = null;

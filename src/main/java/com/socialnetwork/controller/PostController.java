@@ -35,9 +35,6 @@ public class PostController {
     @Autowired
     IPostService postService;
 
-    @Value("${upload.path}")
-    private String upload_path;
-
     @Autowired
     IAppUserService userService;
 
