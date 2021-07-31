@@ -11,7 +11,6 @@ import com.socialnetwork.service.IAppUserService;
 import com.socialnetwork.service.ILikeService;
 import com.socialnetwork.service.IPostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,6 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.socialnetwork.config.Constant.POSTS;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,9 +44,11 @@ public class HomeController {
     private final ILikeService likeService;
     private final FacebookConnectionSignup facebookConnectionSignup;
 
+    Logger logger = Logger.getLogger(this.getClass().getName());
+
     @ModelAttribute("user")
     private AppUser getPrincipal() {
-        AppUser appUser = null;
+        AppUser appUser = new AppUser();
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             appUser = userService.getUserByUserName(((UserDetails) principal).getUsername());
@@ -53,8 +58,7 @@ public class HomeController {
 
 
     private List<Long> getAllPostIdByUserLiked(Long userId) {
-        List<Long> list = postService.getAllPostIdByUserLiked(userId);
-        return list;
+        return postService.getAllPostIdByUserLiked(userId);
     }
 
     @GetMapping({"/", "/home"})
@@ -63,7 +67,7 @@ public class HomeController {
                                                  Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("welcome");
         Page<Post> postPage = postService.getAllPostByStatus(Status.APPROVED, pageable);
-        modelAndView.addObject("posts", postPage);
+        modelAndView.addObject(POSTS, postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         modelAndView.addObject("post", new Post());
         if (getPrincipal() != null) {
@@ -76,12 +80,9 @@ public class HomeController {
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView("login");
         AppUser checkFbUser = appUserService.findTopByOrderByIdDesc();
-        if (checkFbUser != null) {
-            if (checkFbUser.getUsername().length() == 15 && checkFbUser.getRole().getId() == 2) {
-                System.out.println("true check");
-                modelAndView.addObject("messageLogin", "Successful !!");
-                modelAndView.addObject("fbUser", checkFbUser);
-            }
+        if (checkFbUser != null && checkFbUser.getUsername().length() == 15 && checkFbUser.getRole().getId() == 2) {
+            modelAndView.addObject("messageLogin", "Successful !!");
+            modelAndView.addObject("fbUser", checkFbUser);
         }
         return modelAndView;
     }
@@ -101,8 +102,7 @@ public class HomeController {
 
     @PostMapping("/create-account")
     public ModelAndView createUser(@ModelAttribute("newUser") AppUser user) {
-        System.out.println("post create : " + user);
-        System.out.println(user.getUsername());
+        logger.log(Level.INFO, "post create : " + user.getUsername());
         AppRole role = roleService.getRoleByName("ROLE_USER");
         user.setRole(role);
         MultipartFile avatar = user.getAvatarFile();
@@ -122,7 +122,7 @@ public class HomeController {
         AppUser user = userService.getUserById(userId);
         Page<Post> posts = postService.getAllPostByUser(user, pageable);
         ModelAndView modelAndView = new ModelAndView("account/uploader");
-        modelAndView.addObject("posts", posts);
+        modelAndView.addObject(POSTS, posts);
         if (getPrincipal() != null) {
             modelAndView.addObject("listPostLiked", getAllPostIdByUserLiked(getPrincipal().getId()));
         }
@@ -135,7 +135,7 @@ public class HomeController {
                                              Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("vote");
         Page<Post> postPage = postService.getAllPostByStatus(Status.PENDING, pageable);
-        modelAndView.addObject("posts", postPage);
+        modelAndView.addObject(POSTS, postPage);
         modelAndView.addObject("currentTime", System.currentTimeMillis());
         return modelAndView;
     }
