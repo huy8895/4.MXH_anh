@@ -34,6 +34,7 @@ public class AmazonClient {
 
     @Bean
     public AmazonS3 initializeAmazon() {
+        log.info("amazon config properties: endpointUrl {}, bucketName {}, accessKey {}, secretKey {}", endpointUrl,bucketName,accessKey,secretKey);
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
         return new AmazonS3Client(credentials);
     }
